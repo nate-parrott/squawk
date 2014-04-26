@@ -1,0 +1,10 @@
+platform :ios, "7.0"
+
+target "Squawk2" do
+
+pod 'ReactiveCocoa', '~> 2.2.3'
+pod 'GoogleAnalytics-iOS-SDK', '~> 3.0.3'
+pod 'Helpshift', '~> 4.3.0'
+pod 'NPReachability', '~> 0.2.0'
+
+end

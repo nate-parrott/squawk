@@ -1,0 +1,15 @@
+RECORDING FORMAT COMPARISON
+
+@{AVFormatIDKey: @(kAudioFormatMPEG4AAC), AVNumberOfChannelsKey: @1, AVEncoderAudioQualityForVBRKey: @(AVAudioQualityLow), AVEncoderBitRateStrategyKey: AVAudioBitRateStrategy_Variable}
+2.384608 seconds; 75554 bytes; 31684.033991 bytes/sec
+10.532709 seconds; 138532 bytes; 13152.551729 bytes/sec
+
+@{AVFormatIDKey: @(kAudioFormatMPEG4AAC), AVNumberOfChannelsKey: @1, AVEncoderAudioQualityKey: @(AVAudioQualityLow)};
+1.662590 seconds; 69102 bytes; 41562.862091 bytes/sec
+11.918005 seconds; 151619 bytes; 12721.843977 bytes/sec
+
+@{AVFormatIDKey: @(kAudioFormatiLBC)}
+10.901478 seconds; 24312 bytes; 2230.156304 bytes/sec
+
+@{AVFormatIDKey: @(kAudioFormatMPEG4AAC), AVNumberOfChannelsKey: @1, AVEncoderBitRateStrategyKey: AVAudioBitRateStrategy_VariableConstrained, AVEncoderAudioQualityForVBRKey: @(AVAudioQualityLow), AVSampleRateKey: @22050};
+6.776099 seconds; 43874 bytes; 6474.816828 bytes/sec

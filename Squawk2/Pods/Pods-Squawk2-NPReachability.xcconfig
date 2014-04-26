@@ -1,0 +1,1 @@
+PODS_SQUAWK__NPREACHABILITY_OTHER_LDFLAGS = -framework SystemConfiguration

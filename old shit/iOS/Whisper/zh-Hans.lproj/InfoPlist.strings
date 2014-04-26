@@ -1,0 +1,4 @@
+/* Localized versions of Info.plist keys */
+
+CFBundleDisplayName = "Squawk";
+NSHumanReadableCopyright = "Copyright © 2014 Squawk, Inc.";

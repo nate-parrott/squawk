@@ -1,0 +1,24 @@
+PODS:
+  - Facebook-iOS-SDK (3.12.0)
+  - Helpshift (4.2.1)
+  - Parse-iOS-SDK (1.2.18):
+    - Facebook-iOS-SDK (~> 3.7)
+  - ReactiveCocoa (2.2.3):
+    - ReactiveCocoa/Core
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/Core (2.2.3):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.2.3)
+
+DEPENDENCIES:
+  - Helpshift (~> 4.2.1)
+  - Parse-iOS-SDK (~> 1.2.18)
+  - ReactiveCocoa (~> 2.2.3)
+
+SPEC CHECKSUMS:
+  Facebook-iOS-SDK: c09f7d80db5c48170ff834bc03ebe774c49d1f5b
+  Helpshift: 12dc3aff231bfc1fcf0cd41d6954a4f6873ed77c
+  Parse-iOS-SDK: 48bfd538a107b6e1f29eebe59fa80c0f0b844dd1
+  ReactiveCocoa: b3cb6ebd50f1a0f2e39c6fd7ce3c428b6efcb22b
+
+COCOAPODS: 0.29.0

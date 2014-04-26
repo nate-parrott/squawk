@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="708px" height="428px" viewBox="0 0 708 428" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>Slice 1</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <rect id="Rectangle-1" stroke="#979797" fill="#F8D66F" sketch:type="MSShapeGroup" x="-3" y="-5" width="718" height="438"></rect>
+        <path d="M356.5,677 C499.265615,677 615,561.265615 615,418.5 C615,275.734385 499.265615,160 356.5,160 C213.734385,160 98,275.734385 98,418.5 C98,561.265615 213.734385,677 356.5,677 Z" id="Oval-1" fill="#F6B05B" sketch:type="MSShapeGroup"></path>
+        <path d="M357,606 C460.277253,606 544,522.277253 544,419 C544,315.722747 460.277253,232 357,232 C253.722747,232 170,315.722747 170,419 C170,522.277253 253.722747,606 357,606 Z" id="Oval-1" fill="#F68E54" sketch:type="MSShapeGroup"></path>
+        <path d="M357.5,541 C425.154885,541 480,486.154885 480,418.5 C480,350.845115 425.154885,296 357.5,296 C289.845115,296 235,350.845115 235,418.5 C235,486.154885 289.845115,541 357.5,541 Z" id="Oval-1" fill="#F54C4F" sketch:type="MSShapeGroup"></path>
+    </g>
+</svg>

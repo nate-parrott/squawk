@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  	<meta charset='utf-8'/>
+	  	<title>Squawk – talk, don't text.</title>
+	  	<meta name="Description" content="Share a bit of sound. Send quick voice messages to your iPhone contacts."/>
+  		<meta name="viewport" content="width=device-width, user-scalable=no"/>
+    	<meta name="apple-itunes-app" content="app-id=807961872"/>
+    	<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-47910043-2', 'squawkwith.us');
+		  ga('send', 'pageview');
+
+		</script>
+	<style>
+	@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400);
+	@media screen and (min-width: 500px) {
+	html, body {
+		margin: 0px;
+		height: 100%;
+		background-color: #f8d66f;
+		font-family: "Source Sans Pro", sans-serif;
+		color: #444;
+		background-image: url(ripples.svg);
+		background-size: cover;
+		background-position: left center;
+		background-repeat: no-repeat;
+	}
+	#phone {
+		position: absolute;
+		width: 30%;
+		top: 10%;
+		height: 80%;
+		left: 5%;
+		background-image: url(newphone.png);
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+	#phone img {
+		display: none;
+	}
+	#text {
+		position: absolute;
+		bottom: 40%;
+]		max-width: 65%;
+		right: 5%;
+		text-align: right;
+	}
+	@media screen and (max-width: 650px) {
+		#text {
+			font-size: 0.7em;
+		}
+	}
+	#text > * {
+		margin: 0px;
+		margin-bottom: 15px;
+	}
+	#text h1 {
+		text-transform: lowercase;
+		font-size: 6em;
+		text-align: right;
+		padding-right: 1em;
+	}
+	#text h1, #text h2 {
+		font-weight: 100;
+	}
+	#text h2 {
+		padding-left: 1em;
+		padding-right: 0.5em;
+	}
+	#text p {
+		margin-left: 40%;
+	}
+	#text h3 {
+	}
+	#download {
+		display: inline-block;
+		color: #f8d66f;
+		background-color: #444;
+		text-decoration: none;
+		padding: 0.2em 0.6em;
+		margin-top: 0.2em;
+		border-radius: 20px;
+	}
+	#links {
+		position: absolute;
+		bottom: 1em;
+		right: 1em;
+	}
+	#links a {
+		color: white;
+		padding-left: 1em;
+	}
+	}
+	@media screen and (max-width: 500px) {
+	body {
+		background-color: #f8d66f;
+		font-family: "Source Sans Pro", sans-serif;
+		color: white;
+		text-align: center;
+		margin: 0px;
+
+		background-image: url(ripples-below.svg);
+		background-repeat: no-repeat;
+		background-position: center top;
+		background-size: cover;
+	}
+	h1, h2, p {
+		margin: 10px;
+		font-weight: 100;
+	}
+	h1 {
+		font-size: 3em;
+	}
+	#download {
+		font-size: 0.8em;
+		display: inline-block;
+		color: #f3c063;
+		background-color: white;
+		text-decoration: none;
+		padding: 0.2em 0.6em;
+		border-radius: 20px;
+	}
+	#phone {
+		margin: 0px;
+	}
+	#phone img {
+		width: 80%;
+	}
+	#links {
+		margin: 1em 0em;
+	}
+	#links a {
+		color: white;
+		padding: 0.2em;
+	}
+	}
+	</style>
+	</head>
+	<body>
+		<div id='text'>
+			<h1>Squawk</h1>
+			<h2>Talk, don't text. Share a bit of sound.</h2>
+			<p>Squawk is the quickest way to send voice messages to your friends. Texting is for gorillas.</p>
+			<h3>
+				<a id='download' href='/a.html'>Download for iPhone™</a>
+			</h3>
+		</div>
+		<div id='phone'>
+			<img src='newphone.png'/>
+		</div>
+		<div id='links'>
+			<a href='http://www.facebook.com/thisissquawk'>Facebook</a>
+			<a href='https://twitter.com/ThisIsSquawk'>Twitter</a>
+			<a href='http://easyaf.herokuapp.com/squawk/blog'>Blog</a>
+			<a href='http://easyaf.herokuapp.com/squawk/terms-and-privacy'>Terms &amp; Privacy</a>
+			<a href='http://easyaf.herokuapp.com/squawk'>About</a>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,15 @@
+{
+   "content_scripts": [ {
+      "js": [ "jquery.min.js", "replace.js" ],
+      "matches": [ "\u003Call_urls\u003E" ],
+      "run_at": "document_end"
+   } ],
+   "description": "wfoerhoerhberouer",
+   "homepage_url": "http://google.com",
+   "icons": {
+      "128": "icon128.png"
+   },
+   "name": "Squawkify",
+   "version": "7.7",
+   "manifest_version": 2
+}

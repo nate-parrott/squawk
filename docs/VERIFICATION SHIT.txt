@@ -1,0 +1,19 @@
+VERIFICATION SHIT
+====================
+
+1.
+generate a random password string.
+
+2. 
+get the user to text it to 6465767688
+
+3.
+do a parse cloud function call to the function named 'lookupUsernameByPassword' with the argument dictionary {password: [password you generated]}
+if the message hasn't arrived, you'll get back null. Try a few seconds later.
+otherwise, you'll receive the username (which is the user's phone #)
+
+4.
+Use the parse user login function to log in using the username (phone #) you got and the password you generated.
+
+5.
+ya did it

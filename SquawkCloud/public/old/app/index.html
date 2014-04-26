@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang='en' ng-app="Squawk">
+<head>
+	<meta charset='utf-8'/>
+	<title>Squawk</title>
+	<link rel='stylesheet' href='main.css'/>
+	<script src='jquery-2.1.0.min.js'></script>
+	<script src='underscore-min.js'></script>
+	<script src='parse-1.2.16.js'></script>
+	<script src='angular.js'></script>
+	<script src='app.js'></script>
+</head>
+<body ng-controller='Main'>
+	<div ng-if='loggedIn()'>
+		<h1>Squawks</h1>
+		<ul>
+			<li ng-repeat='squawk in squawks'>
+				{{ squawk.get('sender').get('nickname') }}
+			</li>
+		</ul>
+	</div>
+	<div ng-if='!loggedIn()'>
+		<h1>Log in to Squawk</h1>
+		<div>
+			<form ng-submit='enteredNickname()'>
+				<input ng-bind='nickname' placeholder='Pick a nickname'/>
+			</form>
+		</div>
+		<button ng-click='enteredNickname()'>Get started</button>
+
+		<div ng-if='password'>
+			Now text {{password}} to {{verificationNumber}}.
+			<div ng-if='didntReceiveTextYet'>
+				We didn't receive your text yet. Wait a few more seconds?
+			</div>
+			<button ng-click='done()'>Done</button>
+		</div>
+		<div ng-if='error'>{{error}}</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="60dp"
+    android:descendantFocusability="blocksDescendants"
+    >
+
+    <TextView android:id="@+id/contact_name"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="10dip"
+        android:textSize="16dip"
+        android:layout_alignParentLeft="true"
+        android:textAlignment="center"
+        android:gravity="left"
+        android:onClick="verificationHandler" />
+
+    <!--<ImageButton
+        android:id="@+id/check_mark"
+        android:layout_gravity="right"
+        android:scaleType="fitXY"
+        android:src="@drawable/checkmark"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:longClickable="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent" />-->
+
+    <TextView android:id="@+id/pending_squawks"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="10dip"
+        android:textSize="16dip"
+        android:layout_alignParentLeft="true"
+        android:textAlignment="center"
+        android:gravity="left"
+        android:onClick="verificationHandler" />
+
+
+    <ImageButton
+        android:id="@+id/record"
+        android:layout_gravity="right"
+        android:scaleType="fitXY"
+        android:src="@drawable/record"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:longClickable="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent" />
+    <!--<ImageButton
+        android:id="@+id/recordFliped"
+        android:layout_gravity="right"
+        android:scaleType="fitXY"
+        android:src="@drawable/recordFliped"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:longClickable="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent" />-->
+
+</RelativeLayout>

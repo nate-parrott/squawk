@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>B33F32B7-9831-493D-B34D-9592C4E368DE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Squawk2</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>CFACD3A4-81AE-4B08-99F1-A104F5F470DC</key>
+		<string>https://github.com/wcthompson/whispr</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>iOS2/Squawk2/Squawk2.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>CFACD3A4-81AE-4B08-99F1-A104F5F470DC</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/wcthompson/whispr</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>CFACD3A4-81AE-4B08-99F1-A104F5F470DC</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CFACD3A4-81AE-4B08-99F1-A104F5F470DC</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Squawk</string>
+		</dict>
+	</array>
+</dict>
+</plist>

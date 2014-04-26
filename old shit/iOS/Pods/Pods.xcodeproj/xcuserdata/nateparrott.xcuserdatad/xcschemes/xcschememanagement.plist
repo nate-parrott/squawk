@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>Pods-Squawk-Facebook-iOS-SDK.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Squawk-Helpshift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Squawk-Parse-iOS-SDK.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Squawk-ReactiveCocoa.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Squawk.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>904977C867EF4ED0A928FD44</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EBD93B88C4104CB598AD63C0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EE63DB3FBC3B4B0F886A9882</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F481CC1FD7E74982922E0803</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FFA3AC19E6E94DF8A568C6F5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>

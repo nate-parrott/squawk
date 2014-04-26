@@ -1,0 +1,14 @@
+platform :ios, "7.0"
+
+target "Squawk" do
+
+pod 'ReactiveCocoa', '~> 2.2.3'
+pod 'Parse-iOS-SDK', '~> 1.2.18'
+pod 'Helpshift', '~> 4.2.1'
+
+end
+
+target "SquawkTests" do
+
+end
+

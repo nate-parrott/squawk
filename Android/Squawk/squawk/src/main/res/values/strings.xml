@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Squawk</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_launch_screen">LaunchScreenActivity</string>
+    <string name="join_squawk">Join the Party</string>
+    <string name="squawk_hostname">http://api.squawkwith.us</string>
+    <string name="make_token">/make_token</string>
+    <string name="get_squawks">/squawks/recent</string>
+    <string name="play_squawk">/squawks/serve</string>
+    <string name="squawk_listened">/squawks/listened</string>
+    <string name="notify_friends">/notify_friends</string>
+    <string name="check_friends">/check_contacts_signed_up</string>
+    <string name="not_signed_up">/which_users_not_signed_up</string>
+    <string name="push">/register_push_token</string>
+</resources>

@@ -1,0 +1,18 @@
+{
+    "applications": {
+        "Squawk": {
+            "applicationId": "lEf1qOOpwSfPKKDcOTPuFOxfZJa5ArkaCDRZqPpu", 
+            "masterKey": "6mIwKbV8lwIPEaxcVSWpBtIirUGwF5p78pmiT1HR"
+        }, 
+        "Squawk_old": {
+            "applicationId": "rhCY4zVqd5YB9VatEN17xvuC4G2n8MD2HEOKHSQv", 
+            "masterKey": "NL1psvFNLgv7U80lFL5I0GsDVEBnAdOvSkkzDivk"
+        }, 
+        "_default": {
+            "link": "Squawk"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.16"
+    }
+}

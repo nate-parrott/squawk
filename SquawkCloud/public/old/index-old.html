@@ -1,0 +1,81 @@
+
+<html>
+  <head>
+  	<meta charset='utf-8'/>
+  	<meta name="viewport" content="width=device-width, user-scalable=no"/>
+    <meta name="apple-itunes-app" content="app-id=807961872"/>
+    <title>Squawk — use your voice</title>
+    <style>
+    @import url(http://fonts.googleapis.com/css?family=Cabin);
+    body {
+        height: 100%;
+        background-color: #b17ec3;
+        margin: 0px;
+    }
+    #bg {
+        position: absolute;
+        left: 0px;
+        top: 20px;
+        right: 0px;
+        bottom: 140px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url(phones-small.jpg);
+    }
+    @media screen and (min-width: 800px) {
+      #bg {
+        background-image: url(phones-medium.jpg), url(phones-small.jpg)
+      }
+    }
+    #bottom {
+      position: absolute;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      height: 120px;
+      padding: 10px;
+      font-family: "Cabin", sans-serif;
+      color: white;
+      text-align: center;
+    }
+    h1 {
+      font-weight: normal;
+    }
+    h1 strong {
+      display: inline-block;
+      margin-right: 0.5em;
+    }
+    p {
+      margin: 0px;
+      font-weight: bold;
+    }
+    p a {
+      color: white;
+    }
+    @media screen and (max-width: 700px) {
+      h1 {
+        font-size: 1.5em;
+      }
+    }
+    @media screen and (max-width: 500px) {
+      h1 {
+        font-size: 1.2em;
+      }
+      h1 strong {
+        display: block;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <div id='bg'>
+
+    </div>
+    <div id='bottom'>
+      <h1><strong>Squawk</strong> use your voice</h1>
+      <p><a href='/a.html'>Download</a> | <a href='http://easyaf.herokuapp.com/squawk/blog'>Blog</a> | <a href='http://easyaf.herokuapp.com/squawk'>About</a>
+      </p>
+    </div>
+  </body>
+</html>

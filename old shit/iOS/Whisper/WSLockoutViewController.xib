@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5051" systemVersion="13A3028" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WSLockoutViewController">
+            <connections>
+                <outlet property="_actionButton" destination="iPL-Q8-qWw" id="aee-gk-WUI"/>
+                <outlet property="_label" destination="Pe0-Lm-sIi" id="KnB-ex-rVC"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcome-bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="l1q-px-ujS">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="l1q-px-ujS" secondAttribute="height" multiplier="40:71" id="xZ0-Cn-c59"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your download of Squawk is out of date. To continue, please download the update from the App Store." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="278" translatesAutoresizingMaskIntoConstraints="NO" id="Pe0-Lm-sIi">
+                    <rect key="frame" x="21" y="249" width="278" height="70"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iPL-Q8-qWw">
+                    <rect key="frame" x="99" y="327" width="123" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="http://bit.ly/gc489">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="tappedActionButton:" destination="-1" eventType="touchUpInside" id="8bw-7p-n30"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="iPL-Q8-qWw" firstAttribute="centerX" secondItem="Pe0-Lm-sIi" secondAttribute="centerX" id="Hrf-gE-qwg"/>
+                <constraint firstAttribute="centerY" secondItem="Pe0-Lm-sIi" secondAttribute="centerY" id="IlL-ke-OCJ"/>
+                <constraint firstItem="l1q-px-ujS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="TA5-Tn-5AC"/>
+                <constraint firstAttribute="trailing" secondItem="Pe0-Lm-sIi" secondAttribute="trailing" constant="21" id="c3w-56-L7f"/>
+                <constraint firstItem="iPL-Q8-qWw" firstAttribute="top" secondItem="Pe0-Lm-sIi" secondAttribute="bottom" constant="8" id="elt-aO-afy"/>
+                <constraint firstItem="Pe0-Lm-sIi" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="21" id="nPF-Wj-AWe"/>
+                <constraint firstAttribute="trailing" secondItem="l1q-px-ujS" secondAttribute="trailing" id="snp-7t-NS1"/>
+                <constraint firstItem="l1q-px-ujS" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="tX5-7E-mT0"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="welcome-bg.png" width="640" height="1137"/>
+    </resources>
+</document>

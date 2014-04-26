@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'/>
+ 	<link rel='stylesheet' href='/static/base.css'/>
+	<title>Squawk Support</title>
+ 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+ 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+   	
+	<meta name="viewport" content="width=device-width, user-scalable=no"/>
+  	
+<style>
+
+html, body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+body {
+  font-family: "Helvetica Neue", "HelveticaNeue", "Helvetica", "Arial", sans-serif;
+}
+a {
+  color: #e22;
+}
+
+#main {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  max-width: 600px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#pageParent {
+	width: 100%;
+	min-height: 100%;
+	display: table;
+}
+#page {
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	padding: 10%;
+	width: 80%;
+	min-height: 80%;
+	line-height: 1.6;
+}
+
+
+</style>
+
+<script>
+window.location = "https://squawk.helpshift.com/a/squawk/"
+
+$(document).ready(function() {
+	// wrap download links:
+	$("img[download-url]").each(function(i, img) {
+		$(img).wrap($("<a>").attr({href: $(img).attr('download-url')/*, download: $(img).attr('download-filename')*/}));
+	})
+})
+</script>
+  
+</head>
+<body>
+
+<div id='pageParent'>
+	<div id='page'>
+	  
+    
+	</div>
+</div>
+
+</body>
+</html>

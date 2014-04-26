@@ -1,0 +1,7 @@
+FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/Parse-iOS-SDK"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/Facebook-iOS-SDK" "${PODS_ROOT}/Headers/Facebook-iOS-SDK/FacebookSDK" "${PODS_ROOT}/Headers/Helpshift" "${PODS_ROOT}/Headers/Parse-iOS-SDK" "${PODS_ROOT}/Headers/ReactiveCocoa" "${PODS_ROOT}/Headers/ReactiveCocoa/ReactiveCocoa"
+LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/Helpshift/helpshift-ios-4.2.1"
+OTHER_CFLAGS = $(inherited) "-isystem${PODS_ROOT}/Headers" "-isystem${PODS_ROOT}/Headers/Facebook-iOS-SDK" "-isystem${PODS_ROOT}/Headers/Facebook-iOS-SDK/FacebookSDK" "-isystem${PODS_ROOT}/Headers/Helpshift" "-isystem${PODS_ROOT}/Headers/Parse-iOS-SDK" "-isystem${PODS_ROOT}/Headers/ReactiveCocoa" "-isystem${PODS_ROOT}/Headers/ReactiveCocoa/ReactiveCocoa"
+OTHER_LDFLAGS = -ObjC -lHelpshift -lsqlite3 -lsqlite3.0 -lz -framework AudioToolbox -framework CFNetwork -framework CoreGraphics -framework CoreLocation -framework CoreTelephony -framework CoreText -framework Foundation -framework MobileCoreServices -framework Parse -framework QuartzCore -framework Security -framework StoreKit -framework SystemConfiguration -framework UIKit -weak_framework Accounts -weak_framework AdSupport -weak_framework Security -weak_framework Social
+PODS_ROOT = ${SRCROOT}/Pods
