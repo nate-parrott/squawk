@@ -191,7 +191,7 @@
     if (_newContactPhone.text.length) {
         NSString* num = [NPContact normalizePhone:_newContactPhone.text];
         NSString* name = _newContactName.text;
-        [NPAddressBook createContactWithName:name phone:num info:@{} callback:^{
+        [NPAddressBook createContactWithName:name phone:num info:@{} callback:^(NPContact* contact){
             [WSContactBoost boostPhoneNumber:num];
             [self dismiss:nil];
         }];

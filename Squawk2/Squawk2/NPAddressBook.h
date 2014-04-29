@@ -27,10 +27,12 @@ const NSString* NPAddressBookDidChangeNotification;
 
 +(dispatch_queue_t)addressBookQueue;
 
-+(void)createContactWithName:(NSString*)name phone:(NSString*)phone info:(NSDictionary*)otherInfo callback:(void(^)())callback;
++(void)createContactWithName:(NSString*)name phone:(NSString*)phone info:(NSDictionary*)otherInfo callback:(void(^)(NPContact* contact))callback;
 
 +(void)startPopulatingContactsSignal;
 +(RACReplaySubject*)contacts;
 +(RACSignal*)contactsByPhoneNumber; // RACSignal of NSDictionary's
+
++(void)getGlobalAddressBook:(void(^)(NPAddressBook* book))callback; // only accessible from main thread
 
 @end

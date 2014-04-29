@@ -15,12 +15,13 @@
 #import "WSEarSensor.h"
 #import "WSContactBoost.h"
 #import "SQSquawkCache.h"
-#import "SQThreadMakerViewController.h"
+#import "SQNewThreadViewController.h"
 #import "SQTheme.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SQShimmerView.h"
 #import <Helpshift/Helpshift.h>
 #import "SQBackgroundTaskManager.h"
+#import "UIViewController+SoftModal.h"
 
 //#define TOP_BAR_SCROLLS
 
@@ -116,7 +117,7 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
 -(void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+/*-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController isKindOfClass:[UINavigationController class]]) {
         UIViewController* root = [segue.destinationViewController viewControllers].firstObject;
         if ([root isKindOfClass:[SQThreadMakerViewController class]]) {
@@ -124,7 +125,7 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
             RAC(vc, threads) = RACObserve(self, allThreads);
         }
     }
-}
+}*/
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -146,14 +147,20 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
         }];
     }
 }
+-(IBAction)newThread:(id)sender {
+    SQNewThreadViewController* vc = [self.storyboard instantiateViewControllerWithIdentifier:@"NewThread"];
+    vc.squawkers = self.allThreads;
+    [vc presentSoftModalInViewController:self];
+}
 #pragma mark Notification callbacks
 -(void)didOpenMessage:(NSNotification*)notif {
     self.tableView.contentOffset = CGPointZero;
 }
 -(void)promptAddFriend:(NSNotification*)notif {
-    if (self.presentedViewController==nil) {
+    /*if (self.presentedViewController==nil) {
         [self performSegueWithIdentifier:@"AddThread" sender:self];
-    }
+    }*/
+    [self newThread:nil];
 }
 #pragma mark Layout
 -(BOOL)automaticallyAdjustsScrollViewInsets {
@@ -597,7 +604,7 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
     }
     
     UIBarButtonItem* leftButton = searchMode? [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(exitSearchMode:)] : [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(enterSearchMode:)];
-    UIBarButtonItem* rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addThread:)];
+    UIBarButtonItem* rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newThread:)];
     [_titleBar.items.lastObject setLeftBarButtonItem:leftButton animated:YES];
     [_titleBar.items.lastObject setRightBarButtonItem:rightButton];
     [_titleBar.items.lastObject setTitle:@""];
@@ -611,9 +618,6 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
-}
--(IBAction)addThread:(id)sender {
-    [self performSegueWithIdentifier:@"AddThread" sender:sender];
 }
 #pragma mark Feedback
 -(IBAction)giveFeedback:(id)sender {

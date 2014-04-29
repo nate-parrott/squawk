@@ -68,6 +68,7 @@
 		5F93BFFD18CEA045004AF7BC /* SQBlockAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFFC18CEA045004AF7BC /* SQBlockAction.m */; };
 		5FBEAB2018D6AC6A00356DA5 /* SQDopplerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBEAB1F18D6AC6A00356DA5 /* SQDopplerView.m */; };
 		5FBEAB2618D77AF800356DA5 /* WSConcentricCirclesViewAdvancedHD2014.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBEAB2518D77AF800356DA5 /* WSConcentricCirclesViewAdvancedHD2014.m */; };
+		5FBF523D190F5FAA00931180 /* SQNewThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBF523C190F5FAA00931180 /* SQNewThreadViewController.m */; };
 		5FC27DC718F240C10080EE09 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FC27DC518F240C10080EE09 /* Localizable.strings */; };
 		5FC27DCA18F24CA00080EE09 /* blip1-loud.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5FC27DC918F24CA00080EE09 /* blip1-loud.wav */; };
 		5FCCCB9018EA042C00EAEBEA /* UIViewController+SoftModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCCCB8F18EA042C00EAEBEA /* UIViewController+SoftModal.m */; };
@@ -196,6 +197,8 @@
 		5FBEAB1F18D6AC6A00356DA5 /* SQDopplerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQDopplerView.m; sourceTree = "<group>"; };
 		5FBEAB2418D77AF800356DA5 /* WSConcentricCirclesViewAdvancedHD2014.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSConcentricCirclesViewAdvancedHD2014.h; sourceTree = "<group>"; };
 		5FBEAB2518D77AF800356DA5 /* WSConcentricCirclesViewAdvancedHD2014.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSConcentricCirclesViewAdvancedHD2014.m; sourceTree = "<group>"; };
+		5FBF523B190F5FAA00931180 /* SQNewThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQNewThreadViewController.h; sourceTree = "<group>"; };
+		5FBF523C190F5FAA00931180 /* SQNewThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQNewThreadViewController.m; sourceTree = "<group>"; };
 		5FC27DC618F240C10080EE09 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5FC27DC818F241040080EE09 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5FC27DC918F24CA00080EE09 /* blip1-loud.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "blip1-loud.wav"; sourceTree = "<group>"; };
@@ -332,8 +335,8 @@
 				5F90B42F18C3EBD7004C4FD2 /* SQLoginViewController.m */,
 				5F3238E318E2B84200B9BB0C /* SQMessageViewController.h */,
 				5F3238E418E2B84200B9BB0C /* SQMessageViewController.m */,
-				5F2C4AA918C6A2A500E59DFA /* SQThreadMakerViewController.h */,
-				5F2C4AAA18C6A2A500E59DFA /* SQThreadMakerViewController.m */,
+				5FBF523B190F5FAA00931180 /* SQNewThreadViewController.h */,
+				5FBF523C190F5FAA00931180 /* SQNewThreadViewController.m */,
 				5FE355E818E39B2700D88477 /* SQInviteFriendsViewController.h */,
 				5FE355E918E39B2700D88477 /* SQInviteFriendsViewController.m */,
 				5F93BFC718CBA5D3004AF7BC /* SQAudioFiles.h */,
@@ -388,6 +391,15 @@
 			name = Data;
 			sourceTree = "<group>";
 		};
+		5F3E2E18191034E60084EB5F /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				5F2C4AA918C6A2A500E59DFA /* SQThreadMakerViewController.h */,
+				5F2C4AAA18C6A2A500E59DFA /* SQThreadMakerViewController.m */,
+			);
+			name = Unused;
+			sourceTree = "<group>";
+		};
 		5F8985AB18C3EA9B0085B085 = {
 			isa = PBXGroup;
 			children = (
@@ -440,6 +452,7 @@
 				5F2C4A8D18C5689700E59DFA /* Utilities */,
 				5F2C4A8F18C568C000E59DFA /* Recording and playback */,
 				5F8985C918C3EA9B0085B085 /* Images.xcassets */,
+				5F3E2E18191034E60084EB5F /* Unused */,
 				5F8985BE18C3EA9B0085B085 /* Supporting Files */,
 			);
 			path = Squawk2;
@@ -670,6 +683,7 @@
 				5FBEAB2018D6AC6A00356DA5 /* SQDopplerView.m in Sources */,
 				5F93BFFD18CEA045004AF7BC /* SQBlockAction.m in Sources */,
 				5F90B44018C43E56004C4FD2 /* SQThreadCell.m in Sources */,
+				5FBF523D190F5FAA00931180 /* SQNewThreadViewController.m in Sources */,
 				5F2C4AA818C64EAC00E59DFA /* NSString+TempFilePath.m in Sources */,
 				5F08A7DA18C46A9400E3E02E /* SQFriendsOnSquawk.m in Sources */,
 				5F93BFE518CD7855004AF7BC /* NSArray+CombineStrings.m in Sources */,

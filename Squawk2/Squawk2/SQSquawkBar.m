@@ -65,7 +65,7 @@ const CGFloat SQSquawkBarCheckmarkPullThreshold = 90;
     _checkmarkLabel.backgroundView.backgroundColor = [SQTheme lightGray];;
     _inviteLabel.label.text = NSLocalizedString(@"Invite", @"").lowercaseString;
     _inviteLabel.label.textAlignment = NSTextAlignmentRight;
-    _inviteLabel.backgroundView.backgroundColor = [SQTheme lightBlue];//[UIColor colorWithWhite:0.5 alpha:1];
+    _inviteLabel.backgroundView.backgroundColor = [SQTheme blue];//[UIColor colorWithWhite:0.5 alpha:1];
     _inviteLabel.labelInsets = UIEdgeInsetsMake(0, 0, 0, 10);
     
     RAC(_checkmarkLabel, hidden) = [RACObserve(self, showCheckmarkControl) not];

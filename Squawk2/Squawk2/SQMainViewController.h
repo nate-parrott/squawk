@@ -73,4 +73,6 @@ NSString* SQMicrophoneStatusGranted;
 
 @property BOOL lateEnoughToShowError;
 
+-(IBAction)newThread:(id)sender;
+
 @end

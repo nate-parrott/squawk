@@ -105,14 +105,14 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
             } else {
                 for (int i=0; i<recent.count; i++) {
                     _SQThreadComparisonData* existingEntryCompData = [recent[i] compData];
-                    if (compData->_date < existingEntryCompData->_date) {
+                    if (compData->_date > existingEntryCompData->_date) {
                         [recent replaceObjectAtIndex:i withObject:thread];
                         break;
                     }
                 }
                 recentCutoff = compData->_date;
                 for (SQThread* recentThread in recent) {
-                    recentCutoff = MAX(recentCutoff, [recentThread compData]->_date);
+                    recentCutoff = MIN(recentCutoff, [recentThread compData]->_date);
                 }
             }
         }
@@ -199,7 +199,7 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
 }
 #pragma mark Sorting
 +(NSString*)identifierForThreadWithPhoneNumbers:(NSArray*)numbers {
-    if (![numbers containsObject:[SQAPI currentPhone]]) {
+    if (![numbers containsObject:[SQAPI currentPhone]] && [SQAPI currentPhone]) {
         numbers = [numbers arrayByAddingObject:[SQAPI currentPhone]];
     }
     return [[[numbers.rac_sequence map:^id(id value) {

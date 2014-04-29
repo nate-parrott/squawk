@@ -21,6 +21,7 @@ typedef enum {
 
 @interface SQLoginViewController : UIViewController <MFMessageComposeViewControllerDelegate> {
     IBOutlet SQShimmerView* _loadingIndicator;
+    IBOutlet UIView* _verifyBar;
     IBOutlet UILabel* _textLabel;
     IBOutlet UIButton* _sendVerificationButton;
     IBOutlet UIButton* _doneSendingVerificationButton;

@@ -11,7 +11,8 @@
 #import "SQAPI.h"
 
 
-@interface SQLoginViewController ()
+@interface SQLoginViewController () {
+}
 
 @end
 
@@ -22,7 +23,11 @@
 #pragma mark View bindings
 -(void)viewDidLoad {
     [super viewDidLoad];
+#if TARGET_IPHONE_SIMULATOR
+    self.secret = [NSString randomStringOfLength:3 insertDashes:YES];
+#else
     self.secret = [NSString randomStringOfLength:12 insertDashes:YES];
+#endif
     RAC(_sendVerificationButton, enabled) = [RACObserve(self, loginState) map:^id(id value) {
         return @([value integerValue] == SQLoginNotStarted);
     }];
@@ -82,7 +87,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(IBAction)tryLogin:(id)sender {
+-(IBAction)tryLogin:(id)sender {    
     _numLoginTries = 0;
     self.loginState = SQLoginCheckingForVerification;
     [self tryLogin];
@@ -93,18 +98,20 @@
         [self encounteredError:NSLocalizedString(@"We didn't receive your text.", @"")];
     } else {
         [SQAPI logInWithSecret:self.secret callback:^(BOOL success, NSError *error) {
-            if (success) {
-                [self loggedIn];
-            } else {
-                if ([error.domain isEqualToString:SQErrorDomain] && error.code == SQLoginBadSecretError) {
-                    // maybe the text hasn't come in yet. try again a little later:
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [self tryLogin];
-                    });
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (success) {
+                    [self loggedIn];
                 } else {
-                    [self encounteredError:NSLocalizedString(@"We couldn't connect to the Squawk cloud. Try again later.", @"")];
+                    if ([error.domain isEqualToString:SQErrorDomain] && error.code == SQLoginBadSecretError) {
+                        // maybe the text hasn't come in yet. try again a little later:
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [self tryLogin];
+                        });
+                    } else {
+                        [self encounteredError:NSLocalizedString(@"We couldn't connect to the Squawk cloud. Try again later.", @"")];
+                    }
                 }
-            }
+            });
         }];
     }
 }

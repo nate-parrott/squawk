@@ -120,56 +120,56 @@ NPAddressBook* NPAddressBookShared = nil;
     }*/
 }
 
-+(void)createContactWithName:(NSString*)name phone:(NSString*)phone info:(NSDictionary*)otherInfo callback:(void(^)())callback {
-    [NPAddressBook getAuthorizedAddressBookWithCallback:^(NPAddressBook *book) {
-        if (!book) {
-            callback();
-            return;
-        }
-        CFErrorRef err = NULL;
-        ABRecordRef person = ABPersonCreate();
-        
-        NSArray* nameComps = [name componentsSeparatedByString:@" "];
-        NSString *firstname = nil;
-        NSString *lastname = nil;
-        if (nameComps.count == 1) {
-            firstname = nameComps.firstObject;
-        } else if (nameComps.count > 1) {
-            lastname = nameComps.lastObject;
-            firstname = [[nameComps subarrayWithRange:NSMakeRange(0, nameComps.count-1)] componentsJoinedByString:@" "];
-        }
-        if (firstname) ABRecordSetValue(person, kABPersonFirstNameProperty, (__bridge CFTypeRef)(firstname), &err);
-        if (lastname) ABRecordSetValue(person, kABPersonLastNameProperty, (__bridge CFTypeRef)(lastname), &err);
-        
-        ABMutableMultiValueRef phones = ABMultiValueCreateMutable(kABMultiStringPropertyType);
-        ABMultiValueAddValueAndLabel(phones, (__bridge CFTypeRef)(phone), kABPersonPhoneMainLabel, NULL);
-        ABRecordSetValue(person, kABPersonPhoneProperty, phones, NULL);
-        
-        ABAddressBookAddRecord(book.addressBookRef, person, &err);
-        
-        ABAddressBookSave(book.addressBookRef, &err);
-        
-        CFRelease(phones);
-        CFRelease(person);
-        
-        callback();
++(void)createContactWithName:(NSString*)name phone:(NSString*)phone info:(NSDictionary*)otherInfo callback:(void(^)(NPContact* contact))callback {
+    [self getGlobalAddressBook:^(NPAddressBook *book) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!book) {
+                callback(nil);
+                return;
+            }
+            CFErrorRef err = NULL;
+            ABRecordRef person = ABPersonCreate();
+            
+            NSArray* nameComps = [name componentsSeparatedByString:@" "];
+            NSString *firstname = nil;
+            NSString *lastname = nil;
+            if (nameComps.count == 1) {
+                firstname = nameComps.firstObject;
+            } else if (nameComps.count > 1) {
+                lastname = nameComps.lastObject;
+                firstname = [[nameComps subarrayWithRange:NSMakeRange(0, nameComps.count-1)] componentsJoinedByString:@" "];
+            }
+            if (firstname) ABRecordSetValue(person, kABPersonFirstNameProperty, (__bridge CFTypeRef)(firstname), &err);
+            if (lastname) ABRecordSetValue(person, kABPersonLastNameProperty, (__bridge CFTypeRef)(lastname), &err);
+            
+            ABMutableMultiValueRef phones = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+            ABMultiValueAddValueAndLabel(phones, (__bridge CFTypeRef)(phone), kABPersonPhoneMainLabel, NULL);
+            ABRecordSetValue(person, kABPersonPhoneProperty, phones, NULL);
+            
+            ABAddressBookAddRecord(book.addressBookRef, person, &err);
+            
+            ABAddressBookSave(book.addressBookRef, &err);
+            
+            NPContact* contact = [NPContact new];
+            contact.records = (__bridge NSArray *)(ABPersonCopyArrayOfAllLinkedPeople(person));
+            
+            CFRelease(phones);
+            CFRelease(person);
+            
+            [book externalChangesDidOccur:nil];
+            callback(contact);
+        });
     }];
 }
 #pragma mark ReactiveCocoa
 +(void)startPopulatingContactsSignal {
-    static NPAddressBook* addressBook = nil;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [NPAddressBook getAuthorizedAddressBookWithCallback:^(NPAddressBook *book) {
-            addressBook = book;
-            if (book) {
-                [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:(id)NPAddressBookDidChangeNotification object:addressBook] startWith:nil] subscribeNext:^(id x) {
-                    [[self contacts] sendNext:addressBook.allContacts];
-                }];
-            }
-        }];
-    });
+    [self getGlobalAddressBook:^(NPAddressBook *book) {
+        if (book) {
+            [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:(id)NPAddressBookDidChangeNotification object:book] startWith:nil] subscribeNext:^(id x) {
+                [[self contacts] sendNext:book.allContacts];
+            }];
+        }
+    }];
 }
 +(RACReplaySubject*)contacts {
     static RACReplaySubject* subj = nil;
@@ -196,6 +196,22 @@ NPAddressBook* NPAddressBookShared = nil;
         }];
     });
     return signal;
+}
++(void)getGlobalAddressBook:(void(^)(NPAddressBook* book))callback {
+    static NPAddressBook* addressBook = nil;
+    
+    if (!addressBook) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [NPAddressBook getAuthorizedAddressBookWithCallback:^(NPAddressBook *book) {
+                addressBook = book;
+                callback(addressBook);
+            }];
+        });
+    } else {
+        callback(addressBook);
+    }
+    
 }
 
 @end
