@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "0510"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5C32EE969C964159BE02019E"
+               BlueprintIdentifier = "BE7AF3F1FCC14364B577B9A6"
                BuildableName = "libPods-Squawk2-Helpshift.a"
                BlueprintName = "Pods-Squawk2-Helpshift"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "822C08C38AA14D0CB862A492"
-               BuildableName = "libPods-Squawk2-ReactiveCocoa.a"
-               BlueprintName = "Pods-Squawk2-ReactiveCocoa"
+               BlueprintIdentifier = "D1ED3A2C21E84ABB9093322E"
+               BuildableName = "libPods-Squawk2-TFGRelativeDateFormatter.a"
+               BlueprintName = "Pods-Squawk2-TFGRelativeDateFormatter"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

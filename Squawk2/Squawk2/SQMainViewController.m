@@ -371,7 +371,7 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section==0) {
+    if (section==0 || [self.threadSections[section] count]==0) {
         return 0;
     }
     return 30;

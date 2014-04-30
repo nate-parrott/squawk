@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "0510"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F5A3CB70F6A74E3EB689DA82"
+               BlueprintIdentifier = "52B77A745F7D4C3EB32495A5"
                BuildableName = "libPods-Squawk2-NPReachability.a"
                BlueprintName = "Pods-Squawk2-NPReachability"
                ReferencedContainer = "container:Pods.xcodeproj">

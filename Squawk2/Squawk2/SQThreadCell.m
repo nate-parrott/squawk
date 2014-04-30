@@ -14,6 +14,7 @@
 #import "SQTheme.h"
 #import "SQFriendsOnSquawk.h"
 #import "SQLongPressGestureRecognizer.h"
+#import <TFGRelativeDateFormatter.h>
 
 NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleNextToThreadIdentifier";
 
@@ -35,6 +36,8 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
 -(void)setup {
     if (_setup) return;
     _setup = YES;
+    
+    _reloader = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(reload) userInfo:nil repeats:YES];
     
     self.gestureRec = [[SQLongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressed:)];
     [(SQLongPressGestureRecognizer*)self.gestureRec setDurationBeforeTouchLock:0.7];
@@ -73,16 +76,19 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     [self reload];
 }
 -(void)reload {
-    /*_label.text = self.thread.displayName;
-    _label.font = self.thread.unread.count? [UIFont fontWithName:@"AvenirNext-Medium" size:18] : [UIFont fontWithName:@"AvenirNext-Regular" size:18];
-    _label.textColor = [self.thread membersAreRegistered]? [UIColor blackColor] : [UIColor grayColor];*/
     _label.attributedText = [self attributedTitle];
     int unread = (int)self.thread.unread.count;
-    //_icon.image = unread? [UIImage imageNamed:@"playback-red"] : [UIImage imageNamed:@"record"];
     _button.transform = CGAffineTransformMakeScale(unread? -1 : 1, 1);
     _unreadCount.text = unread? [NSString stringWithFormat:@"%i", unread] : @"";
     self.tintColor = unread? [SQTheme blue] : [SQTheme red];
     _unreadCount.textColor = self.tintColor;
+    
+    if (unread) {
+        NSDate* date = [NSDate dateWithTimeIntervalSince1970:[self.thread.unread.firstObject[@"date"] doubleValue]];
+        _date.text = [[TFGRelativeDateFormatter sharedFormatter] stringForDate:date];
+    } else {
+        _date.text = nil;
+    }
 }
 -(NSAttributedString*)attributedTitle {
     NSArray* unread = self.thread.unread;
@@ -125,6 +131,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
 }
 -(void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SQThreadUpdatedNotification object:nil];
+    [_reloader invalidate];
 }
 
 -(IBAction)pressed:(UILongPressGestureRecognizer*)sender {

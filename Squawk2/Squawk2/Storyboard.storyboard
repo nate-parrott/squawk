@@ -258,29 +258,54 @@
                                                             <color key="textColor" red="0.96078437566757202" green="0.29803922772407532" blue="0.30980393290519714" alpha="1" colorSpace="deviceRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="230" translatesAutoresizingMaskIntoConstraints="NO" id="tdW-up-AD9">
-                                                            <rect key="frame" x="10" y="0.0" width="230" height="69"/>
+                                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kOi-Qb-bOi">
+                                                            <rect key="frame" x="10" y="17" width="230" height="36"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
+                                                            <subviews>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="230" translatesAutoresizingMaskIntoConstraints="NO" id="tdW-up-AD9" userLabel="Name">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="230" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="500" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e8y-Ke-vQM" userLabel="Date">
+                                                                    <rect key="frame" x="0.0" y="21" width="230" height="15"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                                                    <color key="textColor" white="0.65402600359999996" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <constraints>
+                                                                <constraint firstItem="tdW-up-AD9" firstAttribute="top" secondItem="kOi-Qb-bOi" secondAttribute="top" id="4BK-Eo-oTc"/>
+                                                                <constraint firstItem="e8y-Ke-vQM" firstAttribute="top" secondItem="tdW-up-AD9" secondAttribute="bottom" id="Ocu-zD-Cwv"/>
+                                                                <constraint firstAttribute="trailing" secondItem="tdW-up-AD9" secondAttribute="trailing" id="THN-3l-a3g"/>
+                                                                <constraint firstItem="e8y-Ke-vQM" firstAttribute="leading" secondItem="kOi-Qb-bOi" secondAttribute="leading" id="iqO-K2-3GM"/>
+                                                                <constraint firstAttribute="bottom" secondItem="e8y-Ke-vQM" secondAttribute="bottom" id="mdo-XH-Goa"/>
+                                                                <constraint firstItem="tdW-up-AD9" firstAttribute="leading" secondItem="kOi-Qb-bOi" secondAttribute="leading" id="p95-4q-oKy"/>
+                                                                <constraint firstAttribute="trailing" secondItem="e8y-Ke-vQM" secondAttribute="trailing" id="sA4-rp-Uu9"/>
+                                                            </constraints>
+                                                        </view>
                                                     </subviews>
                                                     <gestureRecognizers/>
                                                     <constraints>
                                                         <constraint firstItem="3yn-h4-cqf" firstAttribute="leading" secondItem="Uny-Di-34d" secondAttribute="trailing" constant="4" id="1KO-iR-hr6"/>
-                                                        <constraint firstItem="tdW-up-AD9" firstAttribute="top" secondItem="cvY-80-Bxv" secondAttribute="top" id="1WD-Ta-1H3"/>
-                                                        <constraint firstAttribute="bottom" secondItem="tdW-up-AD9" secondAttribute="bottom" id="9ac-nb-DoD"/>
+                                                        <constraint firstAttribute="centerY" secondItem="kOi-Qb-bOi" secondAttribute="centerY" id="4e4-r8-kH8"/>
+                                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="kOi-Qb-bOi" secondAttribute="bottom" constant="2" id="GRR-Dg-v4B"/>
                                                         <constraint firstAttribute="trailing" secondItem="3yn-h4-cqf" secondAttribute="trailing" constant="12" id="Igs-uV-1TM"/>
-                                                        <constraint firstItem="tdW-up-AD9" firstAttribute="leading" secondItem="cvY-80-Bxv" secondAttribute="leading" constant="10" id="PsV-e1-wsE"/>
+                                                        <constraint firstItem="kOi-Qb-bOi" firstAttribute="leading" secondItem="cvY-80-Bxv" secondAttribute="leading" constant="10" id="Lvx-iv-8pP"/>
+                                                        <constraint firstItem="Uny-Di-34d" firstAttribute="leading" secondItem="kOi-Qb-bOi" secondAttribute="trailing" constant="8" id="LxZ-8x-Rue"/>
                                                         <constraint firstItem="Uny-Di-34d" firstAttribute="centerY" secondItem="3yn-h4-cqf" secondAttribute="centerY" id="heY-d1-6PF"/>
                                                         <constraint firstAttribute="centerY" secondItem="3yn-h4-cqf" secondAttribute="centerY" id="lI0-zl-fbY"/>
-                                                        <constraint firstItem="Uny-Di-34d" firstAttribute="leading" secondItem="tdW-up-AD9" secondAttribute="trailing" constant="8" id="lcv-qL-5xJ"/>
+                                                        <constraint firstItem="kOi-Qb-bOi" firstAttribute="top" relation="greaterThanOrEqual" secondItem="cvY-80-Bxv" secondAttribute="top" constant="2" id="n8J-tR-CE6"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <gestureRecognizers/>
                                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="12" maxY="0.0"/>
                                                 <connections>
                                                     <outlet property="_button" destination="3yn-h4-cqf" id="sFZ-od-7X8"/>
+                                                    <outlet property="_date" destination="e8y-Ke-vQM" id="UTW-5f-Zdy"/>
                                                     <outlet property="_label" destination="tdW-up-AD9" id="BhL-wR-fbY"/>
                                                     <outlet property="_unreadCount" destination="Uny-Di-34d" id="FPs-L4-bMA"/>
                                                 </connections>

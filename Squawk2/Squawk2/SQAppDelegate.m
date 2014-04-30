@@ -25,7 +25,7 @@
 #import "WSPersistentDictionary.h"
 #import "SQMessageViewController.h"
 #import "NSURL+QueryParser.h"
-#import "SQThreadMakerViewController.h"
+#import "SQNewThreadViewController.h"
 #import "UIFont+OverrideSystemFont.h"
 
 NSString* SQReceivedSquawkNotification = @"SQReceivedSquawkNotification";
@@ -238,9 +238,9 @@ NSString* SQErrorDomain = @"SQErrorDomain";
         if ([command isEqualToString:@"add"]) {
             NSDictionary* query = url.queryDictionary;
             if (query[@"phone"]) {
-                [SQThreadMakerViewController prepopulationDict][@"phone"] = query[@"phone"];
+                [SQNewThreadViewController prepopulationDict][@"phone"] = query[@"phone"];
                 if (query[@"name"]) {
-                    [SQThreadMakerViewController prepopulationDict][@"name"] = query[@"name"];
+                    [SQNewThreadViewController prepopulationDict][@"name"] = query[@"name"];
                 }
                 [[NSNotificationCenter defaultCenter] postNotificationName:SQPromptAddFriend object:nil userInfo:nil];
                 return YES;

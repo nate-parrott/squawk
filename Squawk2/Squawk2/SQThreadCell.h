@@ -17,9 +17,12 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier;
 @interface SQThreadCell : UITableViewCell <UIGestureRecognizerDelegate> {
     BOOL _setup;
     IBOutlet UILabel* _label;
+    IBOutlet UILabel* _date;
     
     IBOutlet UIButton* _button;
     IBOutlet UILabel* _unreadCount;
+    
+    NSTimer* _reloader;
 }
 
 @property(strong,nonatomic)SQThread* thread;

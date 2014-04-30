@@ -42,3 +42,9 @@
 #define COCOAPODS_VERSION_MINOR_ReactiveCocoa_no_arc 2
 #define COCOAPODS_VERSION_PATCH_ReactiveCocoa_no_arc 4
 
+// TFGRelativeDateFormatter
+#define COCOAPODS_POD_AVAILABLE_TFGRelativeDateFormatter
+#define COCOAPODS_VERSION_MAJOR_TFGRelativeDateFormatter 1
+#define COCOAPODS_VERSION_MINOR_TFGRelativeDateFormatter 0
+#define COCOAPODS_VERSION_PATCH_TFGRelativeDateFormatter 0
+

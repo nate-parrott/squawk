@@ -14,4 +14,6 @@
 
 @property(weak)IBOutlet UITableView* tableView;
 
++(NSMutableDictionary*)prepopulationDict;
+
 @end

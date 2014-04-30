@@ -14,6 +14,7 @@
 #define MAX_RECORDING_DURATION (7 * 60 * 60)
 #define GLOBAL_PROPERTIES_REFRESH_INTERVAL 4 * 60 * 60 // 4 hrs
 
+// this is just NSLog, but doesn't print on release builds.
 #define DBLog(...) do {} while (0)
 #ifdef DEBUG
 #undef DBLog

@@ -1,6 +1,6 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/GoogleAnalytics-iOS-SDK" "${PODS_ROOT}/Headers/Helpshift" "${PODS_ROOT}/Headers/NPReachability" "${PODS_ROOT}/Headers/ReactiveCocoa" "${PODS_ROOT}/Headers/ReactiveCocoa/ReactiveCocoa" $(SDKROOT)/usr/include/libz
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/GoogleAnalytics-iOS-SDK" "${PODS_ROOT}/Headers/Helpshift" "${PODS_ROOT}/Headers/NPReachability" "${PODS_ROOT}/Headers/ReactiveCocoa" "${PODS_ROOT}/Headers/ReactiveCocoa/ReactiveCocoa" "${PODS_ROOT}/Headers/TFGRelativeDateFormatter" $(SDKROOT)/usr/include/libz
 LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/GoogleAnalytics-iOS-SDK" "$(PODS_ROOT)/Helpshift/helpshift-ios-4.3.0"
-OTHER_CFLAGS = $(inherited) "-isystem${PODS_ROOT}/Headers" "-isystem${PODS_ROOT}/Headers/GoogleAnalytics-iOS-SDK" "-isystem${PODS_ROOT}/Headers/Helpshift" "-isystem${PODS_ROOT}/Headers/NPReachability" "-isystem${PODS_ROOT}/Headers/ReactiveCocoa" "-isystem${PODS_ROOT}/Headers/ReactiveCocoa/ReactiveCocoa"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers" -isystem "${PODS_ROOT}/Headers/GoogleAnalytics-iOS-SDK" -isystem "${PODS_ROOT}/Headers/Helpshift" -isystem "${PODS_ROOT}/Headers/NPReachability" -isystem "${PODS_ROOT}/Headers/ReactiveCocoa" -isystem "${PODS_ROOT}/Headers/ReactiveCocoa/ReactiveCocoa" -isystem "${PODS_ROOT}/Headers/TFGRelativeDateFormatter"
 OTHER_LDFLAGS = -ObjC -lGoogleAnalyticsServices -lHelpshift -lsqlite3.0 -lz -framework CFNetwork -framework CoreData -framework CoreGraphics -framework CoreTelephony -framework CoreText -framework Foundation -framework QuartzCore -framework SystemConfiguration -framework UIKit -weak_framework AdSupport
 PODS_ROOT = ${SRCROOT}/Pods

@@ -8,17 +8,20 @@ PODS:
   - ReactiveCocoa/Core (2.2.4):
     - ReactiveCocoa/no-arc
   - ReactiveCocoa/no-arc (2.2.4)
+  - TFGRelativeDateFormatter (1.0.0)
 
 DEPENDENCIES:
   - GoogleAnalytics-iOS-SDK (~> 3.0.3)
   - Helpshift (~> 4.3.0)
   - NPReachability (~> 0.2.0)
   - ReactiveCocoa (~> 2.2.3)
+  - TFGRelativeDateFormatter (~> 1.0.0)
 
 SPEC CHECKSUMS:
-  GoogleAnalytics-iOS-SDK: 7b0e55cfe5e70d60478a7b105f15ac71e8bc373e
-  Helpshift: c44d1fa73586129e29a75821676853c9269d215f
+  GoogleAnalytics-iOS-SDK: 80c804540a992c59d88397b3f9567417ba1001dc
+  Helpshift: 208662eaeaca0c7811470bacc9f4ba79ccc0827d
   NPReachability: 5ba6a5532c1eb1fe9fcb6e24712b379180ec9453
   ReactiveCocoa: 953a45dda30674fe704d1d9c77cc874141742f47
+  TFGRelativeDateFormatter: bc2394be64228831fb69c907201797c79eed2a9f
 
-COCOAPODS: 0.29.0
+COCOAPODS: 0.32.1

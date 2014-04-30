@@ -12,6 +12,7 @@
 #import "WSContactBoost.h"
 #import "UIViewController+SoftModal.h"
 #import "SQFriendsOnSquawk.h"
+#import "UITextField+PopulateSlowly.h"
 
 @interface SQNewThreadViewController () <UITextFieldDelegate> {
     BOOL _addUserExpanded;
@@ -31,6 +32,8 @@
 -(void)viewDidLoad {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(prepopulateDataIfNeeded) name:SQPromptAddFriend object:nil];
+    
     self.selectedSquawkers = [NSSet new];
     
     [RACObserve(self, selectedSquawkers) subscribeNext:^(NSSet* selected) {
@@ -41,6 +44,10 @@
             [_doneButton setTitle:NSLocalizedString(@"Create Group Squawk", @"") forState:UIControlStateNormal];
         }
     }];
+}
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self prepopulateDataIfNeeded];
 }
 #pragma mark Text editing
 -(void)updateAddContactButtonAvailability {
@@ -190,5 +197,33 @@
 -(CGSize)sizeInSoftModal {
     return CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, [UIScreen mainScreen].bounds.size.height-140);
 }
+-(void)prepopulateDataIfNeeded {
+    NSMutableDictionary* prepopulationData = [SQNewThreadViewController prepopulationDict];
+    if (prepopulationData[@"phone"]) {
+        if (!_addUserExpanded) {
+            [self showNewContactForm:nil];
+            
+            [self.phone populateSlowlyWithText:prepopulationData[@"phone"] duration:1.0];
+            [self.name populateSlowlyWithText:prepopulationData[@"name"] duration:1.0];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.name becomeFirstResponder];
+                _addContactButton.enabled = YES;
+            });
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [prepopulationData removeObjectForKey:@"phone"];
+                [prepopulationData removeObjectForKey:@"name"];
+            });
+        }
+    }
+}
++(NSMutableDictionary*)prepopulationDict {
+    static NSMutableDictionary* dict = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dict = [NSMutableDictionary new];
+    });
+    return dict;
+}
 
 @end
+

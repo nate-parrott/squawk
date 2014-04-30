@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-Squawk2-TFGRelativeDateFormatter.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Squawk2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,27 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0CF8FDDBB1DB4A5ABCA4C980</key>
+		<key>4B3860C88A084B20B0B1A96F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>50EC91E3F13349E6B1A74DEB</key>
+		<key>52B77A745F7D4C3EB32495A5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5C32EE969C964159BE02019E</key>
+		<key>822C08C38AA14D0CB862A492</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F560C5F18F344820AA9C6BAD</key>
+		<key>BE7AF3F1FCC14364B577B9A6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F5A3CB70F6A74E3EB689DA82</key>
+		<key>CD47FF2CFBDA45649864209B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D1ED3A2C21E84ABB9093322E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
