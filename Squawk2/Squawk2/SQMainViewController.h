@@ -22,8 +22,6 @@ typedef enum {
     SQRaisedToEar
 } SQInteractionMode;
 
-NSString* SQMicrophoneStatusGranted;
-
 @interface SQMainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, SQAudioActionDelegate, SQAudioRecordingActionDelegate, SQSquawkBarDelegate> {
     IBOutlet UIView* _selectorBar;
     RACSubject* _tableViewReloaded;
@@ -67,7 +65,7 @@ NSString* SQMicrophoneStatusGranted;
 
 @property(nonatomic) BOOL playOrRecord;
 
-@property BOOL microphoneAuthorization, contactsAuthorization;
+@property BOOL contactsAuthorization;
 
 @property BOOL loading;
 

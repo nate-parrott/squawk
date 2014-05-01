@@ -27,8 +27,6 @@
 
 const CGPoint SQDefaultContentOffset = {0, 0};
 
-NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
-
 @interface SQMainViewController () {
     IBOutlet UINavigationBar *_titleBar, *_titleBarBackground;
     IBOutlet UITextField* _searchField;
@@ -57,10 +55,10 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
 -(void)viewDidLoad {
     [super viewDidLoad];
         
-    self.view.tintColor = [UIColor colorWithWhite:0.8 alpha:0.4];
+    self.view.tintColor = [SQTheme red];//[UIColor colorWithWhite:0.8 alpha:0.4];
 
     [_squawkBar layoutIfNeeded];
-    _squawkBar.alpha = 0;
+    //_squawkBar.alpha = 0;
     
     _squawkListPadding.hidden = YES;
     
@@ -106,13 +104,13 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
         }
     }];
     
-#ifdef TAKING_DEFAULT_IMAGE
+/*#ifdef TAKING_DEFAULT_IMAGE
     for (UIView* v in @[_searchField, _titleLabel]) {
         [v removeFromSuperview];
     }
     self.view.tintColor = [UIColor colorWithWhite:0.910 alpha:1.000];
     _squawkBarBackgroundLayer.backgroundColor = self.view.tintColor.CGColor;
-#endif
+#endif*/
 }
 -(void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -139,12 +137,13 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
         _setupLoginHooks = YES;
         [[[SQAPI loginStatus] deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
             if ([x boolValue]==NO && self.presentedViewController==nil) {
-                [self performSegueWithIdentifier:@"Login" sender:nil];
-            }
-            if ([x boolValue]) {
-                [self requestPermissions];
+                UIViewController* onboarding = [[UIStoryboard storyboardWithName:@"Onboarding" bundle:nil] instantiateInitialViewController];
+                [self presentViewController:onboarding animated:YES completion:nil];
             }
         }];
+    }
+    if ([SQAPI currentPhone]!=nil && self.presentedViewController==nil) {
+        [self requestPermissions];
     }
 }
 -(IBAction)newThread:(id)sender {
@@ -157,9 +156,6 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
     self.tableView.contentOffset = CGPointZero;
 }
 -(void)promptAddFriend:(NSNotification*)notif {
-    /*if (self.presentedViewController==nil) {
-        [self performSegueWithIdentifier:@"AddThread" sender:self];
-    }*/
     [self newThread:nil];
 }
 #pragma mark Layout
@@ -178,10 +174,7 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
 -(void)requestPermissions {
     [NPAddressBook startPopulatingContactsSignal];
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
-        self.microphoneAuthorization = granted;
-        if (granted) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:SQMicrophoneStatusGranted object:nil userInfo:nil];
-        }
+        AppDelegate.hasRecordPermission = granted;
     }];
     [AppDelegate setupPushNotifications];
 }
@@ -250,7 +243,7 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
 }
 -(void)setupErrorMessaging {
     RACSignal* pushStatus = RACObserve(AppDelegate, registeredForPushNotifications);
-    RACSignal* microphoneAuth = RACObserve(self, microphoneAuthorization);
+    RACSignal* microphoneAuth = RACObserve(AppDelegate, hasRecordPermission);
     RACSignal* fetchError = RACObserve([SQSquawkCache shared], error);
     RACSignal* contactsStatus = RACObserve(self, contactsAuthorization);
     RACSignal* volume = RACObserve(((AVAudioSession*)[AVAudioSession sharedInstance]), outputVolume);
@@ -272,7 +265,7 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
         if ([[AVAudioSession sharedInstance] outputVolume]==0) {
             [messages addObject:NSLocalizedString(@"Your volume is zero. You won't be able to hear Squawks.", @"")];
         }
-        if (self.microphoneAuthorization==NO) {
+        if (AppDelegate.hasRecordPermission==NO) {
             [messages addObject:NSLocalizedString(@"Squawk doesn't have access to your microphone. Give Squawk access in Settings, under Privacy.", @"")];
         }
         return messages.count? [messages componentsJoinedByString:@"\n"] : nil;
@@ -371,7 +364,7 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section==0 || [self.threadSections[section] count]==0) {
+    if (section==0 || section >= self.threadSections.count || [self.threadSections[section] count]==0) {
         return 0;
     }
     return 30;
@@ -479,7 +472,7 @@ NSString* SQMicrophoneStatusGranted = @"SQMicrophoneStatusGranted";
     }];
     
     RAC(self, playOrRecord) = [[RACSignal combineLatest:@[RACObserve(self, tapDown), RACObserve([WSEarSensor shared], isRaisedToEar), RACObserve(self, pressedThread)] reduce:^id(NSNumber* tapDown, NSNumber* raisedToEar, SQThread* pressedThread){
-        return @(tapDown.boolValue || raisedToEar.boolValue || !!pressedThread);
+        return @((tapDown.boolValue || raisedToEar.boolValue || !!pressedThread) && self.presentedViewController==nil);
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 #pragma mark Squawk bar delegate methods

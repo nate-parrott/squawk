@@ -35,7 +35,7 @@
         for (int i=0; i<_numViews; i++) {
             UIView* view = [UIView new];
             [self addSubview:view];
-            view.layer.borderColor = [UIColor blackColor].CGColor;
+            view.layer.borderColor = [UIColor whiteColor].CGColor;
             view.layer.borderWidth = 1;
             view.backgroundColor = [UIColor clearColor];
             [_views addObject:view];

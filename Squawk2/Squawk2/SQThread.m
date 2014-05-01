@@ -28,6 +28,9 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
     NSMutableDictionary* threadsForIdentifiers = [NSMutableDictionary new];
     
     NSString* myNumber = [SQAPI currentPhone];
+    if (!myNumber) {
+        return @[];
+    }
     
     for (NPContact* contact in contacts) {
         SQThread* thread = [SQThread new];

@@ -33,6 +33,8 @@ NSString* SQPushSetupStatusChangedNotification = @"SQPushSetupStatusChangedNotif
 NSString* SQDidOpenMessageNotification = @"SQDidOpenMessageNotification";
 NSString* SQPromptAddFriend = @"SQPromptAddFriend";
 
+const UIRemoteNotificationType SQRemoteNotificationTypesToRequest = UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound;
+
 void JSLog(id jsonObj) {
     NSString* s =  [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:jsonObj options:0 error:0] encoding:NSUTF8StringEncoding];
     DBLog(@"%@", s);
@@ -103,7 +105,7 @@ NSString* SQErrorDomain = @"SQErrorDomain";
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [[NSUserDefaults standardUserDefaults] setInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"LaunchCount"]+1 forKey:@"LaunchCount"];
-    int launchCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"LaunchCount"];
+    NSInteger launchCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"LaunchCount"];
     if (launchCount == 4 || launchCount == 70) {
         [WSContactBoost boostPhoneNumber:@"00000000001"];
     }
@@ -115,30 +117,40 @@ NSString* SQErrorDomain = @"SQErrorDomain";
 }
 #pragma mark Audio
 -(void)setupAudio {
-    RACSignal* authorized = [[NSNotificationCenter defaultCenter] rac_addObserverForName:SQMicrophoneStatusGranted object:nil];
+    RACSignal* authorized = [RACObserve(self, hasRecordPermission) filter:^BOOL(id value) {
+        return [value boolValue];
+    }];
+    RACSignal* shouldTryToRecord = [RACSignal merge:@[authorized, RACObserve(self, tryToRecord)]];
     RACSignal* earStateChanged = RACObserve([WSEarSensor shared], isRaisedToEar);
     RACSignal* appBecameActive = [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIApplicationDidBecomeActiveNotification object:nil] startWith:nil];
-    [[[RACSignal combineLatest:@[appBecameActive, earStateChanged, authorized]] deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
+    [[[RACSignal combineLatest:@[appBecameActive, earStateChanged, shouldTryToRecord]] deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
+        NSString* category = AVAudioSessionCategoryPlayAndRecord;
         AVAudioSession* session = [AVAudioSession sharedInstance];
         AVAudioSessionCategoryOptions options = AVAudioSessionCategoryOptionAllowBluetooth;
-        if (![WSEarSensor shared].isRaisedToEar) {
-            options |= AVAudioSessionCategoryOptionDefaultToSpeaker;
+        if ([category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
+            if (![WSEarSensor shared].isRaisedToEar) {
+                options |= AVAudioSessionCategoryOptionDefaultToSpeaker;
+            }
         }
-        [session setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:options error:nil];
+        [session setCategory:category withOptions:options error:nil];
         [session setActive:YES error:nil];
+
     }];
 }
 #pragma mark Push notifications
 -(void)setupPushNotifications {
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound];
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:SQRemoteNotificationTypesToRequest];
 }
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    [[NSNotificationCenter defaultCenter] postNotificationName:SQPushSetupStatusChangedNotification object:nil];
     self.registeredForPushNotifications = NO;
+    self.deniedPushNotificationAccess = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:SQPushSetupStatusChangedNotification object:nil];
 }
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    self.deniedPushNotificationAccess = NO;
+    self.registeredForPushNotifications = ([application enabledRemoteNotificationTypes] & SQRemoteNotificationTypesToRequest) == SQRemoteNotificationTypesToRequest;
     [SQAPI registerPushToken:deviceToken];
-    self.registeredForPushNotifications = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:SQPushSetupStatusChangedNotification object:nil];
 }
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     if ([userInfo[@"type"] isEqualToString:@"message"]) {
@@ -165,7 +177,6 @@ NSString* SQErrorDomain = @"SQErrorDomain";
 #pragma mark UI
 -(void)toast:(NSString*)toast {
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
-        // TODO: immediate local notification
         UILocalNotification* notif = [UILocalNotification new];
         notif.alertBody = toast;
         [[UIApplication sharedApplication] presentLocalNotificationNow:notif];

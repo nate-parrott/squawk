@@ -32,6 +32,7 @@ void JSLog(id jsonObj);
 NSString* SQErrorDomain;
 NSString* SQDidOpenMessageNotification;
 NSString* SQPromptAddFriend;
+NSString* SQPushSetupStatusChangedNotification;
 
 @interface SQAppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -39,6 +40,10 @@ NSString* SQPromptAddFriend;
 
 -(void)setupPushNotifications;
 @property BOOL registeredForPushNotifications;
+@property BOOL deniedPushNotificationAccess;
+
+@property BOOL hasRecordPermission;
+@property BOOL tryToRecord;
 
 -(void)toast:(NSString*)toast;
 
