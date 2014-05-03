@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "SQThread.h"
-#import "WSConcentricCirclesViewAdvancedHD2014.h"
 
 @class SQMainViewController;
 

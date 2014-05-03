@@ -23,6 +23,7 @@
     [super viewDidLoad];
     
     _textLabel.text = NSLocalizedString(@"Squawk is better with notifications. We won't spam you, ever.", @"");
+    [self.nextButton setTitle:NSLocalizedString(@"Enable notifications", @"") forState:UIControlStateNormal];
     [_noNotificationsButton setTitle:NSLocalizedString(@"No thanks, no notifications", @"") forState:UIControlStateNormal];
     
     [self rac_liftSelector:@selector(pushStatusChanged:) withSignals:[RACObserve(AppDelegate, pushNotificationsEnabled) skip:1], nil];

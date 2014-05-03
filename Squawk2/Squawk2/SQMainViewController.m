@@ -65,6 +65,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     self.view.tintColor = [SQTheme red];//[UIColor colorWithWhite:0.8 alpha:0.4];
 
     [_squawkBar layoutIfNeeded];
+    
+    _searchField.placeholder = NSLocalizedString(@"Search", @"Search bar placeholder");
     //_squawkBar.alpha = 0;
     
     //_squawkListPadding.hidden = YES;

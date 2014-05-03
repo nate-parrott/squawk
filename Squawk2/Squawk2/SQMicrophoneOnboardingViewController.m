@@ -16,6 +16,7 @@
 @interface SQMicrophoneOnboardingViewController () {
     SQAudioAction* _lastAction;
     AVSpeechSynthesizer* _synthesizer;
+    IBOutlet UILabel *_listenDescription, *_recordDescription, *_raiseToSquawkDescription;
 }
 
 @property(weak)IBOutlet SQGalleryView* gallery;
@@ -26,6 +27,10 @@
 
 -(void)viewDidLoad {
     [super viewDidLoad];
+    
+    _raiseToSquawkDescription.text = NSLocalizedString(@"Or, instead of pressing the button, just hold the phone to your ear.\n\nTry it.", @"");
+    _listenDescription.text = NSLocalizedString(@"When you've got a squawk, the button turns blue. Hold it down to play.", @"");
+    _recordDescription.text = NSLocalizedString(@"Send a squawk by holding down the red button.", @"");
     
     [self.nextButton setTitle:NSLocalizedString(@"Allow access to microphone", @"") forState:UIControlStateNormal];
     

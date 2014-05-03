@@ -5,136 +5,6 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Login View Controller-->
-        <scene sceneID="K85-nX-l8I">
-            <objects>
-                <viewController id="qnc-oy-8Es" customClass="SQLoginViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="JDt-M9-lc4"/>
-                        <viewControllerLayoutGuide type="bottom" id="XrZ-3f-aF5"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="hmg-jW-tc2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcome-bg" translatesAutoresizingMaskIntoConstraints="NO" id="RUb-Ar-XrQ">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="RUb-Ar-XrQ" secondAttribute="height" multiplier="40:71" id="fsU-IB-YcC"/>
-                                </constraints>
-                            </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SjH-PQ-gBT" userLabel="Verify bar">
-                                <rect key="frame" x="0.0" y="453" width="320" height="65"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NSp-fe-boc">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
-                                        <state key="normal" title="Verify my phone number">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="disabled">
-                                            <color key="titleColor" red="0.58128156565656564" green="0.58128156565656564" blue="0.58128156565656564" alpha="0.31" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="sendVerificationText:" destination="qnc-oy-8Es" eventType="touchUpInside" id="6Q2-Ru-hA7"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="1" green="0.18879235010000001" blue="0.34170407920000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="NSp-fe-boc" secondAttribute="trailing" id="7fc-Ee-9dj"/>
-                                    <constraint firstAttribute="height" constant="65" id="GKU-uC-iDF"/>
-                                    <constraint firstItem="NSp-fe-boc" firstAttribute="top" secondItem="SjH-PQ-gBT" secondAttribute="top" id="iGd-FX-8kY"/>
-                                    <constraint firstAttribute="bottom" secondItem="NSp-fe-boc" secondAttribute="bottom" id="jiZ-Jy-WPg"/>
-                                    <constraint firstItem="NSp-fe-boc" firstAttribute="leading" secondItem="SjH-PQ-gBT" secondAttribute="leading" id="zGa-TW-owi"/>
-                                </constraints>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5tj-4A-4aP">
-                                <rect key="frame" x="0.0" y="453" width="320" height="65"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.036862012" green="0.34846946600000001" blue="0.99407303329999996" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
-                                <state key="normal" title="Done">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="tryLogin:" destination="qnc-oy-8Es" eventType="touchUpInside" id="Kg4-kh-1sI"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text abc-def-123 to 123-456-7890" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="242" translatesAutoresizingMaskIntoConstraints="NO" id="TZg-x1-R3r">
-                                <rect key="frame" x="39" y="237" width="242" height="208"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="208" id="LjN-cU-Kaz"/>
-                                    <constraint firstAttribute="width" constant="242" id="UJO-ni-eoc"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="ZUO-Hg-8F2">
-                                <rect key="frame" x="20" y="171" width="280" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BJo-Na-R7h" userLabel="Shimmering loader" customClass="SQShimmerView">
-                                <rect key="frame" x="0.0" y="455" width="320" height="64"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="let's get started" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sLp-8t-m6B">
-                                <rect key="frame" x="97" y="135" width="127" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="XrZ-3f-aF5" firstAttribute="top" secondItem="SjH-PQ-gBT" secondAttribute="bottom" constant="50" id="0QP-as-wse"/>
-                            <constraint firstAttribute="centerX" secondItem="TZg-x1-R3r" secondAttribute="centerX" id="0xG-ya-N6M"/>
-                            <constraint firstItem="RUb-Ar-XrQ" firstAttribute="leading" secondItem="hmg-jW-tc2" secondAttribute="leading" id="Dsk-M7-ZXg"/>
-                            <constraint firstItem="SjH-PQ-gBT" firstAttribute="centerX" secondItem="BJo-Na-R7h" secondAttribute="centerX" id="Htu-wJ-v4Q"/>
-                            <constraint firstAttribute="trailing" secondItem="SjH-PQ-gBT" secondAttribute="trailing" id="Ija-Um-UzK"/>
-                            <constraint firstItem="SjH-PQ-gBT" firstAttribute="height" secondItem="BJo-Na-R7h" secondAttribute="height" id="LUT-Ur-VJ2"/>
-                            <constraint firstAttribute="centerX" secondItem="sLp-8t-m6B" secondAttribute="centerX" id="NyO-f7-OVw"/>
-                            <constraint firstItem="ZUO-Hg-8F2" firstAttribute="leading" secondItem="hmg-jW-tc2" secondAttribute="leading" constant="20" id="SBg-PQ-t2F"/>
-                            <constraint firstAttribute="trailing" secondItem="ZUO-Hg-8F2" secondAttribute="trailing" constant="20" id="SPv-hD-gAZ"/>
-                            <constraint firstItem="5tj-4A-4aP" firstAttribute="centerY" secondItem="SjH-PQ-gBT" secondAttribute="centerY" id="U9h-dM-iZv"/>
-                            <constraint firstItem="RUb-Ar-XrQ" firstAttribute="top" secondItem="hmg-jW-tc2" secondAttribute="top" id="UJx-IB-QV8"/>
-                            <constraint firstItem="SjH-PQ-gBT" firstAttribute="width" secondItem="BJo-Na-R7h" secondAttribute="width" id="Vms-mb-3yS"/>
-                            <constraint firstItem="SjH-PQ-gBT" firstAttribute="centerY" secondItem="BJo-Na-R7h" secondAttribute="centerY" constant="-1.5" id="gSJ-Wk-Nmv"/>
-                            <constraint firstItem="5tj-4A-4aP" firstAttribute="height" secondItem="SjH-PQ-gBT" secondAttribute="height" id="hJY-w8-nWZ"/>
-                            <constraint firstItem="SjH-PQ-gBT" firstAttribute="leading" secondItem="hmg-jW-tc2" secondAttribute="leading" id="iSU-P9-fey"/>
-                            <constraint firstItem="ZUO-Hg-8F2" firstAttribute="top" secondItem="sLp-8t-m6B" secondAttribute="bottom" constant="11" id="nl4-UK-Sr3"/>
-                            <constraint firstAttribute="trailing" secondItem="RUb-Ar-XrQ" secondAttribute="trailing" id="u4w-gf-Ce5"/>
-                            <constraint firstItem="5tj-4A-4aP" firstAttribute="top" secondItem="TZg-x1-R3r" secondAttribute="bottom" constant="8" id="vQU-zM-Z1k"/>
-                            <constraint firstItem="5tj-4A-4aP" firstAttribute="centerX" secondItem="SjH-PQ-gBT" secondAttribute="centerX" id="wuq-Ly-hPL"/>
-                            <constraint firstItem="5tj-4A-4aP" firstAttribute="width" secondItem="SjH-PQ-gBT" secondAttribute="width" id="yKE-Se-oPg"/>
-                            <constraint firstItem="sLp-8t-m6B" firstAttribute="top" secondItem="JDt-M9-lc4" secondAttribute="bottom" constant="115" id="yOY-Ot-OhL"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="_doneSendingVerificationButton" destination="5tj-4A-4aP" id="uZG-9C-mVo"/>
-                        <outlet property="_errorLabel" destination="ZUO-Hg-8F2" id="B2h-7I-xvb"/>
-                        <outlet property="_letsGetStarted" destination="sLp-8t-m6B" id="FvN-Dk-RTB"/>
-                        <outlet property="_loadingIndicator" destination="BJo-Na-R7h" id="foF-yX-qoo"/>
-                        <outlet property="_sendVerificationButton" destination="NSp-fe-boc" id="TpD-gN-2JZ"/>
-                        <outlet property="_textLabel" destination="TZg-x1-R3r" id="YS1-3b-dKe"/>
-                        <outlet property="_verifyBar" destination="SjH-PQ-gBT" id="2M5-fD-zLt"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="taI-C6-jAb" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-237" y="-721"/>
-        </scene>
         <!--Message View Controller-->
         <scene sceneID="BdR-5X-eBn">
             <objects>
@@ -473,7 +343,6 @@
                         <outlet property="pullToRefreshProgress" destination="RrW-g5-cWC" id="UO1-AO-NFG"/>
                         <outlet property="squawkBar" destination="zjv-Um-DGF" id="wxz-g4-Kx1"/>
                         <outlet property="tableView" destination="Ivh-un-syE" id="org-jp-B2Y"/>
-                        <segue destination="qnc-oy-8Es" kind="modal" identifier="Login" id="A1v-fe-BLF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W81-ya-jP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -508,6 +377,7 @@
                                     <color key="titleColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="close:" destination="B4P-uD-ezF" eventType="touchUpInside" id="pJ9-cj-g20"/>
                                     <action selector="done:" destination="hFr-qs-mXR" eventType="touchUpInside" id="uxj-tA-eeJ"/>
                                 </connections>
                             </button>
@@ -544,6 +414,10 @@ Go to Settings → Notification Center → Squawk, and turn on all the notificat
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="280" height="400"/>
+                    <connections>
+                        <outlet property="_text" destination="7AF-ou-fZU" id="J30-gF-zEj"/>
+                        <outlet property="_title" destination="4Ka-g8-i3r" id="9Re-yi-MV3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EvJ-DK-LDA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

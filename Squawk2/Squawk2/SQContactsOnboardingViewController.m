@@ -10,7 +10,9 @@
 #import "SQOnboardingViewController.h"
 #import "NPAddressBook.h"
 
-@interface SQContactsOnboardingViewController ()
+@interface SQContactsOnboardingViewController () {
+    IBOutlet UILabel* _text;
+}
 
 @end
 
@@ -19,6 +21,7 @@
 -(void)viewDidLoad {
     [super viewDidLoad];
     [self.nextButton setTitle:NSLocalizedString(@"Allow access to contacts", @"") forState:UIControlStateNormal];
+    _text.text = NSLocalizedString(@"Squawk uses your contacts, so you don't need to manage a separate friends list.", @"");
 }
 -(IBAction)done:(id)sender {
     [NPAddressBook getAuthorizedAddressBookWithCallback:^(NPAddressBook *book) {

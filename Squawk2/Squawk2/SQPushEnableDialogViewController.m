@@ -9,7 +9,10 @@
 #import "SQPushEnableDialogViewController.h"
 #import "UIViewController+SoftModal.h"
 
-@interface SQPushEnableDialogViewController ()
+@interface SQPushEnableDialogViewController () {
+    IBOutlet UILabel* _title;
+    IBOutlet UILabel* _text;
+}
 
 @end
 
@@ -22,6 +25,8 @@
     [AppDelegate setupPushNotifications];
     
     [_closeButton setTitle:NSLocalizedString(@"Close", @"") forState:UIControlStateNormal];
+    _title.text = NSLocalizedString(@"Turn on notifications", @"");
+    _text.text = NSLocalizedString(@"Squawk is better with notifications.\n\nIf you've said 'no' to notifications for Squawk before, you may need to turn them on in the Settings app.\n\nGo to Settings → Notification Center → Squawk, and turn on all the notification types you'd like.", @"");
     
     RACSignal* gotAccess = [RACObserve(AppDelegate, pushNotificationsEnabled) filter:^BOOL(id value) {
         return [value boolValue];
