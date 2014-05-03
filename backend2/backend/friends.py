@@ -6,6 +6,7 @@ import json
 import push
 import squawk
 import robot
+import localized
 
 @app.route('/notify_friends')
 def notify():
@@ -20,7 +21,8 @@ def notify():
 		for listing in matching_listings:
 			recipient = listing['phone']
 			name = squawk.name_for_user(me, recipient)
-			alert = "Your contact %s just joined Squawk. Why not say hi?"%(name)
+			user_receiving_notif = db.users.find_one({"phone": recipient})
+			alert = localized.localized_message(localized.contact_joined_squawk, user_receiving_notif)%(name)
 			for token_info in db.push_tokens.find({"phone": recipient}):
 				#	def __init__(self, phone, type, token, alert=None, sound=None, data=None):
 				pushes.append(push.Push(recipient, token_info['type'], token_info['token'], alert=alert, data={"type": "friend_joined", "phone": me}))
