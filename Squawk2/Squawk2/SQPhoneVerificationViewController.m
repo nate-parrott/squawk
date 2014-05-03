@@ -24,6 +24,8 @@ typedef enum {
 @interface SQPhoneVerificationViewController () {
     int _numLoginTries;
     MFMessageComposeViewController* _messageComposer;
+    
+    NSMutableArray* _circularViews;
 }
 
 @property(strong)NSString* secret;
@@ -49,6 +51,7 @@ typedef enum {
         if (self.loginState == SQLoginAskingUserToSendVerification) {
             self.nextButton.backgroundColor = [SQTheme red];
             [self.nextButton setTitle:NSLocalizedString(@"Done", @"") forState:UIControlStateNormal];
+            self.nextButton.enabled = YES;
         } else {
             self.nextButton.backgroundColor = [SQTheme red];
             [self.nextButton setTitle:NSLocalizedString(@"Verify my phone number", @"") forState:UIControlStateNormal];
@@ -58,21 +61,10 @@ typedef enum {
     RAC(self.instructionsLabel, text) = [[RACSignal combineLatest:@[RACObserve(self, loginState), RACObserve(self, secret)]] map:^id(id value) {
         if (self.loginState == SQLoginNotStarted) {
             return NSLocalizedString(@"Squawk is the quickest way to send a voice message. To sign up, all you need is a phone number.", @"");
-        } else {
+        } else if (self.loginState == SQLoginAskingUserToSendVerification) {
             return [NSString stringWithFormat:NSLocalizedString(@"Text '%@' to '%@' from your phone.", @"Text [code] to [phone number] from your phone."), self.secret, VERIFICATION_NUMBER];
-        }
-    }];
-    [RACObserve(self, loginState) subscribeNext:^(id x) {
-        if (self.loginState == SQLoginAskingUserToSendVerification) {
-            if (CAN_SEND_TEXT) {
-                self.instructionsLabel.hidden = YES;
-                // delay the visibility a little:
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    self.instructionsLabel.hidden = NO;
-                });
-            } else {
-                self.instructionsLabel.hidden = NO;
-            }
+        } else {
+            return @"";
         }
     }];
     RAC(self.errorLabel, text) = RACObserve(self, errorMessage);
@@ -97,7 +89,7 @@ typedef enum {
         _messageComposer = [[MFMessageComposeViewController alloc] init];
         _messageComposer.messageComposeDelegate = self;
         _messageComposer.recipients = @[VERIFICATION_NUMBER];
-        _messageComposer.body = [NSString stringWithFormat:NSLocalizedString(@"Just hit send [we need to verify your phone number]\n %@", @""), self.secret];
+        _messageComposer.body = [NSString stringWithFormat:NSLocalizedString(@"Just hit send \n[we need to verify your phone number]\n %@", @""), self.secret];
         [self presentViewController:_messageComposer animated:YES completion:nil];
         self.loginState = SQLoginSendingVerificationText;
     } else {
@@ -154,6 +146,61 @@ typedef enum {
 -(void)encounteredError:(NSString*)message {
     self.errorMessage = message;
     self.loginState = SQLoginNotStarted;
+}
+#pragma mark Transitioning
+
+-(void)animateInWithDuration:(NSTimeInterval)duration {
+    if (!_circularViews) {
+        _circularViews = [NSMutableArray new];
+        NSArray* colors = @[[UIColor colorWithRed:0.973 green:0.835 blue:0.435 alpha:1.000],
+                            [UIColor colorWithRed:0.965 green:0.690 blue:0.357 alpha:1.000],
+                            [UIColor colorWithRed:0.965 green:0.557 blue:0.329 alpha:1.000]];
+        self.backgroundColor = colors.firstObject;
+        int i = 0;
+        for (UIColor* color in colors) {
+            UIView* colorView = [UIView new];
+            colorView.backgroundColor = color;
+            colorView.bounds = CGRectMake(0, 0, 2, 2);
+            colorView.layer.cornerRadius = 1;
+            colorView.center = self.parrot.center;
+            CGFloat radius = sqrtf(powf(colorView.center.x-self.view.bounds.size.width, 2) + powf(colorView.center.y-self.view.bounds.size.height, 2));
+            if (i == 1) {
+                radius = radius*0.4;
+            } else if (i == 2) {
+                radius = radius*0.28;
+            }
+            
+            [self.view insertSubview:colorView atIndex:i];
+            [UIView animateWithDuration:duration/2 delay:0*duration/2*i/(float)colors.count*0.7 options:0 animations:^{
+                colorView.transform = CGAffineTransformMakeScale(radius, radius);
+            } completion:^(BOOL finished) {
+                
+            }];
+            i++;
+            
+            [_circularViews addObject:colorView];
+        }
+    }
+    self.parrot.transform = CGAffineTransformMakeTranslation(0, -self.parrot.frame.size.height);
+    [UIView animateWithDuration:duration*0.7 delay:duration*0.3 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:0 animations:^{
+        self.parrot.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        
+    }];
+    self.nameLabel.alpha = 0;
+    [UIView animateWithDuration:duration*0.6 delay:duration*0.6 options:0 animations:^{
+        self.nameLabel.alpha = 1;
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+-(void)animateOutWithDuration:(NSTimeInterval)duration {
+    [UIView animateWithDuration:duration animations:^{
+        for (int i=1; i<_circularViews.count; i++) {
+            UIView* v = _circularViews[i];
+            v.transform = CGAffineTransformMakeScale(100, 100);
+        }
+    }];
 }
 
 @end

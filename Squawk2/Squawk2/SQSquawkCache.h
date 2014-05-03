@@ -23,4 +23,6 @@
 
 @property BOOL fetchInProgress;
 
+-(void)pollIfNeeded;
+
 @end

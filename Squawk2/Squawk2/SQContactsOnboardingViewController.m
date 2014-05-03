@@ -16,6 +16,10 @@
 
 @implementation SQContactsOnboardingViewController
 
+-(void)viewDidLoad {
+    [super viewDidLoad];
+    [self.nextButton setTitle:NSLocalizedString(@"Allow access to contacts", @"") forState:UIControlStateNormal];
+}
 -(IBAction)done:(id)sender {
     [NPAddressBook getAuthorizedAddressBookWithCallback:^(NPAddressBook *book) {
         dispatch_async(dispatch_get_main_queue(), ^{

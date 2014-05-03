@@ -25,9 +25,13 @@ typedef void (^SQAPICallback)(NSDictionary* result, NSError* error);
 +(void)call:(NSString*)endpoint args:(NSDictionary*)args callback:(SQAPICallback)callback;
 +(void)getData:(NSString*)endpoint args:(NSDictionary*)args callback:(void(^)(NSData* data, NSError* error))callback;
 +(void)post:(NSString*)endpoint args:(NSDictionary*)args data:(NSData*)postData callback:(SQAPICallback)callback;
++(void)post:(NSString*)endpoint args:(NSDictionary*)args data:(NSData*)postData contentType:(NSString*)mime callback:(SQAPICallback)callback;
 +(void)postInBackground:(NSString*)endpoint args:(NSDictionary*)args file:(NSURL*)file callback:(SQBackgroundTaskCallback)callback;
 +(NSURL*)urlForEndpoint:(NSString*)endpoint args:(NSDictionary*)args;
 
 +(void)registerPushToken:(NSData*)pushToken;
+
++(NSDictionary*)userPrefs;
++(void)updateUserPrefs:(NSDictionary*)pref;
 
 @end

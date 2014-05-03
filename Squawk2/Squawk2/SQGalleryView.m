@@ -32,6 +32,7 @@
     self.pageControl = [UIPageControl new];
     [self addSubview:self.pageControl];
     self.pageControl.numberOfPages = self.views.count;
+    self.pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:1 alpha:0.7];
     self.scrollView.pagingEnabled = YES;
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.clipsToBounds = NO;
@@ -39,7 +40,7 @@
 }
 -(void)layoutSubviews {
     [super layoutSubviews];
-    self.scrollView.frame = CGRectInset(self.bounds, 20, 0);
+    self.scrollView.frame = CGRectInset(self.bounds, 30, 0);
     self.pageControl.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height-30);
     CGFloat x = 0;
     for (UIView* v in self.views) {

@@ -26,20 +26,26 @@
 
 -(void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.nextButton setTitle:NSLocalizedString(@"Allow access to microphone", @"") forState:UIControlStateNormal];
+    
     if ([WSEarSensor shared].isAvailable) {
-        [[RACObserve([WSEarSensor shared], isRaisedToEar) deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
-            if ([x boolValue]) {
-                [self doRaiseToSquawkDemo];
-            } else {
-                [self cancelRaiseToSquawkDemo];
-            }
-        }];
+        RACSignal* raiseToEar = [[RACObserve([WSEarSensor shared], isRaisedToEar) filter:^BOOL(id value) {
+            return [value boolValue];
+        }] deliverOn:[RACScheduler mainThreadScheduler]];
+        [self rac_liftSelector:@selector(doRaiseToSquawkDemo:) withSignals:raiseToEar, nil];
+        
+        RACSignal* loweredFromEar = [[RACObserve([WSEarSensor shared], isRaisedToEar) filter:^BOOL(id value) {
+            return ![value boolValue];
+        }] deliverOn:[RACScheduler mainThreadScheduler]];
+        [self rac_liftSelector:@selector(cancelRaiseToSquawkDemo:) withSignals:loweredFromEar, nil];
+        
     } else {
         [self.gallery removeViewAtIndex:2];
     }
 }
 
--(void)doRaiseToSquawkDemo {
+-(void)doRaiseToSquawkDemo:(id)_ {
     if (!_lastAction && !_synthesizer) {
         AppDelegate.tryToRecord = YES;
         
@@ -53,7 +59,7 @@
         [_synthesizer speakUtterance:utterance];
     }
 }
--(void)cancelRaiseToSquawkDemo {
+-(void)cancelRaiseToSquawkDemo:(id)_ {
     if (_lastAction) {
         [_lastAction stop];
         _lastAction = nil;

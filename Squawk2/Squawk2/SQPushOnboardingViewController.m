@@ -9,7 +9,11 @@
 #import "SQPushOnboardingViewController.h"
 #import "SQOnboardingViewController.h"
 
-@interface SQPushOnboardingViewController () <UIAlertViewDelegate>
+@interface SQPushOnboardingViewController () <UIAlertViewDelegate> {
+    IBOutlet UILabel *_textLabel;
+    IBOutlet UIButton* _noNotificationsButton;
+    IBOutlet UIImageView* _phoneImage;
+}
 
 @end
 
@@ -17,13 +21,14 @@
 
 -(void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushStatusChanged) name:SQPushSetupStatusChangedNotification object:nil];
+    
+    _textLabel.text = NSLocalizedString(@"Squawk is better with notifications. We won't spam you, ever.", @"");
+    [_noNotificationsButton setTitle:NSLocalizedString(@"No thanks, no notifications", @"") forState:UIControlStateNormal];
+    
+    [self rac_liftSelector:@selector(pushStatusChanged:) withSignals:[RACObserve(AppDelegate, pushNotificationsEnabled) skip:1], nil];
 }
--(void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
--(void)pushStatusChanged {
-    if ([AppDelegate registeredForPushNotifications]) {
+-(void)pushStatusChanged:(id)_ {
+    if ([AppDelegate pushNotificationsEnabled]) {
         [self.owner nextPage];
     } else {
         [self showDenialMessage];
@@ -34,12 +39,13 @@
     [self.owner nextPage];
     return;
 #endif
-    if ([AppDelegate registeredForPushNotifications]) {
+    if ([AppDelegate pushNotificationsEnabled]) {
         [self.owner nextPage];
-    } else if (AppDelegate.deniedPushNotificationAccess) {
-        [self showDenialMessage];
     } else {
         [AppDelegate setupPushNotifications];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self showDenialMessage];
+        });
     }
 }
 -(void)showDenialMessage {
@@ -56,6 +62,17 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SQRefusedPushNotifications"];
         [self.owner nextPage];
     }
+}
+-(void)animateOutWithDuration:(NSTimeInterval)duration {
+    [UIView animateWithDuration:duration animations:^{
+        _textLabel.alpha = 0;
+        _noNotificationsButton.alpha = 0;
+        
+        CGFloat topYOfPhoneImage = [self.view convertPoint:CGPointZero fromView:_phoneImage].y;
+        _phoneImage.transform = CGAffineTransformMakeTranslation(0, self.view.bounds.size.height-topYOfPhoneImage+50);
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 @end

@@ -22,8 +22,11 @@
 #import <Helpshift/Helpshift.h>
 #import "SQBackgroundTaskManager.h"
 #import "UIViewController+SoftModal.h"
+#import "SQOnboardingViewController.h"
 
 //#define TOP_BAR_SCROLLS
+
+#define PULL_TO_REFRESH_THRESHOLD 125
 
 const CGPoint SQDefaultContentOffset = {0, 0};
 
@@ -42,6 +45,10 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     IBOutlet UIView* _squawkListPadding;
     
     IBOutlet UIView* _squawkBarContainer;
+    
+    BOOL _didRefreshDuringPull;
+    
+    UIButton* _pushNotificationAdvert;
 }
 
 @property(nonatomic)BOOL searchMode;
@@ -54,19 +61,26 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 
 -(void)viewDidLoad {
     [super viewDidLoad];
-        
+    
     self.view.tintColor = [SQTheme red];//[UIColor colorWithWhite:0.8 alpha:0.4];
 
     [_squawkBar layoutIfNeeded];
     //_squawkBar.alpha = 0;
     
-    _squawkListPadding.hidden = YES;
+    //_squawkListPadding.hidden = YES;
     
     _squawksReloadAutomatically.text = NSLocalizedString(@"Relax, Squawks reload automically.", @"").lowercaseString;
     
     self.inviteFriendsPromptVisible = NO;
     
     self.audioActionQueue = [NSMutableArray new];
+    
+    _pushNotificationAdvert = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_pushNotificationAdvert setTitle:NSLocalizedString(@"Tap to enable push notifications", @"") forState:UIControlStateNormal];
+    [_pushNotificationAdvert setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [_pushNotificationAdvert.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:13]];
+    RAC(_pushNotificationAdvert, hidden) = RACObserve(AppDelegate, pushNotificationsEnabled);
+    [_pushNotificationAdvert addTarget:self action:@selector(enablePush:) forControlEvents:UIControlEventTouchUpInside];
     
     RAC(_titleLabel, text) = [RACObserve(AppDelegate, globalProperties) map:^id(NSDictionary* props) {
         return props[@"title"]? : NSLocalizedString(@"this is Squawk", @"Default main screen title");
@@ -90,6 +104,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     [self setupStatusDisplay];
     
     self.searchMode = NO;
+    
+    self.pullToRefreshProgress.label.text = NSLocalizedString(@"Pull to refresh", @"").lowercaseString;
     
     RAC(self, searchQuery) = [[RACSignal combineLatest:@[RACObserve(self, searchMode), _searchField.rac_textSignal] reduce:^id(NSNumber* inSearchMode, NSString* searchQuery){
         return inSearchMode.boolValue? searchQuery : nil;
@@ -138,6 +154,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
         [[[SQAPI loginStatus] deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
             if ([x boolValue]==NO && self.presentedViewController==nil) {
                 UIViewController* onboarding = [[UIStoryboard storyboardWithName:@"Onboarding" bundle:nil] instantiateInitialViewController];
+                onboarding.transitioningDelegate = self;
                 [self presentViewController:onboarding animated:YES completion:nil];
             }
         }];
@@ -242,20 +259,20 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     }];
 }
 -(void)setupErrorMessaging {
-    RACSignal* pushStatus = RACObserve(AppDelegate, registeredForPushNotifications);
+    //RACSignal* pushStatus = RACObserve(AppDelegate, registeredForPushNotifications);
     RACSignal* microphoneAuth = RACObserve(AppDelegate, hasRecordPermission);
     RACSignal* fetchError = RACObserve([SQSquawkCache shared], error);
     RACSignal* contactsStatus = RACObserve(self, contactsAuthorization);
     RACSignal* volume = RACObserve(((AVAudioSession*)[AVAudioSession sharedInstance]), outputVolume);
     RACSignal* lateEnough = RACObserve(self, lateEnoughToShowError);
-    RAC(_errorLabel, text) = [[[RACSignal combineLatest:@[pushStatus, microphoneAuth, fetchError, contactsStatus, volume, lateEnough]] map:^id(id value) {
+    RAC(_errorLabel, text) = [[[RACSignal combineLatest:@[microphoneAuth, fetchError, contactsStatus, volume, lateEnough]] map:^id(id value) {
         if (!self.lateEnoughToShowError) return @"";
         NSMutableArray* messages = [NSMutableArray new];
-#ifndef TARGET_IPHONE_SIMULATOR
+/*#ifndef TARGET_IPHONE_SIMULATOR
         if (![AppDelegate registeredForPushNotifications]) {
             [messages addObject:NSLocalizedString(@"Push notifications are off. To receive Squawks, turn them on in Settings, under Notifications.", @"")];
         }
-#endif
+#endif*/
         if ([SQSquawkCache shared].error) {
             [messages addObject:NSLocalizedString(@"Couldn't connect to the Internet.", @"")];
         }
@@ -331,17 +348,32 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [_searchField resignFirstResponder];
     
+    _didRefreshDuringPull = NO;
+    
     for (UITableViewCell* cell in self.tableView.visibleCells) {
         if ([cell isKindOfClass:[SQThreadCell class]]) {
             [(SQThreadCell*)cell scrolled];
         }
     }
 }
-#ifdef TOP_BAR_SCROLLS
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (!_didRefreshDuringPull) {
+        CGFloat pullProgress = -scrollView.contentOffset.y / PULL_TO_REFRESH_THRESHOLD;
+        pullProgress = MIN(1, MAX(0, pullProgress));
+        if (pullProgress != _pullToRefreshProgress.fill.width) {
+            _pullToRefreshProgress.fill = CGSizeMake(pullProgress, 1);
+            if (pullProgress == 1) {
+                _didRefreshDuringPull = YES;
+                [_pullToRefreshProgress flashAndUnfill];
+                [[SQSquawkCache shared] fetch];
+            }
+        }
+    }
+    
+#ifdef TOP_BAR_SCROLLS
     _headerTopOffset.constant = MIN(0, -scrollView.contentOffset.y);
-}
 #endif
+}
 -(NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     return NSLocalizedString(@"delete squawks", @"");
 }
@@ -364,6 +396,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section==1) return 30;
     if (section==0 || section >= self.threadSections.count || [self.threadSections[section] count]==0) {
         return 0;
     }
@@ -384,6 +417,12 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     [v addSubview:bottom];
     bottom.frame = CGRectMake(0, 9, 10, 1);
     bottom.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
+    
+    if (section==1) {
+        [v addSubview:_pushNotificationAdvert];
+        _pushNotificationAdvert.frame = CGRectMake(0, 0, v.frame.size.width, v.frame.size.height);
+        _pushNotificationAdvert.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    }
     
     return v;
 }
@@ -690,6 +729,26 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 -(void)audioActionDidRecordSquawk:(SQAudioRecordingAction *)action {
     SQStatusViewCard* status = [[SQStatusViewCard alloc] initWithText:NSLocalizedString(@"Sent.", @"") image:[UIImage imageNamed:@"ok-thin"]];
     [_statusView flashStatusView:status duration:self.interactionMode==SQRaisedToEar? 2.5 : 1];
+    
+    [[SQSquawkCache shared] performSelector:@selector(pollIfNeeded) withObject:nil afterDelay:1.0];
+}
+#pragma mark Misc.
+-(void)enablePush:(id)sender {
+    UIViewController* vc = [self.storyboard instantiateViewControllerWithIdentifier:@"PushEnableDialog"];
+    [vc presentSoftModalInViewController:self];
+}
+#pragma mark Transition animations
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    if ([presented isKindOfClass:[SQOnboardingViewController class]]) {
+        return (id)presented;
+    }
+    return nil;
+}
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    if ([dismissed isKindOfClass:[SQOnboardingViewController class]]) {
+        return (id)dismissed;
+    }
+    return nil;
 }
 
 @end

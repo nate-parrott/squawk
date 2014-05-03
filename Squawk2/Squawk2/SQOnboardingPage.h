@@ -18,4 +18,9 @@
 
 -(void)showMessage:(NSString*)message title:(NSString*)title;
 
+-(void)animateInWithDuration:(NSTimeInterval)duration;
+-(void)animateOutWithDuration:(NSTimeInterval)duration;
+
+@property(strong)UIColor* backgroundColor;
+
 @end

@@ -80,6 +80,9 @@
 		5FB8DD731912BEC600DA07FF /* SQGalleryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8DD721912BEC600DA07FF /* SQGalleryView.m */; };
 		5FB8DD751912C77B00DA07FF /* circled-phone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB8DD741912C77B00DA07FF /* circled-phone@2x.png */; };
 		5FB8DD771912EE0800DA07FF /* notification_on_lock_screen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB8DD761912EE0800DA07FF /* notification_on_lock_screen@2x.png */; };
+		5FB8DD7A19131C3B00DA07FF /* SQProgressLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8DD7919131C3B00DA07FF /* SQProgressLabel.m */; };
+		5FB8DD7D1913246C00DA07FF /* SQPushEnableDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8DD7C1913246C00DA07FF /* SQPushEnableDialogViewController.m */; };
+		5FB8DD81191353C600DA07FF /* squawk-bird.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB8DD80191353C600DA07FF /* squawk-bird.png */; };
 		5FBEAB2018D6AC6A00356DA5 /* SQDopplerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBEAB1F18D6AC6A00356DA5 /* SQDopplerView.m */; };
 		5FBEAB2618D77AF800356DA5 /* WSConcentricCirclesViewAdvancedHD2014.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBEAB2518D77AF800356DA5 /* WSConcentricCirclesViewAdvancedHD2014.m */; };
 		5FBF523D190F5FAA00931180 /* SQNewThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBF523C190F5FAA00931180 /* SQNewThreadViewController.m */; };
@@ -229,6 +232,11 @@
 		5FB8DD721912BEC600DA07FF /* SQGalleryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQGalleryView.m; sourceTree = "<group>"; };
 		5FB8DD741912C77B00DA07FF /* circled-phone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circled-phone@2x.png"; sourceTree = "<group>"; };
 		5FB8DD761912EE0800DA07FF /* notification_on_lock_screen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification_on_lock_screen@2x.png"; sourceTree = "<group>"; };
+		5FB8DD7819131C3B00DA07FF /* SQProgressLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQProgressLabel.h; sourceTree = "<group>"; };
+		5FB8DD7919131C3B00DA07FF /* SQProgressLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQProgressLabel.m; sourceTree = "<group>"; };
+		5FB8DD7B1913246C00DA07FF /* SQPushEnableDialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQPushEnableDialogViewController.h; sourceTree = "<group>"; };
+		5FB8DD7C1913246C00DA07FF /* SQPushEnableDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQPushEnableDialogViewController.m; sourceTree = "<group>"; };
+		5FB8DD80191353C600DA07FF /* squawk-bird.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "squawk-bird.png"; sourceTree = "<group>"; };
 		5FBEAB1E18D6AC6A00356DA5 /* SQDopplerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQDopplerView.h; sourceTree = "<group>"; };
 		5FBEAB1F18D6AC6A00356DA5 /* SQDopplerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQDopplerView.m; sourceTree = "<group>"; };
 		5FBEAB2418D77AF800356DA5 /* WSConcentricCirclesViewAdvancedHD2014.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSConcentricCirclesViewAdvancedHD2014.h; sourceTree = "<group>"; };
@@ -236,7 +244,6 @@
 		5FBF523B190F5FAA00931180 /* SQNewThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQNewThreadViewController.h; sourceTree = "<group>"; };
 		5FBF523C190F5FAA00931180 /* SQNewThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQNewThreadViewController.m; sourceTree = "<group>"; };
 		5FC27DC618F240C10080EE09 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		5FC27DC818F241040080EE09 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5FC27DC918F24CA00080EE09 /* blip1-loud.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "blip1-loud.wav"; sourceTree = "<group>"; };
 		5FC27DCC18F24DFF0080EE09 /* squawk.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = squawk.caf; sourceTree = "<group>"; };
 		5FCCCB8E18EA042C00EAEBEA /* UIViewController+SoftModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+SoftModal.h"; sourceTree = "<group>"; };
@@ -396,6 +403,8 @@
 			children = (
 				5F90B42B18C3EBD0004C4FD2 /* SQMainViewController.h */,
 				5F90B42C18C3EBD0004C4FD2 /* SQMainViewController.m */,
+				5FB8DD7B1913246C00DA07FF /* SQPushEnableDialogViewController.h */,
+				5FB8DD7C1913246C00DA07FF /* SQPushEnableDialogViewController.m */,
 				5F2BE5C9190870F900D8B55A /* SQSquawkBar.h */,
 				5F2BE5CA190870F900D8B55A /* SQSquawkBar.m */,
 				5F2BE5CC190885DA00D8B55A /* SQSquawkBarSegment.h */,
@@ -406,6 +415,8 @@
 				5F90B43F18C43E56004C4FD2 /* SQThreadCell.m */,
 				5FD47C3118ED2C31003B53BA /* SQLongPressGestureRecognizer.h */,
 				5FD47C3218ED2C31003B53BA /* SQLongPressGestureRecognizer.m */,
+				5FB8DD7819131C3B00DA07FF /* SQProgressLabel.h */,
+				5FB8DD7919131C3B00DA07FF /* SQProgressLabel.m */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -545,6 +556,7 @@
 				5FB8DD6119118FCC00DA07FF /* SQOnboardingPage.m */,
 				5FB8DD5319118F4200DA07FF /* SQPhoneVerificationViewController.h */,
 				5FB8DD5419118F4200DA07FF /* SQPhoneVerificationViewController.m */,
+				5FB8DD80191353C600DA07FF /* squawk-bird.png */,
 				5FB8DD5719118F6E00DA07FF /* SQContactsOnboardingViewController.h */,
 				5FB8DD5819118F6E00DA07FF /* SQContactsOnboardingViewController.m */,
 				5FB8DD631911FA8800DA07FF /* contacts@2x.png */,
@@ -651,6 +663,7 @@
 				5F8985CA18C3EA9B0085B085 /* Images.xcassets in Resources */,
 				5FC27DC718F240C10080EE09 /* Localizable.strings in Resources */,
 				5FB8DD4C191174B100DA07FF /* Onboarding.storyboard in Resources */,
+				5FB8DD81191353C600DA07FF /* squawk-bird.png in Resources */,
 				5F93BFC418CAEFDF004AF7BC /* Settings.bundle in Resources */,
 				5F93BFE218CD4B7E004AF7BC /* melodic1_affirm.wav in Resources */,
 				5FB8DD771912EE0800DA07FF /* notification_on_lock_screen@2x.png in Resources */,
@@ -744,6 +757,7 @@
 				5F90B43D18C41EF1004C4FD2 /* SQThread.m in Sources */,
 				5FB8DD5519118F4200DA07FF /* SQPhoneVerificationViewController.m in Sources */,
 				5F93BFFA18CE9F2B004AF7BC /* SQAudioRecordingAction.m in Sources */,
+				5FB8DD7A19131C3B00DA07FF /* SQProgressLabel.m in Sources */,
 				5F90B42118C3EB49004C4FD2 /* NPContact.m in Sources */,
 				5FB8DD5F19118F8C00DA07FF /* SQPushOnboardingViewController.m in Sources */,
 				5F2C4AB018C6FFAE00E59DFA /* SQTheme.m in Sources */,
@@ -756,6 +770,7 @@
 				5FB8DD5C19118F8100DA07FF /* SQMicrophoneOnboardingViewController.m in Sources */,
 				5FF8BD5A18D8066B00AF5BF7 /* UIFont+OverrideSystemFont.m in Sources */,
 				5F2C4A9918C5837900E59DFA /* WSEarSensor.m in Sources */,
+				5FB8DD7D1913246C00DA07FF /* SQPushEnableDialogViewController.m in Sources */,
 				5F2C4AAB18C6A2A500E59DFA /* SQThreadMakerViewController.m in Sources */,
 				5FBEAB2018D6AC6A00356DA5 /* SQDopplerView.m in Sources */,
 				5F93BFFD18CEA045004AF7BC /* SQBlockAction.m in Sources */,
@@ -826,7 +841,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				5FC27DC618F240C10080EE09 /* en */,
-				5FC27DC818F241040080EE09 /* es */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

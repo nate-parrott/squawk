@@ -84,6 +84,9 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="480"/>
                     <connections>
+                        <outlet property="_noNotificationsButton" destination="9Df-Dz-tl8" id="NMf-HB-9Ay"/>
+                        <outlet property="_phoneImage" destination="9mF-xh-Nbe" id="Htu-02-c8r"/>
+                        <outlet property="_textLabel" destination="RHS-u7-TJ4" id="A9R-kh-dc5"/>
                         <outlet property="nextButton" destination="tX4-0N-Tom" id="wMt-N2-I94"/>
                     </connections>
                 </viewController>
@@ -99,7 +102,7 @@
                         <viewControllerLayoutGuide type="top" id="FGk-2G-D8G"/>
                         <viewControllerLayoutGuide type="bottom" id="mIl-wQ-xWF"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="KVO-vJ-TpA">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="KVO-vJ-TpA">
                         <rect key="frame" x="0.0" y="0.0" width="700" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -365,17 +368,10 @@ Try it.</string>
                         <viewControllerLayoutGuide type="top" id="nKE-5w-K3U"/>
                         <viewControllerLayoutGuide type="bottom" id="QZi-gr-nRn"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="WMC-1O-LU1">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="WMC-1O-LU1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcome-bg" translatesAutoresizingMaskIntoConstraints="NO" id="OaZ-NC-odm">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="OaZ-NC-odm" secondAttribute="height" multiplier="40:71" id="foT-f0-e8O"/>
-                                </constraints>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GrH-FI-vgE">
                                 <rect key="frame" x="0.0" y="410" width="320" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -405,8 +401,8 @@ Try it.</string>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iuw-rf-sRf">
-                                <rect key="frame" x="141" y="296" width="39" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="iuw-rf-sRf">
+                                <rect key="frame" x="20" y="296" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="15"/>
                                 <color key="textColor" red="1" green="0.18879235010000001" blue="0.34170407920000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -417,34 +413,50 @@ Try it.</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="squawk-bird.png" translatesAutoresizingMaskIntoConstraints="NO" id="IQR-Rs-bcP">
+                                <rect key="frame" x="20" y="-246" width="171" height="471"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="171" id="3nG-N1-Z9K"/>
+                                    <constraint firstAttribute="width" secondItem="IQR-Rs-bcP" secondAttribute="height" multiplier="57:157" id="Jgd-1t-ebL"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="squawk" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lsg-om-ft4">
+                                <rect key="frame" x="85" y="56" width="151" height="63"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="46"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="iuw-rf-sRf" firstAttribute="centerX" secondItem="GrH-FI-vgE" secondAttribute="centerX" constant="0.5" id="5Aj-q5-fiI"/>
+                            <constraint firstItem="nKE-5w-K3U" firstAttribute="top" secondItem="IQR-Rs-bcP" secondAttribute="bottom" constant="-205" id="7yl-z0-3gK"/>
+                            <constraint firstItem="IQR-Rs-bcP" firstAttribute="leading" secondItem="WMC-1O-LU1" secondAttribute="leading" constant="20" id="A1P-TZ-nmF"/>
                             <constraint firstItem="GrH-FI-vgE" firstAttribute="leading" secondItem="WMC-1O-LU1" secondAttribute="leading" id="DFU-OL-EmE"/>
                             <constraint firstAttribute="trailing" secondItem="GrH-FI-vgE" secondAttribute="trailing" id="EDb-dc-HCl"/>
-                            <constraint firstAttribute="trailing" secondItem="OaZ-NC-odm" secondAttribute="trailing" id="LHT-56-sAc"/>
-                            <constraint firstItem="OaZ-NC-odm" firstAttribute="width" secondItem="OaZ-NC-odm" secondAttribute="height" multiplier="40:71" id="OPO-V9-uQ5"/>
+                            <constraint firstItem="Lsg-om-ft4" firstAttribute="top" secondItem="nKE-5w-K3U" secondAttribute="bottom" constant="36" id="FPe-Fz-T7H"/>
                             <constraint firstItem="IQK-SX-L5v" firstAttribute="centerX" secondItem="GrH-FI-vgE" secondAttribute="centerX" id="SJb-0h-R4i"/>
-                            <constraint firstItem="OaZ-NC-odm" firstAttribute="leading" secondItem="WMC-1O-LU1" secondAttribute="leading" id="UN5-9M-jAF"/>
                             <constraint firstItem="QZi-gr-nRn" firstAttribute="top" secondItem="GrH-FI-vgE" secondAttribute="bottom" id="bjl-D8-M3D"/>
-                            <constraint firstItem="OaZ-NC-odm" firstAttribute="top" secondItem="WMC-1O-LU1" secondAttribute="top" id="buM-aa-uoY"/>
+                            <constraint firstItem="iuw-rf-sRf" firstAttribute="leading" secondItem="WMC-1O-LU1" secondAttribute="leading" constant="20" id="bz5-bt-Iri"/>
                             <constraint firstItem="IQK-SX-L5v" firstAttribute="height" secondItem="GrH-FI-vgE" secondAttribute="height" id="bzx-Qe-JwV"/>
                             <constraint firstItem="IQK-SX-L5v" firstAttribute="centerY" secondItem="GrH-FI-vgE" secondAttribute="centerY" id="eXl-Mu-1wa"/>
                             <constraint firstAttribute="centerY" secondItem="yh6-R3-tOx" secondAttribute="centerY" constant="-36" id="moc-8W-i37"/>
+                            <constraint firstAttribute="centerX" secondItem="Lsg-om-ft4" secondAttribute="centerX" constant="-0.5" id="pYc-We-YI5"/>
                             <constraint firstItem="iuw-rf-sRf" firstAttribute="top" secondItem="yh6-R3-tOx" secondAttribute="bottom" constant="8" id="ped-1J-VP0"/>
                             <constraint firstAttribute="centerX" secondItem="yh6-R3-tOx" secondAttribute="centerX" id="t0G-G6-Z99"/>
+                            <constraint firstAttribute="trailing" secondItem="iuw-rf-sRf" secondAttribute="trailing" constant="20" id="tQt-v6-6uC"/>
                             <constraint firstItem="IQK-SX-L5v" firstAttribute="width" secondItem="GrH-FI-vgE" secondAttribute="width" id="xcN-Lk-Ttz"/>
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="480"/>
                     <connections>
-                        <outlet property="backgroundView" destination="OaZ-NC-odm" id="7hq-MB-1Qg"/>
                         <outlet property="errorLabel" destination="iuw-rf-sRf" id="0JH-Sw-iOU"/>
                         <outlet property="instructionsLabel" destination="yh6-R3-tOx" id="gKC-Ud-0AJ"/>
                         <outlet property="loadingView" destination="IQK-SX-L5v" id="s1A-ks-Cyd"/>
+                        <outlet property="nameLabel" destination="Lsg-om-ft4" id="xAJ-DY-cgN"/>
                         <outlet property="nextButton" destination="GrH-FI-vgE" id="Ak4-mX-LlO"/>
+                        <outlet property="parrot" destination="IQR-Rs-bcP" id="BS4-oZ-xa9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XEd-be-cAn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -458,7 +470,7 @@ Try it.</string>
         <image name="circled-phone.png" width="155" height="155"/>
         <image name="contacts.png" width="244" height="442"/>
         <image name="notification_on_lock_screen.png" width="392" height="750"/>
-        <image name="welcome-bg" width="640" height="1137"/>
+        <image name="squawk-bird.png" width="627" height="1701"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

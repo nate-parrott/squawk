@@ -15,5 +15,7 @@
 
 @property(weak)IBOutlet UILabel *errorLabel, *instructionsLabel;
 @property(weak)IBOutlet SQShimmerView* loadingView;
+@property(weak)IBOutlet UIImageView* parrot;
+@property(weak)IBOutlet UIView* nameLabel;
 
 @end

@@ -14,6 +14,7 @@
 #import "SQBlockAction.h"
 #import "SQBlurredStatusView.h"
 #import "SQSquawkBar.h"
+#import "SQProgressLabel.h"
 
 typedef enum {
     SQNoInteraction,
@@ -22,7 +23,7 @@ typedef enum {
     SQRaisedToEar
 } SQInteractionMode;
 
-@interface SQMainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, SQAudioActionDelegate, SQAudioRecordingActionDelegate, SQSquawkBarDelegate> {
+@interface SQMainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, SQAudioActionDelegate, SQAudioRecordingActionDelegate, SQSquawkBarDelegate, UIViewControllerTransitioningDelegate> {
     IBOutlet UIView* _selectorBar;
     RACSubject* _tableViewReloaded;
     
@@ -72,5 +73,7 @@ typedef enum {
 @property BOOL lateEnoughToShowError;
 
 -(IBAction)newThread:(id)sender;
+
+@property(weak)IBOutlet SQProgressLabel* pullToRefreshProgress;
 
 @end

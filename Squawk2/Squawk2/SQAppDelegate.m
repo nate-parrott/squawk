@@ -48,10 +48,9 @@ NSString* SQErrorDomain = @"SQErrorDomain";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [Crashlytics startWithAPIKey:@"c00a274f2c47ad5ee89b17ccb2fdb86e8d1fece8"];
     
     [[NSUserDefaults standardUserDefaults] setDouble:BUILD_NUM forKey:@"LastLaunchedBuild"];
-    
-    [Crashlytics startWithAPIKey:@"c00a274f2c47ad5ee89b17ccb2fdb86e8d1fece8"];
     
     [GAI sharedInstance].dispatchInterval = 20;
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelWarning];
@@ -59,11 +58,11 @@ NSString* SQErrorDomain = @"SQErrorDomain";
     
     //[Helpshift installForApiKey:@"51e4c98d95cfbf0b3e22b90537203f26" domainName:@"squawk.helpshift.com" appID:@"squawk_platform_20140227180649929-134e795f46f5dc2"];
     
+    [self setupGlobalProperties]; // use by SQSquawkCache
+    
     [SQFriendsOnSquawk shared]; // initialize it
     [self setupAudio];
     [SQTheme apply];
-    
-    [self setupGlobalProperties];
     
     [self.window makeKeyAndVisible];
     
@@ -78,6 +77,12 @@ NSString* SQErrorDomain = @"SQErrorDomain";
     }];
     
     [SQAudioFiles load];
+    
+    [[[SQAPI loginStatus] filter:^BOOL(id value) {
+        return [value boolValue];
+    }] subscribeNext:^(id x) {
+        [self updateUserPrefs];
+    }];
     
     return YES;
 }
@@ -109,11 +114,19 @@ NSString* SQErrorDomain = @"SQErrorDomain";
     if (launchCount == 4 || launchCount == 70) {
         [WSContactBoost boostPhoneNumber:@"00000000001"];
     }
+    
+    [self updatePushRegistrationStatus];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+#pragma mark User prefs
+-(void)updateUserPrefs {
+    NSMutableDictionary* prefs = [SQAPI userPrefs].mutableCopy;
+    prefs[@"languages"] = [NSLocale preferredLanguages];
+    [SQAPI updateUserPrefs:prefs];
 }
 #pragma mark Audio
 -(void)setupAudio {
@@ -142,15 +155,17 @@ NSString* SQErrorDomain = @"SQErrorDomain";
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:SQRemoteNotificationTypesToRequest];
 }
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    self.registeredForPushNotifications = NO;
-    self.deniedPushNotificationAccess = YES;
+    [self updatePushRegistrationStatus];
     [[NSNotificationCenter defaultCenter] postNotificationName:SQPushSetupStatusChangedNotification object:nil];
 }
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    self.deniedPushNotificationAccess = NO;
-    self.registeredForPushNotifications = ([application enabledRemoteNotificationTypes] & SQRemoteNotificationTypesToRequest) == SQRemoteNotificationTypesToRequest;
+    [self updatePushRegistrationStatus];
     [SQAPI registerPushToken:deviceToken];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:SQPushSetupStatusChangedNotification object:nil];
+}
+-(void)updatePushRegistrationStatus {
+    self.pushNotificationsEnabled = ([[UIApplication sharedApplication] enabledRemoteNotificationTypes] & SQRemoteNotificationTypesToRequest) == SQRemoteNotificationTypesToRequest;
 }
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     if ([userInfo[@"type"] isEqualToString:@"message"]) {

@@ -10,4 +10,9 @@
 
 @interface SQProgressLabel : UIView
 
+@property(nonatomic)CGSize fill;
+@property(strong,readonly)UILabel* label;
+
+-(void)flashAndUnfill;
+
 @end

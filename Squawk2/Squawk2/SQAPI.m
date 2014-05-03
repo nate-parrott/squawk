@@ -11,6 +11,7 @@
 #import "NSString+PercentEscaping.h"
 #import "NSString+TempFilePath.h"
 #import "SQBackgroundTaskManager.h"
+#import "WSPersistentDictionary.h"
 
 const NSInteger SQLoginBadSecretError = 123;
 
@@ -45,6 +46,7 @@ NSString* SQResponseData  = @"SQResponseData";
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"AuthToken"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PhoneNumber"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UploadedPushToken"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UploadedLanguages"];
 }
 +(NSString*)currentPhone {
     return [[NSUserDefaults standardUserDefaults] objectForKey:@"PhoneNumber"];
@@ -96,13 +98,15 @@ NSString* SQResponseData  = @"SQResponseData";
         }
     }] resume];
 }
-
 +(void)post:(NSString*)endpoint args:(NSDictionary*)args data:(NSData*)postData callback:(SQAPICallback)callback {
+    [self post:endpoint args:args data:postData contentType:@"application/octet-stream" callback:callback];
+}
++(void)post:(NSString*)endpoint args:(NSDictionary*)args data:(NSData*)postData contentType:(NSString*)mime callback:(SQAPICallback)callback {
     NSURL* url = [self urlForEndpoint:endpoint args:args];
     NSMutableURLRequest* req = [[NSURLRequest requestWithURL:url] mutableCopy];
     req.HTTPMethod = @"POST";
     req.HTTPBody = postData;
-    [req setValue:@"application/octet-stream" forHTTPHeaderField:@"Content-Type"];
+    [req setValue:mime forHTTPHeaderField:@"Content-Type"];
     [self performRequest:req withCallback:callback];
 }
 +(void)postInBackground:(NSString*)endpoint args:(NSDictionary*)args file:(NSURL*)file callback:(SQBackgroundTaskCallback)callback {
@@ -134,4 +138,22 @@ NSString* SQResponseData  = @"SQResponseData";
         }
     }
 }
+#pragma mark User prefs
++(NSDictionary*)userPrefs {
+    return [[WSPersistentDictionary shared] getObjectForKey:@"UserPrefs" fallback:^id{
+        return @{};
+    }];
+}
++(void)updateUserPrefs:(NSDictionary*)prefs {
+    NSData* oldPayload = [NSJSONSerialization dataWithJSONObject:[self userPrefs] options:0 error:nil];
+    NSData* newPayload = [NSJSONSerialization dataWithJSONObject:prefs options:0 error:nil];
+    if (![newPayload isEqualToData:oldPayload] || [[NSUserDefaults standardUserDefaults] boolForKey:@"UserPrefsNeedUpload"]) {
+        [WSPersistentDictionary shared][@"UserPrefs"] = prefs;
+        [self post:@"/update_prefs" args:@{} data:newPayload contentType:@"application/json" callback:^(NSDictionary *result, NSError *error) {
+            BOOL done = ([result[@"success"] boolValue] && !error);
+            [[NSUserDefaults standardUserDefaults] setBool:!done forKey:@"UserPrefsNeedUpload"];
+        }];
+    }
+}
+
 @end

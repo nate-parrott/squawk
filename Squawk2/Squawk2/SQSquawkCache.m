@@ -18,6 +18,8 @@
 
 @interface SQSquawkCache () {
     NPReachability* _reachability;
+    
+    NSTimer* _timer;
 }
 
 @end
@@ -50,6 +52,10 @@
     [[RACObserve(self, squawks) deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
         [SQThread makeSureListenedSquawksAreKnownOnServer:x];
     }];
+    
+    NSTimeInterval reloadInterval = [AppDelegate.globalProperties[@"pollInterval"] doubleValue]? : 60;
+    _timer = [NSTimer scheduledTimerWithTimeInterval:reloadInterval target:self selector:@selector(pollIfNeeded) userInfo:nil repeats:YES];
+    
     
     return self;
 }
@@ -129,6 +135,11 @@
         [SQAPI getData:@"/squawks/serve" args:@{@"id": squawk[@"_id"]} callback:^(NSData *data, NSError *error) {
             callback(data, error);
         }];
+    }
+}
+-(void)pollIfNeeded {
+    if (![AppDelegate pushNotificationsEnabled] && [SQAPI currentPhone] && [UIApplication sharedApplication].applicationState==UIApplicationStateActive) {
+        [self fetch];
     }
 }
 

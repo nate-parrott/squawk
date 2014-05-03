@@ -10,7 +10,7 @@
 
 @class SQOnboardingPage;
 
-@interface SQOnboardingViewController : UIViewController
+@interface SQOnboardingViewController : UIViewController <UIViewControllerAnimatedTransitioning>
 
 -(void)nextPage;
 @property(strong)SQOnboardingPage* currentPage;

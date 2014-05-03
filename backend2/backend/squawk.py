@@ -26,12 +26,20 @@ def name_for_user(user, receiver):
 	else:
 		return user
 
-def push_notifs_for_message(sender, recipient, squawk_id, thread_identifier):
+def push_notifs_for_message(sender, recipient, squawk_id, thread_identifier, thread_member_count=2):
 	name = name_for_user(sender, recipient)
 	sound = alert = None
 	if push.should_send_push_to_user_for_thread(recipient, thread_identifier):
 		sound = "squawk.caf"
-		alert = "%s sent you a Squawk."%(name) if sender!=recipient else None
+        n_other_recipients = thread_member_count-2
+        if sender==recipient:
+            alert = None
+        elif n_other_recipients<=0:
+            alert = "%s sent you a squawk."%(name)
+        elif n_other_recipients==1:
+            alert = "%s sent a squawk to you and 1 other person."%(name)
+        else:
+            alert = "%s sent a squawk to you and %i others"%(name, n_others)
 	for token_info in db.push_tokens.find({"phone": recipient}):
 		notif = push.Push(recipient, token_info['type'], token_info['token'], alert, sound, {"type": "message", "squawk_id": str(squawk_id)})
 		if recipient!=sender: notif.content_available = True
@@ -54,7 +62,7 @@ def deliver_squawk(recipients, sender, audio_url, duration=-1):
 			"audio_url": audio_url, 
 			"duration": duration,
 			"thread_identifier": thread_identifier})
-		pushes += list(push_notifs_for_message(sender, phone, squawk_id, thread_identifier))
+		pushes += list(push_notifs_for_message(sender, phone, squawk_id, thread_identifier, len(thread_members)))
 	
 	push.send_pushes(pushes)
 	

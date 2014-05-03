@@ -17,5 +17,16 @@
 -(void)showMessage:(NSString*)message title:(NSString*)title {
     [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
 }
+-(void)viewDidLoad {
+    [super viewDidLoad];
+    self.backgroundColor = self.view.backgroundColor;
+    self.view.backgroundColor = [UIColor clearColor];
+}
+-(void)animateInWithDuration:(NSTimeInterval)duration {
+    
+}
+-(void)animateOutWithDuration:(NSTimeInterval)duration {
+    
+}
 
 @end

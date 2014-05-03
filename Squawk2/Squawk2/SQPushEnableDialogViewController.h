@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SQPushEnableDialogViewController : UIViewController
+@interface SQPushEnableDialogViewController : UIViewController {
+    IBOutlet UIButton* _closeButton;
+}
+
+-(IBAction)close:(id)sender;
 
 @end
