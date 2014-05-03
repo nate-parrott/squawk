@@ -26,3 +26,4 @@ import push
 import checkmark
 import globals
 import robot
+import prefs

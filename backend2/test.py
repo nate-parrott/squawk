@@ -59,4 +59,7 @@ assert squawk['sender']==phone and squawk['listened']==True
 
 assert_okay(requests.post(url('/send_checkmark', {"recipients": [phone]})))
 
+prefs = {"test_pref": [1,2,3]}
+assert_okay(requests.post(url('/update_prefs', {}), data=json.dumps(prefs), headers={"Content-Type": "application/json"}))
+
 print 'Done.'

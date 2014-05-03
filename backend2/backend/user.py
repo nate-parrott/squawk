@@ -5,6 +5,7 @@ from flask import request
 from os import urandom
 from base64 import b64encode
 import json
+import datetime
 
 @app.route('/verify', methods=['GET', 'POST'])
 def verify():
@@ -13,7 +14,7 @@ def verify():
 	phone = normalize_phone(request.args.get('From'))
 	secret = request.args.get('Body').split(' ')[-1].lower()
 	user = db.users.find_one({'phone': phone})
-	if not user: user = {}
+	if not user: user = {"date": datetime.datetime.now()}
 	user['phone'] = phone
 	user['secret'] = secret
 	db.users.save(user)
