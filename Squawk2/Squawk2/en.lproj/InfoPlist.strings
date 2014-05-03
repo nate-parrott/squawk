@@ -1,2 +1,3 @@
 /* Localized versions of Info.plist keys */
-
+"Squawk uses your contacts list to find your friends instantly. We won't spam them." = "Squawk uses your contacts list to find your friends instantly. We won't spam them.";
+"Squawk need access to the microphone to record your voice." = "Squawk need access to the microphone to record your voice."

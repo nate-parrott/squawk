@@ -38,9 +38,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSContactsUsageDescription</key>
-	<string>Squawk uses your contacts list to find your friends instantly. We won't spam them.</string>
+	<string>Squawk uses your contacts list to find your friends instantly. We won&apos;t spam them.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We need access to the microphone to record Squawks.</string>
+	<string>Squawk need access to the microphone to record your voice.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
