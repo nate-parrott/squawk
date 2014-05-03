@@ -24,6 +24,7 @@
 		5F2C4AB218C70B9100E59DFA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F2C4AB118C70B9100E59DFA /* QuartzCore.framework */; };
 		5F3238E518E2B84200B9BB0C /* SQMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3238E418E2B84200B9BB0C /* SQMessageViewController.m */; };
 		5F3A971C18C94BC500836347 /* SQShimmerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A971B18C94BC500836347 /* SQShimmerView.m */; };
+		5F85901419156CAD00969D98 /* Squawk2-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F85901319156CAD00969D98 /* Squawk2-Info.plist */; };
 		5F8985B818C3EA9B0085B085 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F8985B718C3EA9B0085B085 /* Foundation.framework */; };
 		5F8985BA18C3EA9B0085B085 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F8985B918C3EA9B0085B085 /* CoreGraphics.framework */; };
 		5F8985BC18C3EA9B0085B085 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F8985BB18C3EA9B0085B085 /* UIKit.framework */; };
@@ -139,11 +140,11 @@
 		5F3238E418E2B84200B9BB0C /* SQMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQMessageViewController.m; sourceTree = "<group>"; };
 		5F3A971A18C94BC500836347 /* SQShimmerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQShimmerView.h; sourceTree = "<group>"; };
 		5F3A971B18C94BC500836347 /* SQShimmerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQShimmerView.m; sourceTree = "<group>"; };
+		5F85901319156CAD00969D98 /* Squawk2-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Squawk2-Info.plist"; sourceTree = "<group>"; };
 		5F8985B418C3EA9B0085B085 /* Squawk2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Squawk2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F8985B718C3EA9B0085B085 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5F8985B918C3EA9B0085B085 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		5F8985BB18C3EA9B0085B085 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		5F8985BF18C3EA9B0085B085 /* Squawk2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Squawk2-Info.plist"; sourceTree = "<group>"; };
 		5F8985C118C3EA9B0085B085 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5F8985C318C3EA9B0085B085 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5F8985C518C3EA9B0085B085 /* Squawk2-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Squawk2-Prefix.pch"; sourceTree = "<group>"; };
@@ -490,6 +491,7 @@
 		5F8985BE18C3EA9B0085B085 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5F85901319156CAD00969D98 /* Squawk2-Info.plist */,
 				5FC27DC518F240C10080EE09 /* Localizable.strings */,
 				5FFAA0D018D3AF1E000BEA9C /* slow_beep.wav */,
 				5F93BFE118CD4B7E004AF7BC /* melodic1_affirm.wav */,
@@ -497,7 +499,6 @@
 				5FC27DC918F24CA00080EE09 /* blip1-loud.wav */,
 				5F93BFC318CAEFDF004AF7BC /* Settings.bundle */,
 				5F936C4518CF800200A006EF /* longblips2.wav */,
-				5F8985BF18C3EA9B0085B085 /* Squawk2-Info.plist */,
 				5F8985C018C3EA9B0085B085 /* InfoPlist.strings */,
 				5F8985C318C3EA9B0085B085 /* main.m */,
 				5F8985C518C3EA9B0085B085 /* Squawk2-Prefix.pch */,
@@ -650,6 +651,7 @@
 				5F2B9ED0190842B600416E0A /* squawk.caf in Resources */,
 				5FFAA0D118D3AF1E000BEA9C /* slow_beep.wav in Resources */,
 				5F936C4618CF800200A006EF /* longblips2.wav in Resources */,
+				5F85901419156CAD00969D98 /* Squawk2-Info.plist in Resources */,
 				5FB8DD641911FA8800DA07FF /* contacts@2x.png in Resources */,
 				5FB8DD681912060A00DA07FF /* button@2x.png in Resources */,
 				5FB8DD751912C77B00DA07FF /* circled-phone@2x.png in Resources */,

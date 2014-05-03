@@ -1,0 +1,5 @@
+
+"%s sent you a squawk." = 
+"%s sent a squawk to you and 1 other person." = 
+ "%s sent a squawk to you and %i others." = 
+"Your contact %s just got Squawk. Why not say hi?" = 
