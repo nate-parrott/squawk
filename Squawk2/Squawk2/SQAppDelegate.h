@@ -25,6 +25,8 @@
 
 //#define TAKING_DEFAULT_IMAGE
 
+//#define PRETTIFY
+
 #define BUILD_NUM ([[[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"] doubleValue])
 
 void JSLog(id jsonObj);

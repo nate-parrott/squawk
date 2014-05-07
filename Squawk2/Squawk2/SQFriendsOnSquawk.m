@@ -133,9 +133,9 @@
             if (missingPhones.count > 0) {
                 NSString* alert = nil;
                 if (missingNames.count == 1) {
-                    alert = [NSString stringWithFormat:NSLocalizedString(@"%@ isn't on Squawk.", @""), missingNames.firstObject];
+                    alert = [NSString stringWithFormat:NSLocalizedString(@"%@ isn't on Squawk.", @"[Person] isn't on Squawk."), missingNames.firstObject];
                 } else {
-                    alert = [NSString stringWithFormat:NSLocalizedString(@"%@ aren't on Squawk.", @""), [missingNames combineStringsAsNaturalLanguage]];
+                    alert = [NSString stringWithFormat:NSLocalizedString(@"%@ aren't on Squawk.", @"[Person1, Person2, and Person3] aren't on Squawk."), [missingNames combineStringsAsNaturalLanguage]];
                 }
                 UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Someone's missing out", @"") message:alert delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:@"Text an invite", nil];
                 [alertView show];

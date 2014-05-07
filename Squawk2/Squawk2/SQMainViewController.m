@@ -26,7 +26,7 @@
 
 //#define TOP_BAR_SCROLLS
 
-#define PULL_TO_REFRESH_THRESHOLD 125
+#define PULL_TO_REFRESH_THRESHOLD 70
 
 const CGPoint SQDefaultContentOffset = {0, 0};
 
@@ -49,6 +49,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     BOOL _didRefreshDuringPull;
     
     UIButton* _pushNotificationAdvert;
+    
+    IBOutlet UILabel* _pullToRefreshLabel;
 }
 
 @property(nonatomic)BOOL searchMode;
@@ -61,6 +63,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 
 -(void)viewDidLoad {
     [super viewDidLoad];
+    
+    _pullToRefreshLabel.text = NSLocalizedString(@"Pull to refresh", @"").lowercaseString;
     
     self.view.tintColor = [SQTheme red];//[UIColor colorWithWhite:0.8 alpha:0.4];
 
@@ -83,6 +87,9 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     [_pushNotificationAdvert.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:13]];
     RAC(_pushNotificationAdvert, hidden) = RACObserve(AppDelegate, pushNotificationsEnabled);
     [_pushNotificationAdvert addTarget:self action:@selector(enablePush:) forControlEvents:UIControlEventTouchUpInside];
+#ifdef PRETTIFY
+    _pushNotificationAdvert.alpha = 0;
+#endif
     
     RAC(_titleLabel, text) = [RACObserve(AppDelegate, globalProperties) map:^id(NSDictionary* props) {
         return props[@"title"]? : NSLocalizedString(@"this is Squawk", @"Default main screen title");
@@ -106,8 +113,6 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     [self setupStatusDisplay];
     
     self.searchMode = NO;
-    
-    self.pullToRefreshProgress.label.text = NSLocalizedString(@"Pull to refresh", @"").lowercaseString;
     
     RAC(self, searchQuery) = [[RACSignal combineLatest:@[RACObserve(self, searchMode), _searchField.rac_textSignal] reduce:^id(NSNumber* inSearchMode, NSString* searchQuery){
         return inSearchMode.boolValue? searchQuery : nil;
@@ -243,6 +248,15 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     
     RAC(self, loading) = [RACObserve([SQSquawkCache shared], fetchInProgress) deliverOn:[RACScheduler mainThreadScheduler]];
     
+    // setup pull to refresh callback:
+    [RACObserve(self, loading) subscribeNext:^(id x) {
+        if ([x boolValue]) {
+            if ([_pullToRefreshLabel.text isEqualToString:NSLocalizedString(@"Refreshing", @"").lowercaseString]) {
+                _pullToRefreshLabel.text = NSLocalizedString(@"Refreshed", @"").lowercaseString;
+            }
+        }
+    }];
+    
     [[[RACSignal combineLatest:@[latestSquawks, friendsOnSquawk]] deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(RACTuple* results) {
         NSArray* squawks = results.first;
         NSSet* phones = results.second;
@@ -347,6 +361,20 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     [self.tableView setContentOffset:rect.origin animated:YES];
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        _pullToRefreshAnimation.speed = 0;
+        _pullToRefreshAnimation.animationTime = 0;
+        _pullToRefreshAnimation.alpha = 0;
+        _pullToRefreshLabel.text = NSLocalizedString(@"Pull to refresh", @"").lowercaseString;
+    }
+}
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    _pullToRefreshAnimation.speed = 0;
+    _pullToRefreshAnimation.animationTime = 0;
+    _pullToRefreshAnimation.alpha = 0;
+    _pullToRefreshLabel.text = NSLocalizedString(@"Pull to refresh", @"").lowercaseString;
+}
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [_searchField resignFirstResponder];
     
@@ -362,12 +390,15 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     if (!_didRefreshDuringPull) {
         CGFloat pullProgress = -scrollView.contentOffset.y / PULL_TO_REFRESH_THRESHOLD;
         pullProgress = MIN(1, MAX(0, pullProgress));
-        if (pullProgress != _pullToRefreshProgress.fill.width) {
-            _pullToRefreshProgress.fill = CGSizeMake(pullProgress, 1);
+        NSTimeInterval targetTime = pullProgress*M_PI*2;
+        if (targetTime != _pullToRefreshAnimation.animationTime) {
+            _pullToRefreshAnimation.animationTime = targetTime;
+            _pullToRefreshAnimation.alpha = pullProgress;
             if (pullProgress == 1) {
                 _didRefreshDuringPull = YES;
-                [_pullToRefreshProgress flashAndUnfill];
+                _pullToRefreshAnimation.speed = 6;
                 [[SQSquawkCache shared] fetch];
+                _pullToRefreshLabel.text = NSLocalizedString(@"Refreshing", @"").lowercaseString;
             }
         }
     }
@@ -398,11 +429,12 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section==1) return 30;
+    CGFloat height = _pushNotificationAdvert.hidden? 15 : 30;
+    if (section==1) return height;
     if (section==0 || section >= self.threadSections.count || [self.threadSections[section] count]==0) {
         return 0;
     }
-    return 30;
+    return height;
 }
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView* v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
@@ -434,7 +466,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 #pragma mark Focus/squawking
 -(void)setupFocusBindings {
     RACSignal* onScroll = RACObserve(self.tableView, contentOffset);
-    RAC(self, selectedThread) = [[[RACSignal combineLatest:@[onScroll, _tableViewReloaded]] map:^id(id value) {
+    RAC(self, selectedThread) = [[[[RACSignal combineLatest:@[onScroll, _tableViewReloaded]] throttle:0.01] map:^id(id value) {
         CGFloat y = _selectorBar.frame.origin.y + _selectorBar.frame.size.height/2;
         for (SQThreadCell* cell in self.tableView.visibleCells) {
             CGRect cellFrame = [self.view convertRect:cell.bounds fromView:cell];
@@ -457,14 +489,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     [[RACSignal combineLatest:@[RACObserve(self, interactingWithThread), squawkUpdateSignal, [[NSUserDefaults standardUserDefaults] rac_valuesForKeyPath:SQCheckmarkVisibleNextToThreadIdentifier observer:nil]]] subscribeNext:^(id x) {
         
         if (_interactingWithThread==nil) {
-            _squawkBar.allowsPlayback = NO;
-            _squawkBar.showCheckmarkControl = NO;
-            _squawkBar.showInviteControl = NO;
-            _squawkBar.recordMessage = nil;
-            _squawkBar.playbackMessage = nil;
+            [_squawkBar setShowsInviteLabel:NO allowsPlackback:NO showsCheckmark:NO playbackLabel:nil recordLabel:nil];
             return;
-        } else {
-            _squawkBar.alpha = 1;
         }
         
         NSDictionary* mainAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Demibold" size:13], NSForegroundColorAttributeName: [UIColor whiteColor]};
@@ -474,6 +500,9 @@ const CGPoint SQDefaultContentOffset = {0, 0};
         
         BOOL playback = self.interactingWithThread.unread.count>0;
         BOOL raiseToSquawkAvailable = [WSEarSensor shared].isAvailable;
+#ifdef PRETTIFY
+        raiseToSquawkAvailable = YES;
+#endif
         
         NSMutableAttributedString* playbackTitle = [NSMutableAttributedString new];
         NSMutableAttributedString* recordTitle = [NSMutableAttributedString new];
@@ -488,12 +517,10 @@ const CGPoint SQDefaultContentOffset = {0, 0};
             
             [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Push to squawk %@", @""), firstName] attributes:mainAttributes]];
         }
-        _squawkBar.playbackMessage = playbackTitle;
-        _squawkBar.recordMessage = recordTitle;
-        _squawkBar.showInviteControl = ![self.interactingWithThread membersAreRegistered];
+        BOOL showInviteLabel = !_interactingWithThread.compData->_registered;
         NSString* identifierForCheckmark = [x third];
-        _squawkBar.showCheckmarkControl = !!_interactingWithThread && [identifierForCheckmark isEqualToString:[_interactingWithThread identifier]];
-        _squawkBar.allowsPlayback = playback;
+        BOOL showCheckmark = !!_interactingWithThread && [identifierForCheckmark isEqualToString:[_interactingWithThread identifier]];
+        [_squawkBar setShowsInviteLabel:showInviteLabel allowsPlackback:playback showsCheckmark:showCheckmark playbackLabel:playbackTitle recordLabel:recordTitle];
         
         if (playback) {
             [_squawkBar showPlayback:YES];

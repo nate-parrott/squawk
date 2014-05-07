@@ -83,8 +83,8 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     self.tintColor = unread? [SQTheme blue] : [SQTheme red];
     _unreadCount.textColor = self.tintColor;
     
-    if (unread) {
-        NSDate* date = [NSDate dateWithTimeIntervalSince1970:[self.thread.unread.firstObject[@"date"] doubleValue]];
+    if (self.thread.squawks.count) {
+        NSDate* date = [NSDate dateWithTimeIntervalSince1970:[self.thread.squawks.firstObject[@"date"] doubleValue]];
         _date.text = [[TFGRelativeDateFormatter sharedFormatter] stringForDate:date];
     } else {
         _date.text = nil;

@@ -53,7 +53,10 @@
         [SQThread makeSureListenedSquawksAreKnownOnServer:x];
     }];
     
-    NSTimeInterval reloadInterval = [AppDelegate.globalProperties[@"pollInterval"] doubleValue]? : 60;
+    NSTimeInterval reloadInterval = [AppDelegate.globalProperties[@"pollInterval"] doubleValue]? : 30;
+#ifdef PRETTIFY
+    reloadInterval = 3;
+#endif
     _timer = [NSTimer scheduledTimerWithTimeInterval:reloadInterval target:self selector:@selector(pollIfNeeded) userInfo:nil repeats:YES];
     
     

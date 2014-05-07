@@ -188,8 +188,10 @@ typedef enum {
         
     }];
     self.nameLabel.alpha = 0;
+    self.instructionsLabel.alpha = 0;
     [UIView animateWithDuration:duration*0.6 delay:duration*0.6 options:0 animations:^{
         self.nameLabel.alpha = 1;
+        self.instructionsLabel.alpha = 1;
     } completion:^(BOOL finished) {
         
     }];

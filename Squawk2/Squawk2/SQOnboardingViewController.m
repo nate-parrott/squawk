@@ -87,6 +87,11 @@
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     if ([toVC isEqual:self]) {
         // presenting:
+        
+        UIView* snapshot = [fromVC.view snapshotViewAfterScreenUpdates:NO];
+        [root addSubview:snapshot];
+        snapshot.frame = [root convertRect:fromVC.view.bounds fromView:fromVC.view];
+        
         [root addSubview:self.view];
         self.view.frame = [transitionContext finalFrameForViewController:self];
         self.view.backgroundColor = [UIColor clearColor];
@@ -99,7 +104,7 @@
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             self.view.backgroundColor = self.currentPage.backgroundColor;
-            
+            [snapshot removeFromSuperview];
             [transitionContext completeTransition:YES];
         });
     } else if ([fromVC isEqual:self]) {

@@ -84,6 +84,21 @@ NSString* SQErrorDomain = @"SQErrorDomain";
         [self updateUserPrefs];
     }];
     
+#ifdef PRETTIFY
+    static UIWindow *overlapView = nil;
+    overlapView = [UIWindow new];
+    overlapView.windowLevel = UIWindowLevelStatusBar + 1;
+    UIViewController* vc = [UIViewController new];
+    vc.view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fake-status-bar.png"]];
+    vc.view.frame = CGRectMake(0, 0, 320, 20);
+    vc.view.contentMode = UIViewContentModeTop;
+    overlapView.rootViewController = vc;
+    overlapView.backgroundColor = [UIColor redColor];
+    overlapView.hidden = NO;
+    overlapView.frame = CGRectMake(0, 0, 320, 20); // you can set any size of frame you want
+    //[overlapView makeKeyAndVisible];
+#endif
+    
     return YES;
 }
 

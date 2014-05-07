@@ -24,6 +24,7 @@
 		5F2C4AB218C70B9100E59DFA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F2C4AB118C70B9100E59DFA /* QuartzCore.framework */; };
 		5F3238E518E2B84200B9BB0C /* SQMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3238E418E2B84200B9BB0C /* SQMessageViewController.m */; };
 		5F3A971C18C94BC500836347 /* SQShimmerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A971B18C94BC500836347 /* SQShimmerView.m */; };
+		5F6BDE6D19172AE200368E2E /* fake-status-bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6BDE6C19172AE200368E2E /* fake-status-bar@2x.png */; };
 		5F85901419156CAD00969D98 /* Squawk2-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F85901319156CAD00969D98 /* Squawk2-Info.plist */; };
 		5F8985B818C3EA9B0085B085 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F8985B718C3EA9B0085B085 /* Foundation.framework */; };
 		5F8985BA18C3EA9B0085B085 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F8985B918C3EA9B0085B085 /* CoreGraphics.framework */; };
@@ -65,6 +66,9 @@
 		5F93BFF718CE9F1C004AF7BC /* SQAudioPlayerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFF618CE9F1C004AF7BC /* SQAudioPlayerAction.m */; };
 		5F93BFFA18CE9F2B004AF7BC /* SQAudioRecordingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFF918CE9F2B004AF7BC /* SQAudioRecordingAction.m */; };
 		5F93BFFD18CEA045004AF7BC /* SQBlockAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFFC18CEA045004AF7BC /* SQBlockAction.m */; };
+		5FAB621D1916B4DF005C17FC /* SQAnimatedBird.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAB621A1916B4DF005C17FC /* SQAnimatedBird.m */; };
+		5FAB621E1916B4DF005C17FC /* parrot-body.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FAB621B1916B4DF005C17FC /* parrot-body.png */; };
+		5FAB621F1916B4DF005C17FC /* parrot-wing.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FAB621C1916B4DF005C17FC /* parrot-wing.png */; };
 		5FB8DD4C191174B100DA07FF /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FB8DD4B191174B100DA07FF /* Onboarding.storyboard */; };
 		5FB8DD4F191174C200DA07FF /* SQOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8DD4E191174C200DA07FF /* SQOnboardingViewController.m */; };
 		5FB8DD5519118F4200DA07FF /* SQPhoneVerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8DD5419118F4200DA07FF /* SQPhoneVerificationViewController.m */; };
@@ -140,6 +144,7 @@
 		5F3238E418E2B84200B9BB0C /* SQMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQMessageViewController.m; sourceTree = "<group>"; };
 		5F3A971A18C94BC500836347 /* SQShimmerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQShimmerView.h; sourceTree = "<group>"; };
 		5F3A971B18C94BC500836347 /* SQShimmerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQShimmerView.m; sourceTree = "<group>"; };
+		5F6BDE6C19172AE200368E2E /* fake-status-bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fake-status-bar@2x.png"; sourceTree = "<group>"; };
 		5F85901319156CAD00969D98 /* Squawk2-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Squawk2-Info.plist"; sourceTree = "<group>"; };
 		5F8985B418C3EA9B0085B085 /* Squawk2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Squawk2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F8985B718C3EA9B0085B085 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -204,6 +209,10 @@
 		5F93BFF918CE9F2B004AF7BC /* SQAudioRecordingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQAudioRecordingAction.m; sourceTree = "<group>"; };
 		5F93BFFB18CEA045004AF7BC /* SQBlockAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQBlockAction.h; sourceTree = "<group>"; };
 		5F93BFFC18CEA045004AF7BC /* SQBlockAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQBlockAction.m; sourceTree = "<group>"; };
+		5FAB62191916B4DF005C17FC /* SQAnimatedBird.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQAnimatedBird.h; sourceTree = "<group>"; };
+		5FAB621A1916B4DF005C17FC /* SQAnimatedBird.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQAnimatedBird.m; sourceTree = "<group>"; };
+		5FAB621B1916B4DF005C17FC /* parrot-body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parrot-body.png"; sourceTree = "<group>"; };
+		5FAB621C1916B4DF005C17FC /* parrot-wing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parrot-wing.png"; sourceTree = "<group>"; };
 		5FB8DD4B191174B100DA07FF /* Onboarding.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		5FB8DD4D191174C200DA07FF /* SQOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQOnboardingViewController.h; sourceTree = "<group>"; };
 		5FB8DD4E191174C200DA07FF /* SQOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQOnboardingViewController.m; sourceTree = "<group>"; };
@@ -386,6 +395,10 @@
 				5FB8DD6C1912BCE800DA07FF /* TBPulsingView.m */,
 				5FB8DD711912BEC600DA07FF /* SQGalleryView.h */,
 				5FB8DD721912BEC600DA07FF /* SQGalleryView.m */,
+				5FAB62191916B4DF005C17FC /* SQAnimatedBird.h */,
+				5FAB621A1916B4DF005C17FC /* SQAnimatedBird.m */,
+				5FAB621B1916B4DF005C17FC /* parrot-body.png */,
+				5FAB621C1916B4DF005C17FC /* parrot-wing.png */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -476,6 +489,7 @@
 				5F90B42918C3EB8E004C4FD2 /* Storyboard.storyboard */,
 				5F2C4AAE18C6FFAE00E59DFA /* SQTheme.h */,
 				5F2C4AAF18C6FFAE00E59DFA /* SQTheme.m */,
+				5F6BDE6C19172AE200368E2E /* fake-status-bar@2x.png */,
 				5FB8DD5619118F4700DA07FF /* Onboarding */,
 				5F2C4A9218C568EB00E59DFA /* Data */,
 				5F2C4A9018C568C700E59DFA /* UI */,
@@ -644,6 +658,7 @@
 				5FB8DD81191353C600DA07FF /* squawk-bird.png in Resources */,
 				5F93BFC418CAEFDF004AF7BC /* Settings.bundle in Resources */,
 				5F93BFE218CD4B7E004AF7BC /* melodic1_affirm.wav in Resources */,
+				5F6BDE6D19172AE200368E2E /* fake-status-bar@2x.png in Resources */,
 				5FB8DD771912EE0800DA07FF /* notification_on_lock_screen@2x.png in Resources */,
 				5F90B42A18C3EB8E004C4FD2 /* Storyboard.storyboard in Resources */,
 				5FB8DD6A191206E700DA07FF /* button-play@2x.png in Resources */,
@@ -652,8 +667,10 @@
 				5FFAA0D118D3AF1E000BEA9C /* slow_beep.wav in Resources */,
 				5F936C4618CF800200A006EF /* longblips2.wav in Resources */,
 				5F85901419156CAD00969D98 /* Squawk2-Info.plist in Resources */,
+				5FAB621F1916B4DF005C17FC /* parrot-wing.png in Resources */,
 				5FB8DD641911FA8800DA07FF /* contacts@2x.png in Resources */,
 				5FB8DD681912060A00DA07FF /* button@2x.png in Resources */,
+				5FAB621E1916B4DF005C17FC /* parrot-body.png in Resources */,
 				5FB8DD751912C77B00DA07FF /* circled-phone@2x.png in Resources */,
 				5FC27DCA18F24CA00080EE09 /* blip1-loud.wav in Resources */,
 			);
@@ -763,6 +780,7 @@
 				5F2C4A9518C570F500E59DFA /* NSString+NormalizeForSearch.m in Sources */,
 				5FD47C3318ED2C31003B53BA /* SQLongPressGestureRecognizer.m in Sources */,
 				5F08A7DD18C5019700E3E02E /* NSData+HexDump.m in Sources */,
+				5FAB621D1916B4DF005C17FC /* SQAnimatedBird.m in Sources */,
 				5F93BFEF18CE7901004AF7BC /* UIImage+ImageEffects.m in Sources */,
 				5F90B42D18C3EBD0004C4FD2 /* SQMainViewController.m in Sources */,
 				5F90B42218C3EB49004C4FD2 /* NPAddressBook.m in Sources */,

@@ -37,7 +37,7 @@
     return [UIColor colorWithRed:0.416 green:0.722 blue:0.839 alpha:1.000];
 }
 +(UIColor*)lightGray {
-    return [UIColor colorWithRed:0.843 green:0.855 blue:0.859 alpha:1.000];
+    return [UIColor colorWithRed:0.753 green:0.755 blue:0.759 alpha:1.000];
 }
 
 @end

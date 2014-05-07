@@ -14,7 +14,7 @@
 #import "SQBlockAction.h"
 #import "SQBlurredStatusView.h"
 #import "SQSquawkBar.h"
-#import "SQProgressLabel.h"
+#import "SQAnimatedBird.h"
 
 typedef enum {
     SQNoInteraction,
@@ -74,6 +74,6 @@ typedef enum {
 
 -(IBAction)newThread:(id)sender;
 
-@property(weak)IBOutlet SQProgressLabel* pullToRefreshProgress;
+@property(weak)IBOutlet SQAnimatedBird* pullToRefreshAnimation;
 
 @end

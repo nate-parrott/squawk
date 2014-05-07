@@ -1,0 +1,144 @@
+@import url(http://fonts.googleapis.com/css?family=Muli:300,400);
+
+body {
+	font-family: "Avenir Next", "Avenir", "Muli", sans-serif;
+	min-width: 758px;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 100;
+}
+
+html, body {
+	margin: 0px;
+	height: 100%;
+}
+ol#panels {
+	width: 100%;
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+	list-style-type: none;
+}
+ol#panels > li {
+	width: 100%;
+	height: 100%;
+	display: table;
+	table-layout: fixed;
+}
+ol#panels > li > div {
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	height: 100%;
+}
+
+
+#main-panel {
+	background-color: #F8184B;
+	color: white;
+}
+#main-panel > div:first-child {
+	padding-left: 10%;
+}
+#main-panel > div:last-child {
+	padding-right: 10%;
+}
+#main-panel a {
+	color: white;
+}
+#main-panel > div:first-child {
+	text-align: right;
+}
+#main-panel h1 {
+	font-size: 4em;
+	margin: 0.2em;
+}
+#main-panel h1 img {
+	position: relative;
+	top: 13px;
+	right: 10px;
+}
+
+#phone {
+	position: relative;
+}
+#phone img {
+	width: 300px;
+	height: auto;
+}
+#phone video {
+	position: absolute;
+	width: 209px;
+	height: 370px;
+	top: 50%;
+	left: 50%;
+	margin-left: -104px;
+	margin-top: -187px;
+}
+
+#blurb {
+}
+#main-panel form > input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	appearance: none;
+	font-size: 1em;
+	font-family: "Avenir Next", "Avenir", "Muli", sans-serif;
+	border: 2px solid rgba(255,255,255,0.5);
+	background: none;
+	color: white;
+	font-weight: 500;
+	outline: none;
+	padding: 2px 4px;
+}
+#main-panel form > input[type=submit] {
+	border-left: none;
+	margin-left: -6px;
+}
+#main-panel form > input[type=submit]:hover {
+	background-color: white;
+	color: #F8184B;
+}
+
+
+#panel2 {
+	background-color: #F6CF5D;
+}
+#panel2 > div {
+	position: relative;
+	padding: 30px;
+}
+#panel2 img.top, #panel2 img.bottom {
+	width: 250px;
+	left: 50%;
+	margin-left: -125px;
+	position: absolute;
+}
+#panel2 img.top {
+	top: 0px;
+}
+#panel2 img.bottom {
+	bottom: 0px;
+}
+#panel2 > div:first-child {
+	padding-top: 215px;
+}
+#panel2 > div:last-child {
+	padding-bottom: 350px;
+}
+
+#bottom {
+	height: auto !important;
+	padding: 10px 0px;
+	background-color: #E1B946;
+	color: white;
+}
+#bottom a {
+	color: white;
+	display: inline-block;
+	margin: 3px;
+}
+#bottom a:hover {
+	color: #ccc;
+}

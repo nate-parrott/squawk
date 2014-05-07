@@ -68,17 +68,6 @@ const CGFloat SQSquawkBarCheckmarkPullThreshold = 90;
     _inviteLabel.backgroundView.backgroundColor = [SQTheme blue];//[UIColor colorWithWhite:0.5 alpha:1];
     _inviteLabel.labelInsets = UIEdgeInsetsMake(0, 0, 0, 10);
     
-    RAC(_checkmarkLabel, hidden) = [RACObserve(self, showCheckmarkControl) not];
-    RAC(_inviteLabel, hidden) = [RACObserve(self, showInviteControl) not];
-    RAC(_playbackLabel, hidden) = [RACObserve(self, allowsPlayback) not];
-    
-    RAC(_playbackLabel.label, attributedText) = RACObserve(self, playbackMessage);
-    RAC(_recordLabel.label, attributedText) = RACObserve(self, recordMessage);
-    
-    [RACObserve(self, allowsPlayback) subscribeNext:^(id x) {
-        [self setNeedsLayout];
-    }];
-    
     _button = [UIButton buttonWithType:UIButtonTypeCustom];
     [self addSubview:_button];
     [_button addTarget:self action:@selector(tapDown) forControlEvents:UIControlEventTouchDown];
@@ -90,11 +79,37 @@ const CGFloat SQSquawkBarCheckmarkPullThreshold = 90;
     _blueBackground.backgroundColor = [SQTheme blue];
     [_scrollView insertSubview:_redBackground atIndex:0];
     [_scrollView insertSubview:_blueBackground aboveSubview:_redBackground];
-    RAC(_blueBackground, hidden) = [RACObserve(self, allowsPlayback) not];
     
     _tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
     [self addGestureRecognizer:_tapRec];
 }
+#pragma mark Properties
+-(void)setShowsInviteLabel:(BOOL)inviteLabel allowsPlackback:(BOOL)allowsPlayback showsCheckmark:(BOOL)showsCheckmark playbackLabel:(NSAttributedString*)playbackString recordLabel:(NSAttributedString*)recordString {
+    
+    _showInviteControl = inviteLabel;
+    _inviteLabel.hidden = !inviteLabel;
+    
+    _allowsPlayback = allowsPlayback;
+    _playbackLabel.hidden = !allowsPlayback;
+    
+#ifdef PRETTIFY
+    showsCheckmark = NO;
+#endif
+    
+    _showCheckmarkControl = showsCheckmark;
+    _checkmarkLabel.hidden = !showsCheckmark;
+    
+    _recordMessage = recordString;
+    _recordLabel.label.attributedText = recordString;
+    
+    _playbackMessage = playbackString;
+    _playbackLabel.label.attributedText = playbackString;
+    
+    _blueBackground.hidden = !_allowsPlayback;
+    
+    [self setNeedsLayout];
+}
+#pragma mark Interaction
 -(void)tapDown {
     [self.delegate playbackOrRecordHeldDown:self];
 }
@@ -161,8 +176,11 @@ const CGFloat SQSquawkBarCheckmarkPullThreshold = 90;
             _checkmarkLabel.transform = CGAffineTransformMakeTranslation(SQSquawkBarSegmentOverlap+10, 0);
         } completion:^(BOOL finished) {
             _checkmarkLabel.transform = CGAffineTransformIdentity;
-            self.showCheckmarkControl = NO;
-            // send it:
+            _showCheckmarkControl = NO;
+            _checkmarkLabel.hidden = YES;
+            [self setNeedsLayout];
+            
+            // send the checkmark:
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:SQCheckmarkVisibleNextToThreadIdentifier];
             [self.delegate sendCheckmark:self];
         }];

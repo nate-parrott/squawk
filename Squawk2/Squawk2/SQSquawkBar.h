@@ -22,15 +22,18 @@
 
 @interface SQSquawkBar : UIView
 
-@property BOOL allowsPlayback;
-@property BOOL showInviteControl;
-@property BOOL showCheckmarkControl;
+@property(readonly) BOOL allowsPlayback;
+@property(readonly) BOOL showInviteControl;
+@property(readonly) BOOL showCheckmarkControl;
 
 @property BOOL showingPlayback;
 -(void)showPlayback:(BOOL)showing;
 
-@property(strong)NSAttributedString *playbackMessage, *recordMessage;
+@property(strong,readonly)NSAttributedString *playbackMessage, *recordMessage;
 
 @property(weak)IBOutlet id<SQSquawkBarDelegate> delegate;
+
+-(void)setShowsInviteLabel:(BOOL)inviteLabel allowsPlackback:(BOOL)allowsPlayback showsCheckmark:(BOOL)showsCheckmark playbackLabel:(NSAttributedString*)playbackString recordLabel:(NSAttributedString*)recordString;
+
 
 @end

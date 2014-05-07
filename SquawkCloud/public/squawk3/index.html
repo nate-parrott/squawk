@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'/>
+		<title>Squawk — talk, don't text.</title>
+		<link rel='stylesheet' href='main.css'/>
+		<meta name="apple-itunes-app" content="app-id=807961872"/>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		
+		<script>
+		$(document).ready(function() {
+			$('input[placeholder]').each(function(i, input) {
+				$(input).val($(input).attr('placeholder')).attr('placeholder', '');
+				$(input).focus(function() {
+					$(this).val("");
+				})
+			})
+			$('#main-panel form').submit(function() {
+				var phone = $('#main-panel form input[name=phone]').val();
+				if (phone.length >= 10) {
+					var button = $('#main-panel form input[type=submit]');
+					$('#main-panel form').css({opacity: 0.5});
+					$.post('/sendInvitation', {phoneNumber: phone}, function() {
+						$('#main-panel form').css({opacity: 1.0});
+						$('#main-panel form input[type=submit]').val("sent!");
+					});
+				}
+				return false;
+			})
+		})
+		</script>
+		
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-47910043-2', 'squawkwith.us');
+		  ga('send', 'pageview');
+
+		</script>
+	</head>
+	<body>
+		<ol id='panels'>
+			<li id='main-panel'>
+				<div id='name'>
+					<h1><img src='bird-outline.png' height='70px'/>Squawk</span></h1>
+					<p id='blurb'>A voice message is better than a text. And now it's easier, too.</p>
+					<form>
+						<label>Send yourself an invite:</label><br/>
+						<input type='tel' name='phone' placeholder='(718) 555-1234'/>
+						<input type='submit' value='send'>
+					</form>
+				</div>
+				<div id='photo'>
+					<div id='phone'>
+						<img src='5c.png'/>
+						<video src='loop.mp4' autoplay loop width="209" height="370" poster="loop-first-frame.png"/>
+					</div>
+				</div>
+			</li>
+			<li id='panel2'>
+				<div>
+					<img class='top' src='record.png'/>
+					<h2>Simple to send. Simple to listen.</h2>
+					<p>To record a Squawk, tap a person's name, and then lift your iPhone to your ear. Put it down and the message is sent. When you've got a Squawk to listen to, the app turns blue—you can listen to it the same way.</p>
+				</div>
+				<div>
+						<h2>Simple to set up.</h2>
+						<p>Squawk uses your phone number and your contacts. There's no need to sign up or exchange usernames.</p>
+						<img class='bottom' src='get-started.png'/>
+				</div>
+			</li>
+			<li id='bottom'>
+				<div>
+					<a href="http://www.facebook.com/thisissquawk">Facebook</a>
+					<a href="https://twitter.com/ThisIsSquawk">Twitter</a>
+					<a href="http://easyaf.herokuapp.com/squawk/blog">Blog</a>
+					<a href="http://easyaf.herokuapp.com/squawk/terms-and-privacy">Terms &amp; Privacy</a>
+					<a href="http://easyaf.herokuapp.com/squawk">About</a>
+				</div>
+			</li>
+		</ol>
+	</body>
+</html>
