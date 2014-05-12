@@ -14,7 +14,7 @@
 #import "SQTheme.h"
 #import "SQFriendsOnSquawk.h"
 #import "SQLongPressGestureRecognizer.h"
-#import <TFGRelativeDateFormatter.h>
+#import "SQDateFormatter.h"
 
 NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleNextToThreadIdentifier";
 
@@ -85,7 +85,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     
     if (self.thread.squawks.count) {
         NSDate* date = [NSDate dateWithTimeIntervalSince1970:[self.thread.squawks.firstObject[@"date"] doubleValue]];
-        _date.text = [[TFGRelativeDateFormatter sharedFormatter] stringForDate:date];
+        _date.text = [SQDateFormatter formatDate:date];
     } else {
         _date.text = nil;
     }

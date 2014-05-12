@@ -92,7 +92,10 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 #endif
     
     RAC(_titleLabel, text) = [RACObserve(AppDelegate, globalProperties) map:^id(NSDictionary* props) {
-        return props[@"title"]? : NSLocalizedString(@"this is Squawk", @"Default main screen title");
+        if (props[@"title"] && [[NSLocale preferredLanguages].firstObject isEqualToString:@"en"]) {
+            return props[@"title"];
+        }
+        return NSLocalizedString(@"this is Squawk", @"Default main screen title");
     }];
     
     _errorContainer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"strips"]];

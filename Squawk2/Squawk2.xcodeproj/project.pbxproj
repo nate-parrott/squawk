@@ -22,6 +22,7 @@
 		5F2C4AA818C64EAC00E59DFA /* NSString+TempFilePath.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C4AA718C64EAC00E59DFA /* NSString+TempFilePath.m */; };
 		5F2C4AB018C6FFAE00E59DFA /* SQTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C4AAF18C6FFAE00E59DFA /* SQTheme.m */; };
 		5F2C4AB218C70B9100E59DFA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F2C4AB118C70B9100E59DFA /* QuartzCore.framework */; };
+		5F2D285F191A5BEF002270E9 /* SQDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2D285E191A5BEF002270E9 /* SQDateFormatter.m */; };
 		5F3238E518E2B84200B9BB0C /* SQMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3238E418E2B84200B9BB0C /* SQMessageViewController.m */; };
 		5F3A971C18C94BC500836347 /* SQShimmerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A971B18C94BC500836347 /* SQShimmerView.m */; };
 		5F6BDE6D19172AE200368E2E /* fake-status-bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6BDE6C19172AE200368E2E /* fake-status-bar@2x.png */; };
@@ -140,6 +141,14 @@
 		5F2C4AAE18C6FFAE00E59DFA /* SQTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQTheme.h; sourceTree = "<group>"; };
 		5F2C4AAF18C6FFAE00E59DFA /* SQTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQTheme.m; sourceTree = "<group>"; };
 		5F2C4AB118C70B9100E59DFA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		5F2D2857191A5947002270E9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5F2D2858191A5947002270E9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5F2D2859191A5947002270E9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5F2D285A191A5B42002270E9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5F2D285B191A5B42002270E9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5F2D285C191A5B42002270E9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5F2D285D191A5BEF002270E9 /* SQDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQDateFormatter.h; sourceTree = "<group>"; };
+		5F2D285E191A5BEF002270E9 /* SQDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQDateFormatter.m; sourceTree = "<group>"; };
 		5F3238E318E2B84200B9BB0C /* SQMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQMessageViewController.h; sourceTree = "<group>"; };
 		5F3238E418E2B84200B9BB0C /* SQMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQMessageViewController.m; sourceTree = "<group>"; };
 		5F3A971A18C94BC500836347 /* SQShimmerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQShimmerView.h; sourceTree = "<group>"; };
@@ -313,6 +322,8 @@
 			children = (
 				5F93BFED18CE7901004AF7BC /* UIImage+ImageEffects.h */,
 				5F93BFEE18CE7901004AF7BC /* UIImage+ImageEffects.m */,
+				5F2D285D191A5BEF002270E9 /* SQDateFormatter.h */,
+				5F2D285E191A5BEF002270E9 /* SQDateFormatter.m */,
 				5FD47C3718EDF22F003B53BA /* NSURL+QueryParser.h */,
 				5FD47C3818EDF22F003B53BA /* NSURL+QueryParser.m */,
 				5FD47C3418EDF003003B53BA /* UITextField+PopulateSlowly.h */,
@@ -634,6 +645,8 @@
 			knownRegions = (
 				en,
 				es,
+				it,
+				de,
 			);
 			mainGroup = 5F8985AB18C3EA9B0085B085;
 			productRefGroup = 5F8985B518C3EA9B0085B085 /* Products */;
@@ -775,6 +788,7 @@
 				5F08A7DA18C46A9400E3E02E /* SQFriendsOnSquawk.m in Sources */,
 				5FB8DD4F191174C200DA07FF /* SQOnboardingViewController.m in Sources */,
 				5F93BFE518CD7855004AF7BC /* NSArray+CombineStrings.m in Sources */,
+				5F2D285F191A5BEF002270E9 /* SQDateFormatter.m in Sources */,
 				5FB8DD6D1912BCE800DA07FF /* TBPulsingView.m in Sources */,
 				5F90B42818C3EB79004C4FD2 /* WSPersistentDictionary.m in Sources */,
 				5F2C4A9518C570F500E59DFA /* NSString+NormalizeForSearch.m in Sources */,
@@ -819,6 +833,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				5F8985C118C3EA9B0085B085 /* en */,
+				5F2D2858191A5947002270E9 /* it */,
+				5F2D285B191A5B42002270E9 /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -827,6 +843,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				5F8985DA18C3EA9B0085B085 /* en */,
+				5F2D2859191A5947002270E9 /* it */,
+				5F2D285C191A5B42002270E9 /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -835,6 +853,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				5FC27DC618F240C10080EE09 /* en */,
+				5F2D2857191A5947002270E9 /* it */,
+				5F2D285A191A5B42002270E9 /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
