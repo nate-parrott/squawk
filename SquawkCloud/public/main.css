@@ -8,6 +8,10 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 100;
 }
 
+#panels > li {
+	max-height: 800px;
+}
+
 html, body {
 	margin: 0px;
 	height: 100%;
@@ -103,7 +107,9 @@ ol#panels > li > div {
 
 
 #panel2 {
-	background-color: #F6CF5D;
+	/*background-color: #F6CF5D;*/
+	background-color: #225BA2;
+	color: white;
 }
 #panel2 > div {
 	position: relative;
@@ -131,7 +137,7 @@ ol#panels > li > div {
 #bottom {
 	height: auto !important;
 	padding: 10px 0px;
-	background-color: #E1B946;
+	background-color: #122C57;
 	color: white;
 }
 #bottom a {
@@ -141,4 +147,12 @@ ol#panels > li > div {
 }
 #bottom a:hover {
 	color: #ccc;
+}
+
+#download {
+	background-color: white;
+	color: #F1003A !important;
+	padding: 5px 10px;
+	text-decoration: none;
+	font-size: x-large;
 }

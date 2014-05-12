@@ -84,17 +84,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RrW-g5-cWC" customClass="SQAnimatedBird">
-                                                    <rect key="frame" x="140" y="12" width="40" height="40"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <color key="tintColor" red="0.16862745579999999" green="0.44313728810000003" blue="0.7019608021" alpha="1" colorSpace="deviceRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="40" id="3TV-1d-uNf"/>
-                                                        <constraint firstAttribute="height" constant="40" id="QaT-4u-wfo"/>
-                                                    </constraints>
-                                                </view>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="pull to refresh" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KMf-q5-Ugm">
-                                                    <rect key="frame" x="192" y="24" width="73" height="17"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="pull to refresh" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KMf-q5-Ugm">
+                                                    <rect key="frame" x="120" y="24" width="82" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
                                                     <color key="textColor" red="0.42574179292929293" green="0.42574179292929293" blue="0.42574179292929293" alpha="1" colorSpace="calibratedRGB"/>
@@ -102,10 +93,8 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="RrW-g5-cWC" firstAttribute="centerY" secondItem="KMf-q5-Ugm" secondAttribute="centerY" constant="-0.5" id="47L-s3-Bqa"/>
-                                                <constraint firstAttribute="centerX" secondItem="RrW-g5-cWC" secondAttribute="centerX" id="h0i-Ux-9xy"/>
-                                                <constraint firstAttribute="centerY" secondItem="RrW-g5-cWC" secondAttribute="centerY" id="pPc-9o-tHL"/>
-                                                <constraint firstItem="KMf-q5-Ugm" firstAttribute="leading" secondItem="RrW-g5-cWC" secondAttribute="trailing" constant="12" id="sdr-ds-Yd0"/>
+                                                <constraint firstAttribute="centerY" secondItem="KMf-q5-Ugm" secondAttribute="centerY" constant="-0.5" id="Qpb-pW-adz"/>
+                                                <constraint firstAttribute="centerX" secondItem="KMf-q5-Ugm" secondAttribute="centerX" constant="-0.5" id="uFr-wL-z2v"/>
                                             </constraints>
                                         </view>
                                         <prototypes>
@@ -354,7 +343,6 @@
                         <outlet property="_titleBar" destination="Sd9-ib-IQd" id="57K-PM-K0L"/>
                         <outlet property="_titleBarBackground" destination="15n-Fg-v2z" id="Y1b-kx-OFs"/>
                         <outlet property="_titleLabel" destination="Chp-e9-Fg0" id="SYp-7N-Wt7"/>
-                        <outlet property="pullToRefreshAnimation" destination="RrW-g5-cWC" id="1ar-vU-GVw"/>
                         <outlet property="squawkBar" destination="zjv-Um-DGF" id="wxz-g4-Kx1"/>
                         <outlet property="tableView" destination="Ivh-un-syE" id="org-jp-B2Y"/>
                     </connections>

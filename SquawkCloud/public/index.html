@@ -1,387 +1,84 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset='utf-8'/>
-	<title>Squawk — talk, don't text. Send quick voice messages to your contacts.</title>
-	<meta name="viewport" content="width=device-width, user-scalable=no"/>
-	<meta name="apple-itunes-app" content="app-id=807961872"/>
-	<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	  ga('create', 'UA-47910043-2', 'squawkwith.us');
-	  ga('send', 'pageview');
-
-	</script>
-	
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script src='jquery.min.js'></script>
-	<script src='waypoints.min.js'></script>
-	<script>
-
-	var pauser = null;
-	var lastStart = 0;
-	$(document).ready(function() {
-		var iosDevices = ['iPad', 'iPhone', 'iPod'];
-		iosDevices.forEach(function(name) {
-			if (navigator.userAgent.indexOf(name) != -1) {
-				$('.download[href="http://come.squawkwith.us"]').click(function() {
-					window.location = 'https://itunes.apple.com/us/app/squawk-talk-dont-text/id807961872?ls=1&mt=8';
-					return false;
-				})
-			}
-		})
-
-		$('*[timeline-sec]').each(function(i, el) {
-			$(el).waypoint(function(direction) {
-				if (!window.HYPE) return;
-				var timing = $(this).attr('timeline-sec');
-								console.log(timing, direction);
-				var start = parseFloat(timing.split('-')[0]);
-				if (start==lastStart) return;
-				lastStart = start;
-				var duration = parseFloat(timing.split('-')[1])-start;
-				//console.log(timing, direction);
-				var animation = HYPE.documents.animation2;
-				animation.continueTimelineNamed('Main Timeline');
-				animation.goToTimeInTimelineNamed(start, 'Main Timeline');
-				if (pauser) clearTimeout(pauser);
-				pauser = setTimeout(function() {
-					animation.pauseTimelineNamed('Main Timeline');
-					pauser = null;
-				}, duration*1000);
-			}, {offset: (i==0? 0 : '30%')})
-		})
-
-		/*function resized() {
-			var scale = $('#screen').width() / 320 * 0.69;
-			var transform = 'scale('+scale+')';
-			var transforms = ['transform', '-webkit-transform', '-ms-transform', '-moz-transform'];
-			transforms.forEach(function(x) {
-				$('#screen').css(x, transform);
-			})
-			console.log(scale);
-		}
-		$('#iphone').load(resized);
-		$(document).resize(resized);
-		resized();*/
+	<head>
+		<meta charset='utf-8'/>
+		<title>Squawk — talk, don't text.</title>
+		<link rel='stylesheet' href='main.css'/>
+		<meta name="apple-itunes-app" content="app-id=807961872"/>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		
-			$('#learnMore').click(function() {
-				$('html, body').animate({
-				    scrollTop: $('#page2').offset().top + 15
-				 }, 1000);
+		<script>
+		$(document).ready(function() {
+			$('input[placeholder]').each(function(i, input) {
+				$(input).val($(input).attr('placeholder')).attr('placeholder', '');
+				$(input).focus(function() {
+					$(this).val("");
+				})
+			})
+			$('#main-panel form').submit(function() {
+				var phone = $('#main-panel form input[name=phone]').val();
+				if (phone.length >= 10) {
+					var button = $('#main-panel form input[type=submit]');
+					$('#main-panel form').css({opacity: 0.5});
+					$.post('/sendInvitation', {phoneNumber: phone}, function() {
+						$('#main-panel form').css({opacity: 1.0});
+						$('#main-panel form input[type=submit]').val("sent!");
+					});
+				}
 				return false;
 			})
-	})
-
-	</script>
-	<style>
-	
-	@import url(http://fonts.googleapis.com/css?family=Alegreya+Sans);
-	
-	
-	#mobile {
-		display: none;
-	}
-	@media screen and (max-width: 600px) {
-		#desktop {display: none;}
-		#mobile {display: block;}
-	}
-	
-	html, body {
-    	font-family: "Helvetica Neue", "HelveticaNeue", "Helvetica", sans-serif;
-		height: 100%;
-		margin: 0px;
-	}
-	
-	@media screen and (min-width: 600px) {
-		#desktop {
-			width: 100%;
-			height: 100%;
-			font-family: "Alegreya Sans", sans-serif;
-		}
-		#iphone-container {
-			position: fixed;
-			left: 50%;
-			top: 0px;
-			height: 100%;
-			display: table;
-			width: 50%;
-		}
-		#iphone-container > div {
-			display: table-cell;
-			vertical-align: middle;
-			text-align: left;
-		}
-		#iphone {
-			width: 350px;
-			height: auto;
-		}
-
-		#screen {
-			position: absolute;
-			left: 15px;
-			top: 50%;
-			margin-top: -284px;
-			-webkit-transform: scale(0.76);
-			-ms-transform: scale(0.76);
-			-moz-transform: scale(0.76);
-			transform: scale(0.76);
-		}
-		#waypoints > div {
-			height: 100%;
-			display: table;
-			width: 100%;
-		}
-	
-		#waypoints > div > * {
-			padding-right: 50%;
-			padding-left: 10%;
-			text-align: right;
-		}
-		#waypoints > div * {
-		}
-		img.mobile {
-			display: none;
-		}
-		#bottom {
-			/*position: absolute;
-			left: 10px;
-			top: 10px;
-			width: auto !important;
-			opacity: 0.5;
-			right: 0px;*/
-			padding-top: 20px;
-			padding-bottom: 20px;
-			height: auto !important;
-			text-align: center;
-			z-index: 10;
-			position: relative;
-		}
-		#bottom > div {
-			padding: 0px;
-			width: 100%;
-			text-align: center;
-		}
-		#bottom a {
-			color: gray !important;
-			padding: 3px;
-		}
-		#down-hint {
-			width: 30px;
-			height: auto;
-			position: absolute;
-			bottom: 10px;
-			left: 30px;
-			opacity: 0.5;
-			display: none;
-		}
-
-		#waypoints {
-			text-align: center;
-			height: 100%;
-			line-height: 1.3;
-		}
-		#waypoints p {
-			font-size: 1.2em;
-		}
-		#waypoints > div > * {
-			display: table-cell;
-			vertical-align: middle;
-		}
-
-		#waypoints > div {
-			background-size: cover;
-			background-position: center;
-		}
-		h1, h2, h3 {
-			margin: 0px;
-		}
-		p {
-			font-weight: 200;
-		}
-		#page1 {
-			color: black;
-			background-color: #f9d770;
-			background-image: url(top.png);
-			background-position: top left !important;
-			background-size: 300px !important;
-			background-repeat: no-repeat;
-		}
-		#page2 {
-			background-color: #FDAD36;
-		}
-		#page3 {
-			color: white;
-			background-color: #f9385e;
-		}
-		#page5 {
-			color: white;
-			background-color: #2b71b3;
-		}
+			
+			if (navigator.userAgent.indexOf('iPhone') != -1 || navigator.userAgent.indexOf('iPod') != -1) {
+				$('#invite').hide();
+				$('#download').show();
+			}
+		})
+		</script>
 		
-		#fb {
-			display: block;
-			position: absolute;
-			bottom: 10px;
-			left: 10px;
-		}
-		
-	}
-	
-	.download {
-		color: black;
-		background-color: white;
-		font-weight: bold;
-		text-decoration: none;
-		text-transform: lowercase;
-		padding: 2px 7px;
-	}
-	.download:hover {
-		background-color: #f9385e;
-		color: white;
-	}
-	
-	#mobile > div {
-		margin: 0px;
-	}
-	#m1 {
-		background-color: #f9d770;
-	}
-	#m2 {
-		background-color: #FBB42A;
-	}
-	#m3 {
-		background-color: #F71649;
-	}
-	#m4 {
-		background-color: #295D82;
-	}
-	#mobile > div img {
-		display: block;
-		margin: auto;
-		max-width: 60%;
-	}
-	#mobile {
-		text-align: center;
-	}
-	#mobile h2 {
-		color: white;
-		padding: 30px 20px;
-		padding-bottom: 14px;
-		margin: 0px;
-		text-align: center;
-		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica", sans-serif;
-		font-weight: 100;
-		font-size: 1.4em;
-		line-height: 1.3;
-	}
-	#mobile h1 {
-		margin: 0px;
-	}
-	#mobile h1 img {
-		width: 100%;
-		height: auto;
-		display: block;
-	}
-	#mobile .download {
-		display: inline-block;
-		margin-bottom: 10px;
-	}
-	</style>
-</head>
-<body>
-	<div id='mobile'>
-		<h1><img src='top.png' alt='Squawk'/></h1>
-		<div id='m1'>
-			<h2 style='color: black; padding-top: 0px'>Talk, don’t text. Send instant voice messages to your contacts.</h2>
-			<a class='download' href='http://come.squawkwith.us'>Download</a>
-			<img src='page1@2x.png'/>
-		</div>
-		<div id='m2'>
-			<h2>To send a squawk, just raise your iPhone to your ear.</h2>
-			<a class='download' href='http://come.squawkwith.us'>Download</a>
-			<img src='page2@2x.png'/>
-		</div>
-		<div id='m3'>
-			<h2>Listen the same way.
-Squawks disappear once they’re heard.</h2>
-			<a class='download' href='http://come.squawkwith.us'>Download</a>
-			<img src='page3@2x.png'/>
-		</div>
-		<div id='m4'>
-			<h2>Squawk uses your contacts, so no need to sign up for anything.
-Getting started is instant.</h2>
-			<a class='download' href='http://come.squawkwith.us'>Download</a>
-			<img src='page4@2x.png'/>
-		</div>
-	</div>
-	<div id='desktop'>
-		<div id='iphone-container'>
-			<div>
-				<img id='iphone' src='iphone.png'/>
-				<div id='screen'>
-					<div id="animation2_hype_container" style="position:relative;overflow:hidden;width:320px;height:568px;">
-						<script type="text/javascript" charset="utf-8" src="animation2.hyperesources/animation2_hype_generated_script.js?31162"></script>
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-47910043-2', 'squawkwith.us');
+		  ga('send', 'pageview');
+
+		</script>
+	</head>
+	<body>
+		<ol id='panels'>
+			<li id='main-panel'>
+				<div id='name'>
+					<h1><img src='bird-outline.png' height='70px'/>Squawk</span></h1>
+					<p id='blurb'>A voice message is better than a text. And now it's easier, too.</p>
+					<form id='invite'>
+						<label>Send yourself an invite:</label><br/>
+						<input type='tel' name='phone' placeholder='(718) 555-1234'/>
+						<input type='submit' value='send'>
+					</form>
+					<a style='display: none' id='download' href='https://itunes.apple.com/us/app/squawk-talk-dont-text/id807961872?ls=1&mt=8'>Download</a>
+				</div>
+				<div id='photo'>
+					<div id='phone'>
+						<img src='5c.png'/>
+						<video src='loop.mp4' autoplay loop width="209" height="370" poster="loop-first-frame.png"/>
 					</div>
 				</div>
-			</div>
-		</div>
-		
-		<div id='waypoints'>
-			<div id='page1'>
-				<div timeline-sec='0-1'>
-					<h1>Talk, don't text.</h1>
-					<p>Send voice messages to your contacts by raising your phone to your ear.</p>
-					<a class='download' id='learnMore' href='#page2' style='margin-right: 3px'>Learn more</a>
-					<a class='download' href='http://come.squawkwith.us'>Download</a>
-					<img id='down-hint' src='arrow-down.png'/>
-					
-					<div id='fb' class="fb-like" data-href="https://facebook.com/thisissquawk" data-width="300" data-layout="standard" data-action="like" data-show-faces="true" data-colorscheme="dark" data-share="true"></div>
-					<div id="fb-root"></div>
-					<script>(function(d, s, id) {
-						if (navigator.userAgent.indexOf('iPad')!=-1) {
-							return;
-						}
-					  var js, fjs = d.getElementsByTagName(s)[0];
-					  if (d.getElementById(id)) return;
-					  js = d.createElement(s); js.id = id;
-					  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-					  fjs.parentNode.insertBefore(js, fjs);
-					}(document, 'script', 'facebook-jssdk'));</script>
+			</li>
+			<li id='panel2'>
+				<div>
+					<img class='top' src='record.png'/>
+					<h2>Simple to send. Simple to listen.</h2>
+					<p>To record a Squawk, tap a person's name, and then lift your iPhone to your ear. Put it down and the message is sent. When you've got a Squawk to listen to, the app turns blue—you can listen to it the same way.</p>
 				</div>
-			</div>
-			<div id='page2'>
-				<div timeline-sec='1-2'>
-					<h1>Send a squawk</h1>
-					<p>Just tap and hold, or lift iPhone to your ear.</p>
-					<a class='download' href='http://come.squawkwith.us'>Download</a>
+				<div>
+						<h2>Simple to set up.</h2>
+						<p>Squawk uses your phone number and your contacts. There's no need to sign up or exchange usernames.</p>
+						<img class='bottom' src='get-started.png'/>
 				</div>
-			</div>
-			<div id='page3'>
-				<div timeline-sec='2-5'>
-					<p>Put down the phone and it's sent instantly.</p>
-					<a class='download' href='http://come.squawkwith.us'>Download</a>
-				</div>
-			</div>
-			<div id='page4'>
-				<div timeline-sec='5-8'>
-					<h1 >Listening to Squawks is just as easy</h1>
-					<p>Just lift Squawk to your ear, or hold the button to play it on speakerphone.</p>
-					<a class='download' href='http://come.squawkwith.us'>Download</a>
-				</div>
-			</div>
-			<div id='page5'>
-				<div timeline-sec='8-9'>
-					<h1>It's that simple.</h1>
-					<p>Squawk uses your contacts, so there's no need to sign up for anything.</p>
-					<p>Setup takes two taps. (we counted.)</p>
-					<a class='download' href='http://come.squawkwith.us'>Download</a>
-				</div>
-			</div>
-			<div id='bottom'>
+			</li>
+			<li id='bottom'>
 				<div>
 					<a href="http://www.facebook.com/thisissquawk">Facebook</a>
 					<a href="https://twitter.com/ThisIsSquawk">Twitter</a>
@@ -389,9 +86,7 @@ Getting started is instant.</h2>
 					<a href="http://easyaf.herokuapp.com/squawk/terms-and-privacy">Terms &amp; Privacy</a>
 					<a href="http://easyaf.herokuapp.com/squawk">About</a>
 				</div>
-			</div>
-		</div>
-	</div>
-	
-</body>
+			</li>
+		</ol>
+	</body>
 </html>

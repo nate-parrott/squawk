@@ -157,6 +157,10 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.lateEnoughToShowError = YES;
     });
+    
+    if ([SQAPI currentPhone]!=nil && self.presentedViewController==nil) {
+        [self requestPermissions];
+    }
 }
 -(void)viewDidAppear:(BOOL)animated {
     if (!_setupLoginHooks) {
@@ -168,9 +172,6 @@ const CGPoint SQDefaultContentOffset = {0, 0};
                 [self presentViewController:onboarding animated:YES completion:nil];
             }
         }];
-    }
-    if ([SQAPI currentPhone]!=nil && self.presentedViewController==nil) {
-        [self requestPermissions];
     }
 }
 -(IBAction)newThread:(id)sender {
@@ -285,7 +286,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     RACSignal* volume = RACObserve(((AVAudioSession*)[AVAudioSession sharedInstance]), outputVolume);
     RACSignal* lateEnough = RACObserve(self, lateEnoughToShowError);
     RAC(_errorLabel, text) = [[[RACSignal combineLatest:@[microphoneAuth, fetchError, contactsStatus, volume, lateEnough]] map:^id(id value) {
-        if (!self.lateEnoughToShowError) return @"";
+        //if (!self.lateEnoughToShowError) return @"";
+        
         NSMutableArray* messages = [NSMutableArray new];
 /*#ifndef TARGET_IPHONE_SIMULATOR
         if (![AppDelegate registeredForPushNotifications]) {
