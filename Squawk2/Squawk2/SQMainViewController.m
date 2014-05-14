@@ -18,7 +18,6 @@
 #import "SQNewThreadViewController.h"
 #import "SQTheme.h"
 #import <QuartzCore/QuartzCore.h>
-#import "SQShimmerView.h"
 #import <Helpshift/Helpshift.h>
 #import "SQBackgroundTaskManager.h"
 #import "UIViewController+SoftModal.h"
@@ -31,10 +30,8 @@
 const CGPoint SQDefaultContentOffset = {0, 0};
 
 @interface SQMainViewController () {
-    IBOutlet UINavigationBar *_titleBar, *_titleBarBackground;
     IBOutlet UITextField* _searchField;
     IBOutlet UILabel* _titleLabel;
-    IBOutlet SQShimmerView* _shimmerView;
     
     NSTimer* _statusDisplayUpdater;
     
@@ -43,14 +40,14 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     NSTimeInterval _tapStartTime;
     
     IBOutlet UIView* _squawkListPadding;
-    
-    IBOutlet UIView* _squawkBarContainer;
-    
+        
     BOOL _didRefreshDuringPull;
     
     UIButton* _pushNotificationAdvert;
     
     IBOutlet UILabel* _pullToRefreshLabel;
+    
+    BOOL _madeInitialAppearance;
 }
 
 @property(nonatomic)BOOL searchMode;
@@ -61,21 +58,30 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 
 @implementation SQMainViewController
 
+-(BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 -(void)viewDidLoad {
     [super viewDidLoad];
     
+    for (UIView* view in _headerView.subviews) {
+        if ([view isKindOfClass:[UIButton class]]) {
+            UIButton* b = (UIButton*)view;
+            [b setImage:[b.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        }
+    }
+    
+    // apply CALayer perspective:
+    CATransform3D perspective = CATransform3DIdentity;
+    perspective.m34 = 1.0 / -2000;
+    self.view.layer.sublayerTransform = perspective;
+    
     _pullToRefreshLabel.text = NSLocalizedString(@"Pull to refresh", @"").lowercaseString;
     
-    self.view.tintColor = [SQTheme red];//[UIColor colorWithWhite:0.8 alpha:0.4];
-
-    [_squawkBar layoutIfNeeded];
+    self.view.tintColor = [SQTheme red];
     
     _searchField.placeholder = NSLocalizedString(@"Search", @"Search bar placeholder");
-    //_squawkBar.alpha = 0;
-    
-    //_squawkListPadding.hidden = YES;
-    
-    _squawksReloadAutomatically.text = NSLocalizedString(@"Relax, Squawks reload automically.", @"").lowercaseString;
     
     self.inviteFriendsPromptVisible = NO;
     
@@ -83,7 +89,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     
     _pushNotificationAdvert = [UIButton buttonWithType:UIButtonTypeCustom];
     [_pushNotificationAdvert setTitle:NSLocalizedString(@"Tap to enable push notifications", @"") forState:UIControlStateNormal];
-    [_pushNotificationAdvert setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [_pushNotificationAdvert setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_pushNotificationAdvert.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:13]];
     RAC(_pushNotificationAdvert, hidden) = RACObserve(AppDelegate, pushNotificationsEnabled);
     [_pushNotificationAdvert addTarget:self action:@selector(enablePush:) forControlEvents:UIControlEventTouchUpInside];
@@ -117,11 +123,17 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     
     self.searchMode = NO;
     
+    [RACObserve(self, selectedThread) subscribeNext:^(id x) {
+        if (x==nil && self.tableView.indexPathsForSelectedRows.count) {
+            [self.tableView deselectRowAtIndexPath:self.tableView.indexPathsForSelectedRows.firstObject animated:YES];
+        };
+    }];
+    
     RAC(self, searchQuery) = [[RACSignal combineLatest:@[RACObserve(self, searchMode), _searchField.rac_textSignal] reduce:^id(NSNumber* inSearchMode, NSString* searchQuery){
         return inSearchMode.boolValue? searchQuery : nil;
     }] throttle:0.1];
     
-    RAC(_shimmerView, shimmering) = RACObserve(self, loading);
+    RAC(_bird, animating) = RACObserve(self, loading);
     
     [RACObserve(self, currentAudioAction) subscribeNext:^(id x) {
         if ([self.currentAudioAction isKindOfClass:[SQAudioPlayerAction class]] && self.interactingWithThread) {
@@ -129,6 +141,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
             [[NSUserDefaults standardUserDefaults] setObject:threadID forKey:SQCheckmarkVisibleNextToThreadIdentifier];
         }
     }];
+    
+    
     
 /*#ifdef TAKING_DEFAULT_IMAGE
     for (UIView* v in @[_searchField, _titleLabel]) {
@@ -152,6 +166,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 }*/
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self scrollViewDidScroll:self.tableView];
     
     self.lateEnoughToShowError = NO;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -189,10 +205,6 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 #pragma mark Layout
 -(BOOL)automaticallyAdjustsScrollViewInsets {
     return NO;
-}
--(void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.tableView.frame.size.height-_squawkBar.frame.size.height-64, 0);
 }
 -(void)setInviteFriendsPromptVisible:(BOOL)inviteFriendsPromptVisible {
     _inviteFriendsPromptVisible = inviteFriendsPromptVisible;
@@ -238,6 +250,12 @@ const CGPoint SQDefaultContentOffset = {0, 0};
         SQAudioAction* currentAudioAction = x.second;
         if (currentAudioAction==nil && sections!=self.threadSections) {
             self.threadSections = sections;
+            // update the selected thread:
+            self.selectedThread = [[[self.threadSections.rac_sequence flattenMap:^RACStream *(id value) {
+                return [value rac_sequence];
+            }] filter:^BOOL(id value) {
+                return [[value identifier] isEqualToString:self.selectedThread.identifier];
+            }] take:1].array.firstObject;
             [self.tableView reloadData];
             if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
                 [[SQBackgroundTaskManager shared] completedBackgroundTaskCallback];
@@ -268,13 +286,11 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     }];
     
     [_tableViewReloaded subscribeNext:^(id x) {
-        NSString* mostRecentThreadIdentifier = [[self.threadSections.firstObject firstObject] identifier];
-        if (![mostRecentThreadIdentifier isEqualToString:_mostRecentThreadIdentifier]) {
-            if (!CGPointEqualToPoint(self.tableView.contentOffset, SQDefaultContentOffset)) {
-                [self.tableView setContentOffset:SQDefaultContentOffset animated:!!_mostRecentThreadIdentifier];
-                _squawkListPadding.hidden = NO;
-            }
-            _mostRecentThreadIdentifier = mostRecentThreadIdentifier;
+        NSString* mostRecentSquawkID = [[[self.threadSections.firstObject firstObject] squawks].firstObject objectForKey:@"_id"];
+        if (![mostRecentSquawkID isEqualToString:_mostRecentSquawkID]) {
+            [self.tableView setContentOffset:SQDefaultContentOffset animated:!!_mostRecentSquawkID];
+            self.selectedThread = [self.threadSections.firstObject firstObject];
+            _mostRecentSquawkID = mostRecentSquawkID;
         }
     }];
 }
@@ -330,8 +346,17 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SQThreadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Thread" forIndexPath:indexPath];
+    
+    int totalIndex = indexPath.row;
+    for (int i=0; i<indexPath.section; i++) {
+        totalIndex += [_threadSections[i] count];
+    }
+    cell.brightness = (cosf(totalIndex/2.0)+1)/2;
+    cell.saturation = 1;// - indexPath.section/3.0;
     cell.thread = [self threadForIndexPath:indexPath];
+    cell.sqSelected = [self.selectedThread isEqual:cell.thread];
     cell.controller = self;
+    
     return cell;
 }
 -(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
@@ -361,29 +386,23 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     targetContentOffset->y = landingY;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
-    rect.origin.y = (floor(rect.origin.y)/70)*70-64;
-    [self.tableView setContentOffset:rect.origin animated:YES];
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.selectedThread = _threadSections[indexPath.section][indexPath.row];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (!decelerate) {
-        _pullToRefreshAnimation.speed = 0;
-        _pullToRefreshAnimation.animationTime = 0;
-        _pullToRefreshAnimation.alpha = 0;
         _pullToRefreshLabel.text = NSLocalizedString(@"Pull to refresh", @"").lowercaseString;
     }
 }
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    _pullToRefreshAnimation.speed = 0;
-    _pullToRefreshAnimation.animationTime = 0;
-    _pullToRefreshAnimation.alpha = 0;
     _pullToRefreshLabel.text = NSLocalizedString(@"Pull to refresh", @"").lowercaseString;
 }
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [_searchField resignFirstResponder];
     
     _didRefreshDuringPull = NO;
+    
+    self.selectedThread = nil;
     
     for (UITableViewCell* cell in self.tableView.visibleCells) {
         if ([cell isKindOfClass:[SQThreadCell class]]) {
@@ -392,19 +411,16 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     }
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    _pullToRefreshLabel.alpha = MIN(1, MAX(0, -scrollView.contentOffset.y/PULL_TO_REFRESH_THRESHOLD));
+    _headerView.alpha = MIN(1, MAX(0, 1-scrollView.contentOffset.y/60));
+    
     if (!_didRefreshDuringPull) {
         CGFloat pullProgress = -scrollView.contentOffset.y / PULL_TO_REFRESH_THRESHOLD;
         pullProgress = MIN(1, MAX(0, pullProgress));
-        NSTimeInterval targetTime = pullProgress*M_PI*2;
-        if (targetTime != _pullToRefreshAnimation.animationTime) {
-            _pullToRefreshAnimation.animationTime = targetTime;
-            _pullToRefreshAnimation.alpha = pullProgress;
-            if (pullProgress == 1) {
-                _didRefreshDuringPull = YES;
-                _pullToRefreshAnimation.speed = 6;
-                [[SQSquawkCache shared] fetch];
-                _pullToRefreshLabel.text = NSLocalizedString(@"Refreshing", @"").lowercaseString;
-            }
+        if (pullProgress == 1) {
+            _didRefreshDuringPull = YES;
+            [[SQSquawkCache shared] fetch];
+            _pullToRefreshLabel.text = NSLocalizedString(@"Refreshing", @"").lowercaseString;
         }
     }
     
@@ -434,7 +450,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    CGFloat height = _pushNotificationAdvert.hidden? 15 : 30;
+    CGFloat height = 30;
     if (section==1) return height;
     if (section==0 || section >= self.threadSections.count || [self.threadSections[section] count]==0) {
         return 0;
@@ -443,19 +459,6 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 }
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView* v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
-    v.backgroundColor = [UIColor colorWithWhite:0.97 alpha:1.000];
-    
-    UIView* top = [UIView new];
-    top.backgroundColor = [UIColor colorWithRed:0.784 green:0.780 blue:0.800 alpha:1];
-    [v addSubview:top];
-    top.frame = CGRectMake(0, 0, 10, 0.5);
-    top.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-    
-    UIView* bottom = [UIView new];
-    bottom.backgroundColor = [UIColor colorWithRed:0.784 green:0.780 blue:0.800 alpha:1];
-    [v addSubview:bottom];
-    bottom.frame = CGRectMake(0, 9, 10, 1);
-    bottom.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
     
     if (section==1) {
         [v addSubview:_pushNotificationAdvert];
@@ -470,17 +473,11 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 }
 #pragma mark Focus/squawking
 -(void)setupFocusBindings {
-    RACSignal* onScroll = RACObserve(self.tableView, contentOffset);
-    RAC(self, selectedThread) = [[[[RACSignal combineLatest:@[onScroll, _tableViewReloaded]] throttle:0.01] map:^id(id value) {
-        CGFloat y = _selectorBar.frame.origin.y + _selectorBar.frame.size.height/2;
+    [RACObserve(self, selectedThread) subscribeNext:^(id x) {
         for (SQThreadCell* cell in self.tableView.visibleCells) {
-            CGRect cellFrame = [self.view convertRect:cell.bounds fromView:cell];
-            if (y >= cellFrame.origin.y && y <= cellFrame.origin.y+cellFrame.size.height) {
-                return cell.thread;
-            }
+            cell.sqSelected = x && [cell.thread isEqual:x];
         }
-        return nil;
-    }] distinctUntilChanged];
+    }];
     
     RAC(self, interactingWithThread) = [RACSignal combineLatest:@[RACObserve(self, selectedThread), RACObserve(self, pressedThread)] reduce:^id(SQThread* selected, SQThread* pressed){
         if (pressed) return pressed;
@@ -490,54 +487,30 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     UIColor* playbackColor = [SQTheme blue];
     UIColor* recordingColor = [SQTheme red];
     
+    [RACObserve(self, selectedThread) subscribeNext:^(id x) {
+        if (_selectedThread) {
+            [self updateRaiseToSquawkHintWithThread:_selectedThread];
+        }
+        
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+            _raiseToSquawkHintContainer.alpha = (!!x)? 1 : 0;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }];
+    
     RACSignal* squawkUpdateSignal = [[[NSNotificationCenter defaultCenter] rac_addObserverForName:SQThreadUpdatedNotification object:nil] startWith:nil];
     [[RACSignal combineLatest:@[RACObserve(self, interactingWithThread), squawkUpdateSignal, [[NSUserDefaults standardUserDefaults] rac_valuesForKeyPath:SQCheckmarkVisibleNextToThreadIdentifier observer:nil]]] subscribeNext:^(id x) {
         
-        if (_interactingWithThread==nil) {
-            [_squawkBar setShowsInviteLabel:NO allowsPlackback:NO showsCheckmark:NO playbackLabel:nil recordLabel:nil];
-            return;
-        }
+        if (!_interactingWithThread) return;
         
-        NSDictionary* mainAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Demibold" size:13], NSForegroundColorAttributeName: [UIColor whiteColor]};
-        NSDictionary* subtitleAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Regular" size:12], NSForegroundColorAttributeName: [UIColor whiteColor]};
+        BOOL playback = _interactingWithThread.unread.count>0;
         
-        NSString* firstName = self.interactingWithThread.veryShortName;
-        
-        BOOL playback = self.interactingWithThread.unread.count>0;
-        BOOL raiseToSquawkAvailable = [WSEarSensor shared].isAvailable;
-#ifdef PRETTIFY
-        raiseToSquawkAvailable = YES;
-#endif
-        
-        NSMutableAttributedString* playbackTitle = [NSMutableAttributedString new];
-        NSMutableAttributedString* recordTitle = [NSMutableAttributedString new];
-        if (raiseToSquawkAvailable) {
-            [playbackTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Raise to ear to listen to %@", @""), firstName] attributes:mainAttributes]];
-            [playbackTitle appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"\nor tap and hold", @"") attributes:subtitleAttributes]];
-            
-            [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Raise to ear to squawk %@", @""), firstName] attributes:mainAttributes]];
-            [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"\nor tap and hold", @"") attributes:subtitleAttributes]];
-        } else {
-            [playbackTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Push to listen to %@", @""), firstName] attributes:mainAttributes]];
-            
-            [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Push to squawk %@", @""), firstName] attributes:mainAttributes]];
-        }
         BOOL showInviteLabel = !_interactingWithThread.compData->_registered;
         NSString* identifierForCheckmark = [x third];
         BOOL showCheckmark = !!_interactingWithThread && [identifierForCheckmark isEqualToString:[_interactingWithThread identifier]];
-        [_squawkBar setShowsInviteLabel:showInviteLabel allowsPlackback:playback showsCheckmark:showCheckmark playbackLabel:playbackTitle recordLabel:recordTitle];
         
-        if (playback) {
-            [_squawkBar showPlayback:YES];
-        }
-    }];
-    
-    RAC(self.view, tintColor) = [RACObserve(_squawkBar, showingPlayback) map:^id(id value) {
-        if ([value boolValue]) {
-            return playbackColor;
-        } else {
-            return recordingColor;
-        }
+        self.view.tintColor = playback? playbackColor : recordingColor;
     }];
     
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil] subscribeNext:^(id x) {
@@ -548,30 +521,33 @@ const CGPoint SQDefaultContentOffset = {0, 0};
         return @((tapDown.boolValue || raisedToEar.boolValue || !!pressedThread) && self.presentedViewController==nil);
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
-#pragma mark Squawk bar delegate methods
--(void)playbackOrRecordHeldDown:(SQSquawkBar*)squawkBar {
-    [UIView animateWithDuration:0.1 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-        _squawkBarContainer.transform = CGAffineTransformMakeTranslation(0, 5);
-        _squawkBarContainer.alpha = 0.7;
-    } completion:nil];
-    _tapStartTime = [NSDate timeIntervalSinceReferenceDate];
-    self.tapDown = YES;
-}
--(void)playbackOrRecordPickedUp:(SQSquawkBar*)squawkBar {
-    if ([NSDate timeIntervalSinceReferenceDate] - _tapStartTime < 1 && ![WSEarSensor shared].isRaisedToEar) {
-        SQStatusViewCard* status = [[SQStatusViewCard alloc] initWithText:NSLocalizedString(@"Tap and hold", @"") image:[UIImage imageNamed:@"down-thin"]];
-        [_statusView flashStatusView:status duration:2.5];
+-(void)updateRaiseToSquawkHintWithThread:(SQThread*)thread {
+    BOOL playback = thread.unread.count>0;
+    BOOL raiseToSquawkAvailable = [WSEarSensor shared].isAvailable;
+#ifdef PRETTIFY
+    raiseToSquawkAvailable = YES;
+#endif
+    NSDictionary* mainAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Demibold" size:13], NSForegroundColorAttributeName: [UIColor blackColor]};
+    NSDictionary* subtitleAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Regular" size:11], NSForegroundColorAttributeName: [UIColor blackColor]};
+    
+    NSString* firstName = thread.veryShortName;
+    
+    NSMutableAttributedString* playbackTitle = [NSMutableAttributedString new];
+    NSMutableAttributedString* recordTitle = [NSMutableAttributedString new];
+    if (raiseToSquawkAvailable) {
+        [playbackTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Raise to ear to listen to %@", @""), firstName] attributes:mainAttributes]];
+        [playbackTitle appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"\nor tap and hold their name", @"") attributes:subtitleAttributes]];
+        
+        [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Raise to ear to squawk %@", @""), firstName] attributes:mainAttributes]];
+        [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"\nor tap and hold their name", @"") attributes:subtitleAttributes]];
+    } else {
+        [playbackTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Listen to %@ by tapping and holding their name", @""), firstName] attributes:mainAttributes]];
+        
+        [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Squawk %@ by tapping and holding their name", @""), firstName] attributes:mainAttributes]];
     }
-    self.tapDown = NO;
-    [UIView animateWithDuration:0.1 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-        _squawkBarContainer.transform = CGAffineTransformMakeTranslation(0, 0);
-        _squawkBarContainer.alpha = 1;
-    } completion:nil];
+    _raiseToSquawkHint.attributedText = playback? playbackTitle : recordTitle;
 }
--(void)playbackOrRecordCancelled:(SQSquawkBar*)squawkBar {
-    [self playbackOrRecordPickedUp:squawkBar];
-}
--(void)sendCheckmark:(SQSquawkBar*)squawkBar {
+-(void)sendCheckmark:(id)sender {
     NSString* threadIdentifier = self.interactingWithThread.squawks.firstObject[@"thread_identifier"]? : @"";
     NSMutableArray* sendCheckmarksToPhones = self.interactingWithThread.phoneNumbers.allObjects.mutableCopy;
     [sendCheckmarksToPhones removeObject:[SQAPI currentPhone]];
@@ -585,14 +561,16 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     [AppDelegate trackEventWithCategory:@"action" action:@"sent_checkmark" label:nil value:nil];
     
 }
--(void)inviteFriend:(SQSquawkBar*)squawkBar {
-    [[SQFriendsOnSquawk shared] sendInvitationMessage:[SQFriendsOnSquawk genericInvitationPrompt] toPhones:self.interactingWithThread.numbersToDisplay];
-}
 -(void)setPlayOrRecord:(BOOL)playOrRecord {
     if (_playOrRecord == playOrRecord) return;
     _playOrRecord = playOrRecord;
+    
     if (playOrRecord) {
         if (self.interactingWithThread) {
+            UIView* viewForStatusViewPosition = [[self cellForThread:self.interactingWithThread] background];
+            _statusView.frame = [_statusView.superview convertRect:viewForStatusViewPosition.bounds fromView:viewForStatusViewPosition];
+            _statusView.touchPoint = [_statusView convertPoint:_touchPoint fromView:self.view];
+            
             if ([WSEarSensor shared].isRaisedToEar) {
                 self.interactionMode = SQRaisedToEar;
             } else if (self.pressedThread) {
@@ -602,7 +580,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
             }
             
             // log stuff:
-            BOOL playback = self.squawkBar.showingPlayback;
+            BOOL playback = self.interactingWithThread.unread.count;
             NSString* method;
             if ([WSEarSensor shared].isRaisedToEar) {
                 method = @"raise_to_squawk";
@@ -668,12 +646,6 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     } else {
         [_searchField resignFirstResponder];
     }
-    
-    UIBarButtonItem* leftButton = searchMode? [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(exitSearchMode:)] : [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(enterSearchMode:)];
-    UIBarButtonItem* rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newThread:)];
-    [_titleBar.items.lastObject setLeftBarButtonItem:leftButton animated:YES];
-    [_titleBar.items.lastObject setRightBarButtonItem:rightButton];
-    [_titleBar.items.lastObject setTitle:@""];
 }
 -(IBAction)enterSearchMode:(id)sender {
     self.searchMode = YES;
@@ -699,16 +671,9 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     return nil;
 }
 -(void)setupStatusDisplay {
-    RAC(_statusView, passthroughRects) = [[[[RACSignal combineLatest:@[RACObserve(self, interactingWithThread), RACObserve(self.tableView, contentOffset)] reduce:^id(SQThread* thread, CGPoint offset){
-        SQThreadCell* cell = [self cellForThread:thread];
-        if (cell) {
-            return @[[NSValue valueWithCGRect:[_statusView convertRect:cell.bounds fromView:cell]]];
-        } else {
-            return nil;
-        }
-    }] filter:^BOOL(id value) {
-        return [value count]>0;
-    }] distinctUntilChanged] deliverOn:[RACScheduler mainThreadScheduler]];
+    _statusView = [SQStatusView new];
+    _statusView.userInteractionEnabled = NO;
+    [self.view addSubview:_statusView];
     
     [[RACObserve(self, currentAudioAction) deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
         if (x && !_statusDisplayUpdater) {
@@ -720,6 +685,16 @@ const CGPoint SQDefaultContentOffset = {0, 0};
         
         SQStatusViewCard* newStatusView = [self nextStatusView];
         [_statusView replaceStatusViewForIdentifier:@"currentAudioAction" withStatusView:newStatusView];
+    }];
+    
+    [RACObserve(_statusView, visible) subscribeNext:^(id x) {
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+            for (SQThreadCell* cell in self.tableView.visibleCells) {
+                cell.interacting = _statusView.visible && CGRectIntersectsRect(cell.bounds, [cell convertRect:_statusView.bounds fromView:_statusView]);
+            }
+        } completion:^(BOOL finished) {
+            
+        }];
     }];
 }
 -(void)updateStatusDisplay {
@@ -762,6 +737,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 }
 -(void)audioActionDidRecordSquawk:(SQAudioRecordingAction *)action {
     SQStatusViewCard* status = [[SQStatusViewCard alloc] initWithText:NSLocalizedString(@"Sent.", @"") image:[UIImage imageNamed:@"ok-thin"]];
+    status.circleSpeed = WSConcentricCirclesViewAdvancedHD2014Hidden;
     [_statusView flashStatusView:status duration:self.interactionMode==SQRaisedToEar? 2.5 : 1];
     
     [[SQSquawkCache shared] performSelector:@selector(pollIfNeeded) withObject:nil afterDelay:1.0];
@@ -770,6 +746,19 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 -(void)enablePush:(id)sender {
     UIViewController* vc = [self.storyboard instantiateViewControllerWithIdentifier:@"PushEnableDialog"];
     [vc presentSoftModalInViewController:self];
+}
+-(void)rippleFromCell:(UITableViewCell*)center {
+    for (SQThreadCell* cell in self.tableView.visibleCells) {
+        CGFloat dist = [center convertPoint:CGPointMake(0, cell.bounds.size.height/2) fromView:cell].y / (self.view.bounds.size.height);
+        CABasicAnimation* animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        animation.duration = 0.15;
+        animation.beginTime = CACurrentMediaTime() + fabsf(dist) * 0.4;
+        animation.autoreverses = YES;
+        animation.repeatCount = 1;
+        animation.fromValue = @1;
+        animation.toValue = @0.8;
+        [[cell background].layer addAnimation:animation forKey:@"Ripple"];
+    }
 }
 #pragma mark Transition animations
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {

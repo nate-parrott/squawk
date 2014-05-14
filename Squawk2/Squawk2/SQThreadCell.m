@@ -37,6 +37,8 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     if (_setup) return;
     _setup = YES;
     
+    _background.layer.borderColor = [UIColor whiteColor].CGColor;
+    
     _reloader = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(reload) userInfo:nil repeats:YES];
     
     self.gestureRec = [[SQLongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressed:)];
@@ -54,9 +56,6 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
         recordImageHighlighted = [[UIImage imageNamed:@"bird-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         checkmarkImage = [[UIImage imageNamed:@"check-button"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     });
-    [_button setImage:recordImage forState:UIControlStateNormal];
-    [_button setImage:recordImageHighlighted forState:UIControlStateHighlighted];
-    _button.imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     self.backgroundColor = [UIColor clearColor];
     self.backgroundView = [UIView new];
@@ -78,10 +77,15 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
 -(void)reload {
     _label.attributedText = [self attributedTitle];
     int unread = (int)self.thread.unread.count;
-    _button.transform = CGAffineTransformMakeScale(unread? -1 : 1, 1);
     _unreadCount.text = unread? [NSString stringWithFormat:@"%i", unread] : @"";
-    self.tintColor = unread? [SQTheme blue] : [SQTheme red];
-    _unreadCount.textColor = self.tintColor;
+    
+    UIColor* tint = unread? [SQTheme blue] : [SQTheme red];
+    CGFloat hue, sat, brightness;
+    [tint getHue:&hue saturation:&sat brightness:&brightness alpha:nil];
+    sat = sat*0.7 + self.saturation*0.3;
+    brightness = brightness*0.7 + self.brightness*0.3;
+    tint = [UIColor colorWithHue:hue saturation:sat brightness:brightness alpha:1];
+    _background.backgroundColor = self.tintColor = tint;
     
     if (self.thread.squawks.count) {
         NSDate* date = [NSDate dateWithTimeIntervalSince1970:[self.thread.squawks.firstObject[@"date"] doubleValue]];
@@ -116,8 +120,8 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
         BOOL hasUnread = [phoneNumbersWithUnreadSquawks containsObject:phoneNumber];
         
         NSDictionary* attrs = @{
-                                NSForegroundColorAttributeName: registered? [UIColor blackColor] : [UIColor grayColor],
-                                NSFontAttributeName: hasUnread? [UIFont fontWithName:@"AvenirNext-Medium" size:18] : [UIFont fontWithName:@"AvenirNext-Regular" size:18]
+                                NSForegroundColorAttributeName: [UIColor colorWithWhite:1 alpha:registered? 1 : 0.7],
+                                NSFontAttributeName: hasUnread? [UIFont fontWithName:@"AvenirNext-Medium" size:16] : [UIFont fontWithName:@"AvenirNext-Regular" size:16]
                                 };
         
         if (i+1 < phoneNumbers.count) {
@@ -136,6 +140,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
 
 -(IBAction)pressed:(UILongPressGestureRecognizer*)sender {
     if (sender.state==UIGestureRecognizerStateBegan) {
+        self.controller.touchPoint = [sender locationInView:self.controller.view];
         self.controller.pressedThread = self.thread;
     } else if (sender.state==UIGestureRecognizerStateCancelled||sender.state==UIGestureRecognizerStateEnded||sender.state==UIGestureRecognizerStateFailed) {
         self.controller.pressedThread = nil;
@@ -147,6 +152,35 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
 -(void)scrolled {
     [self.gestureRec setEnabled:NO];
     [self.gestureRec setEnabled:YES];
+}
+-(void)setSqSelected:(BOOL)sqSelected {
+    _sqSelected = sqSelected;
+    
+    CGFloat borderWidth = sqSelected? 3 : 0;
+    if (borderWidth != _background.layer.borderWidth) {
+        CABasicAnimation* anim = [CABasicAnimation animationWithKeyPath:@"borderWidth"];
+        //anim.removedOnCompletion = YES;
+        anim.fillMode = kCAFillModeForwards;
+        anim.fromValue = @(_background.layer.borderWidth);
+        anim.toValue = @(borderWidth);
+        anim.duration = 0.2;
+        [_background.layer addAnimation:anim forKey:@"Border"];
+        _background.layer.borderWidth = borderWidth;
+    }
+}
+-(void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
+}
+-(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    
+}
+-(void)setInteracting:(BOOL)interacting {
+    _interacting = interacting;
+    _label.alpha = _date.alpha = _unreadCount.alpha = interacting? 0.1 : 1;
+}
+-(void)prepareForReuse {
+    [super prepareForReuse];
+    self.interacting = NO;
 }
 
 @end

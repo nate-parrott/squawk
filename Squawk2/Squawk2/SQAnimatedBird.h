@@ -10,8 +10,6 @@
 
 @interface SQAnimatedBird : UIView
 
-@property(nonatomic) float speed;
-
-@property(nonatomic)NSTimeInterval animationTime;
+@property(nonatomic)BOOL animating;
 
 @end

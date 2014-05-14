@@ -11,7 +11,7 @@
 #import "WSPersistentDictionary.h"
 #import "SQThread.h"
 #import "SQAudioFiles.h"
-#import "SQBlurredStatusView.h"
+#import "SQStatusView.h"
 
 @implementation SQAudioPlayerAction
 
@@ -46,6 +46,7 @@
 }
 -(void)setLoading:(BOOL)loading {
     if (_loading == loading) return;
+    
     _loading = loading;
     [[NSNotificationCenter defaultCenter] postNotificationName:SQAudioActionStatusChanged object:self];
     if (loading) {
@@ -61,6 +62,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         SQStatusViewCard* status = self.statusView;
+        status.circleSpeed = loading? 0.3 : 1;
         if (self.loading) {
             status.imageView.image = [[UIImage imageNamed:@"playing-thin"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             status.label.text = NSLocalizedString(@"Loading", @"").uppercaseString;
@@ -121,7 +123,7 @@ const NSString* SQSquawkSessionSquawkPlaybackTimes = @"SQSquawkSessionSquawkPlay
 #pragma mark Display
 -(void)refreshDisplay {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _statusView.circleTurn = _player? _player.currentTime/_player.duration : 0;
+        _statusView.circleSpeed = 1;
     });
 }
 

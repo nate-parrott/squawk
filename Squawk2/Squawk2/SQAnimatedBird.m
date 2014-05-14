@@ -12,6 +12,8 @@
     UIImageView *_body, *_wing1, *_wing2;
     CADisplayLink* _displayLink;
     
+    NSTimeInterval _time;
+    
     UIView* _content;
 }
 
@@ -33,13 +35,20 @@
 -(void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat flap1 = (sin(_animationTime)+1)/2;
-    CGFloat flap2 = (sin(_animationTime+M_PI*0.2)+1)/2;
+    CGFloat flap1 = (sin(_time-M_PI/2)+1)/2;
+    CGFloat flap2 = (sin(_time+M_PI*0.2)+1)/2;
+    
+    if (flap1 < 0.05 && !_animating) {
+        [_displayLink invalidate];
+        _displayLink = nil;
+        flap1 = 0;
+    }
     
     _content.bounds = self.bounds;
     _content.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-    CGFloat rise = (sin(_animationTime+M_PI*0.5)+1);
-    _content.transform = CGAffineTransformRotate(CGAffineTransformMakeTranslation(self.bounds.size.height*rise*0.02, self.bounds.size.height*rise*0.05), M_PI*2*0.1);
+    CGFloat k = 1;//self.animating? 1 : 0;
+    CGFloat rise = (sin(_time+M_PI*0.5)+1) * k;
+    _content.transform = CGAffineTransformRotate(CGAffineTransformMakeTranslation(self.bounds.size.height*rise*0.02, self.bounds.size.height*rise*0.05), M_PI*2*0.08*k);
     
     CGFloat scale = self.bounds.size.height / [_body.image size].height;
     [_body sizeToFit];
@@ -56,26 +65,20 @@
     _wing2.center = CGPointMake(center1.x*(1-flap2) + center2.x*flap2, center1.y*(1-flap2) + center2.y*flap2);
 }
 -(void)displayLink {
-    self.animationTime = _animationTime + [_displayLink duration] * _speed;
-}
--(void)setAnimationTime:(NSTimeInterval)animationTime {
-    _animationTime = animationTime;
+    _time += [_displayLink duration] * 7;
     [self setNeedsLayout];
-    [self layoutIfNeeded];
+    [self layoutSubviews];
 }
--(void)setSpeed:(float)speed {
-    _speed = speed;
-    if (speed && !_displayLink) {
+-(void)setAnimating:(BOOL)animating {
+    if (animating==_animating) return;
+    _animating = animating;
+    if (animating) {
         _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLink)];
         [_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
     }
-    if (!speed && _displayLink) {
-        [_displayLink invalidate];
-        _displayLink = nil;
-        [self setNeedsLayout];
-        [self layoutIfNeeded];
-    }
 }
-
+-(void)dealloc {
+    [_displayLink invalidate];
+}
 
 @end

@@ -12,8 +12,7 @@
 #import "SQAudioPlayerAction.h"
 #import "SQAudioRecordingAction.h"
 #import "SQBlockAction.h"
-#import "SQBlurredStatusView.h"
-#import "SQSquawkBar.h"
+#import "SQStatusView.h"
 #import "SQAnimatedBird.h"
 
 typedef enum {
@@ -23,8 +22,7 @@ typedef enum {
     SQRaisedToEar
 } SQInteractionMode;
 
-@interface SQMainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, SQAudioActionDelegate, SQAudioRecordingActionDelegate, SQSquawkBarDelegate, UIViewControllerTransitioningDelegate> {
-    IBOutlet UIView* _selectorBar;
+@interface SQMainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, SQAudioActionDelegate, SQAudioRecordingActionDelegate, UIViewControllerTransitioningDelegate> {
     RACSubject* _tableViewReloaded;
     
     IBOutlet UIView *_headerView;
@@ -35,23 +33,24 @@ typedef enum {
     IBOutlet NSLayoutConstraint* _headerTopOffset;
     IBOutlet NSLayoutConstraint* _searchBarTopOffset;
         
-    IBOutlet SQBlurredStatusView* _statusView;
+    IBOutlet SQStatusView* _statusView;
     
     BOOL _setupLoginHooks;
     
     IBOutlet UIButton* _inviteFriendsPrompt;
     
-    IBOutlet UILabel* _squawksReloadAutomatically;
+    NSString* _mostRecentSquawkID;
     
-    NSString* _mostRecentThreadIdentifier;
+    IBOutlet SQAnimatedBird* _bird;
+    
+    IBOutlet UIView* _raiseToSquawkHintContainer;
+    IBOutlet UILabel* _raiseToSquawkHint;
 }
 
 @property(strong)IBOutlet UITableView* tableView;
 
 @property(strong)NSArray* allThreads;
 @property(strong)NSArray* threadSections; // filtered by search query
-
-@property(weak)IBOutlet SQSquawkBar* squawkBar;
 
 @property(strong)SQThread* selectedThread;
 @property(strong)SQThread* pressedThread;
@@ -63,6 +62,7 @@ typedef enum {
 @property SQInteractionMode interactionMode;
 
 @property BOOL tapDown;
+@property CGPoint touchPoint;
 
 @property(nonatomic) BOOL playOrRecord;
 
@@ -74,6 +74,6 @@ typedef enum {
 
 -(IBAction)newThread:(id)sender;
 
-@property(weak)IBOutlet SQAnimatedBird* pullToRefreshAnimation;
+-(void)rippleFromCell:(UITableViewCell*)cell;
 
 @end

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "52B77A745F7D4C3EB32495A5"
+               BlueprintIdentifier = "D23996998C5A4788B53C6940"
                BuildableName = "libPods-Squawk2-NPReachability.a"
                BlueprintName = "Pods-Squawk2-NPReachability"
                ReferencedContainer = "container:Pods.xcodeproj">

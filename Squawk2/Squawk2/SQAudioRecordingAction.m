@@ -11,7 +11,7 @@
 #import "SQFriendsOnSquawk.h"
 #import "SQAPI.h"
 #import "SQSquawkCache.h"
-#import "SQBlurredStatusView.h"
+#import "SQStatusView.h"
 
 @implementation SQAudioRecordingAction
 
@@ -96,6 +96,7 @@
 -(SQStatusViewCard*)statusView {
     if (!_statusView) {
         _statusView = [[SQStatusViewCard alloc] initWithText:NSLocalizedString(@"Recording", @"") image:[UIImage imageNamed:@"recording-thin"]];
+        _statusView.circleSpeed = 1;
     }
     return _statusView;
 }
@@ -105,8 +106,7 @@
     double power = [_recorder averagePowerForChannel:0];
     power = MIN(0, MAX(-50, power));
     power = (power+50)/50.0;
-    _statusView.circleFill = power;
-    _statusView.circleTurn = 1;
+    _statusView.circleScale = 1+power;
 }
 
 @end

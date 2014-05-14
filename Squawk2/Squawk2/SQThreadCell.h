@@ -15,10 +15,10 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier;
 
 @interface SQThreadCell : UITableViewCell <UIGestureRecognizerDelegate> {
     BOOL _setup;
+        
     IBOutlet UILabel* _label;
     IBOutlet UILabel* _date;
     
-    IBOutlet UIButton* _button;
     IBOutlet UILabel* _unreadCount;
     
     NSTimer* _reloader;
@@ -31,5 +31,13 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier;
 -(IBAction)pressed:(id)sender;
 
 -(void)scrolled;
+
+@property(nonatomic)BOOL interacting;
+
+@property(weak)IBOutlet UIView* background;
+
+@property(nonatomic)BOOL sqSelected;
+
+@property CGFloat saturation, brightness;
 
 @end

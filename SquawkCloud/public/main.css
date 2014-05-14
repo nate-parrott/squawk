@@ -24,12 +24,17 @@ ol#panels {
 	list-style-type: none;
 }
 ol#panels > li {
+	height: 100%;
+}
+ol#panels div.content {
 	width: 100%;
+	max-width: 750px;
+	margin: auto;
 	height: 100%;
 	display: table;
 	table-layout: fixed;
 }
-ol#panels > li > div {
+ol#panels div.content > div {
 	display: table-cell;
 	text-align: center;
 	vertical-align: middle;
@@ -41,16 +46,19 @@ ol#panels > li > div {
 	background-color: #F8184B;
 	color: white;
 }
-#main-panel > div:first-child {
+#main-panel .content {
+	max-width: 900px !important;
+}
+#main-panel .content > div:first-child {
 	padding-left: 10%;
 }
-#main-panel > div:last-child {
+#main-panel .content > div:last-child {
 	padding-right: 10%;
 }
 #main-panel a {
 	color: white;
 }
-#main-panel > div:first-child {
+#main-panel .content > div:first-child {
 	text-align: right;
 }
 #main-panel h1 {
@@ -111,7 +119,7 @@ ol#panels > li > div {
 	background-color: #225BA2;
 	color: white;
 }
-#panel2 > div {
+#panel2 .content > div {
 	position: relative;
 	padding: 30px;
 }
@@ -127,10 +135,10 @@ ol#panels > li > div {
 #panel2 img.bottom {
 	bottom: 0px;
 }
-#panel2 > div:first-child {
+#panel2 .content > div:first-child {
 	padding-top: 215px;
 }
-#panel2 > div:last-child {
+#panel2 .content > div:last-child {
 	padding-bottom: 350px;
 }
 
@@ -139,6 +147,7 @@ ol#panels > li > div {
 	padding: 10px 0px;
 	background-color: #122C57;
 	color: white;
+	text-align: center;
 }
 #bottom a {
 	color: white;

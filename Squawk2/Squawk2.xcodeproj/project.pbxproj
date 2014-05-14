@@ -10,8 +10,9 @@
 		5F08A7DA18C46A9400E3E02E /* SQFriendsOnSquawk.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F08A7D918C46A9400E3E02E /* SQFriendsOnSquawk.m */; };
 		5F08A7DD18C5019700E3E02E /* NSData+HexDump.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F08A7DC18C5019700E3E02E /* NSData+HexDump.m */; };
 		5F08A7E018C5124800E3E02E /* NSString+PercentEscaping.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F08A7DF18C5124800E3E02E /* NSString+PercentEscaping.m */; };
+		5F1F0FCA19228E0F004B1465 /* SQAnimatedBird.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1F0FC919228E0F004B1465 /* SQAnimatedBird.m */; };
+		5F1F0FD31922C6A6004B1465 /* SQStripedIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1F0FD21922C6A6004B1465 /* SQStripedIndicator.m */; };
 		5F2B9ED0190842B600416E0A /* squawk.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5FC27DCC18F24DFF0080EE09 /* squawk.caf */; };
-		5F2BE5CB190870F900D8B55A /* SQSquawkBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2BE5CA190870F900D8B55A /* SQSquawkBar.m */; };
 		5F2BE5CE190885DA00D8B55A /* SQSquawkBarSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2BE5CD190885DA00D8B55A /* SQSquawkBarSegment.m */; };
 		5F2BE5D11909B3E400D8B55A /* SQCheckmarkSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2BE5D01909B3E400D8B55A /* SQCheckmarkSegment.m */; };
 		5F2C4A9518C570F500E59DFA /* NSString+NormalizeForSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C4A9418C570F500E59DFA /* NSString+NormalizeForSearch.m */; };
@@ -61,13 +62,12 @@
 		5F93BFC918CBA5D3004AF7BC /* SQAudioFiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFC818CBA5D3004AF7BC /* SQAudioFiles.m */; };
 		5F93BFE218CD4B7E004AF7BC /* melodic1_affirm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5F93BFE118CD4B7E004AF7BC /* melodic1_affirm.wav */; };
 		5F93BFE518CD7855004AF7BC /* NSArray+CombineStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFE418CD7855004AF7BC /* NSArray+CombineStrings.m */; };
-		5F93BFEC18CE5FA6004AF7BC /* SQBlurredStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFEB18CE5FA6004AF7BC /* SQBlurredStatusView.m */; };
+		5F93BFEC18CE5FA6004AF7BC /* SQStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFEB18CE5FA6004AF7BC /* SQStatusView.m */; };
 		5F93BFEF18CE7901004AF7BC /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFEE18CE7901004AF7BC /* UIImage+ImageEffects.m */; };
 		5F93BFF418CE9F0F004AF7BC /* SQAudioAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFF318CE9F0F004AF7BC /* SQAudioAction.m */; };
 		5F93BFF718CE9F1C004AF7BC /* SQAudioPlayerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFF618CE9F1C004AF7BC /* SQAudioPlayerAction.m */; };
 		5F93BFFA18CE9F2B004AF7BC /* SQAudioRecordingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFF918CE9F2B004AF7BC /* SQAudioRecordingAction.m */; };
 		5F93BFFD18CEA045004AF7BC /* SQBlockAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F93BFFC18CEA045004AF7BC /* SQBlockAction.m */; };
-		5FAB621D1916B4DF005C17FC /* SQAnimatedBird.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FAB621A1916B4DF005C17FC /* SQAnimatedBird.m */; };
 		5FAB621E1916B4DF005C17FC /* parrot-body.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FAB621B1916B4DF005C17FC /* parrot-body.png */; };
 		5FAB621F1916B4DF005C17FC /* parrot-wing.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FAB621C1916B4DF005C17FC /* parrot-wing.png */; };
 		5FB8DD4C191174B100DA07FF /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FB8DD4B191174B100DA07FF /* Onboarding.storyboard */; };
@@ -87,6 +87,9 @@
 		5FB8DD7A19131C3B00DA07FF /* SQProgressLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8DD7919131C3B00DA07FF /* SQProgressLabel.m */; };
 		5FB8DD7D1913246C00DA07FF /* SQPushEnableDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8DD7C1913246C00DA07FF /* SQPushEnableDialogViewController.m */; };
 		5FB8DD81191353C600DA07FF /* squawk-bird.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB8DD80191353C600DA07FF /* squawk-bird.png */; };
+		5FB9FD171922E5940011BFB9 /* WSConcentricCirclesViewAdvancedHD2014.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB9FD161922E5940011BFB9 /* WSConcentricCirclesViewAdvancedHD2014.m */; };
+		5FB9FD191923D9870011BFB9 /* search7.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB9FD181923D9870011BFB9 /* search7.png */; };
+		5FB9FD1B1923D98D0011BFB9 /* user-add.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB9FD1A1923D98D0011BFB9 /* user-add.png */; };
 		5FBEAB2018D6AC6A00356DA5 /* SQDopplerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBEAB1F18D6AC6A00356DA5 /* SQDopplerView.m */; };
 		5FBF523D190F5FAA00931180 /* SQNewThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBF523C190F5FAA00931180 /* SQNewThreadViewController.m */; };
 		5FC27DC718F240C10080EE09 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FC27DC518F240C10080EE09 /* Localizable.strings */; };
@@ -120,8 +123,10 @@
 		5F08A7DC18C5019700E3E02E /* NSData+HexDump.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexDump.m"; sourceTree = "<group>"; };
 		5F08A7DE18C5124800E3E02E /* NSString+PercentEscaping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PercentEscaping.h"; sourceTree = "<group>"; };
 		5F08A7DF18C5124800E3E02E /* NSString+PercentEscaping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PercentEscaping.m"; sourceTree = "<group>"; };
-		5F2BE5C9190870F900D8B55A /* SQSquawkBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQSquawkBar.h; sourceTree = "<group>"; };
-		5F2BE5CA190870F900D8B55A /* SQSquawkBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQSquawkBar.m; sourceTree = "<group>"; };
+		5F1F0FC819228E0F004B1465 /* SQAnimatedBird.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQAnimatedBird.h; sourceTree = "<group>"; };
+		5F1F0FC919228E0F004B1465 /* SQAnimatedBird.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQAnimatedBird.m; sourceTree = "<group>"; };
+		5F1F0FD11922C6A6004B1465 /* SQStripedIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQStripedIndicator.h; sourceTree = "<group>"; };
+		5F1F0FD21922C6A6004B1465 /* SQStripedIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQStripedIndicator.m; sourceTree = "<group>"; };
 		5F2BE5CC190885DA00D8B55A /* SQSquawkBarSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQSquawkBarSegment.h; sourceTree = "<group>"; };
 		5F2BE5CD190885DA00D8B55A /* SQSquawkBarSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQSquawkBarSegment.m; sourceTree = "<group>"; };
 		5F2BE5CF1909B3E400D8B55A /* SQCheckmarkSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQCheckmarkSegment.h; sourceTree = "<group>"; };
@@ -205,8 +210,8 @@
 		5F93BFE118CD4B7E004AF7BC /* melodic1_affirm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = melodic1_affirm.wav; sourceTree = "<group>"; };
 		5F93BFE318CD7855004AF7BC /* NSArray+CombineStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+CombineStrings.h"; sourceTree = "<group>"; };
 		5F93BFE418CD7855004AF7BC /* NSArray+CombineStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+CombineStrings.m"; sourceTree = "<group>"; };
-		5F93BFEA18CE5FA6004AF7BC /* SQBlurredStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQBlurredStatusView.h; sourceTree = "<group>"; };
-		5F93BFEB18CE5FA6004AF7BC /* SQBlurredStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQBlurredStatusView.m; sourceTree = "<group>"; };
+		5F93BFEA18CE5FA6004AF7BC /* SQStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQStatusView.h; sourceTree = "<group>"; };
+		5F93BFEB18CE5FA6004AF7BC /* SQStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQStatusView.m; sourceTree = "<group>"; };
 		5F93BFED18CE7901004AF7BC /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		5F93BFEE18CE7901004AF7BC /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		5F93BFF018CE8216004AF7BC /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -218,8 +223,6 @@
 		5F93BFF918CE9F2B004AF7BC /* SQAudioRecordingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQAudioRecordingAction.m; sourceTree = "<group>"; };
 		5F93BFFB18CEA045004AF7BC /* SQBlockAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQBlockAction.h; sourceTree = "<group>"; };
 		5F93BFFC18CEA045004AF7BC /* SQBlockAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQBlockAction.m; sourceTree = "<group>"; };
-		5FAB62191916B4DF005C17FC /* SQAnimatedBird.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQAnimatedBird.h; sourceTree = "<group>"; };
-		5FAB621A1916B4DF005C17FC /* SQAnimatedBird.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQAnimatedBird.m; sourceTree = "<group>"; };
 		5FAB621B1916B4DF005C17FC /* parrot-body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parrot-body.png"; sourceTree = "<group>"; };
 		5FAB621C1916B4DF005C17FC /* parrot-wing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "parrot-wing.png"; sourceTree = "<group>"; };
 		5FB8DD4B191174B100DA07FF /* Onboarding.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
@@ -249,6 +252,10 @@
 		5FB8DD7B1913246C00DA07FF /* SQPushEnableDialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQPushEnableDialogViewController.h; sourceTree = "<group>"; };
 		5FB8DD7C1913246C00DA07FF /* SQPushEnableDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQPushEnableDialogViewController.m; sourceTree = "<group>"; };
 		5FB8DD80191353C600DA07FF /* squawk-bird.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "squawk-bird.png"; sourceTree = "<group>"; };
+		5FB9FD151922E5940011BFB9 /* WSConcentricCirclesViewAdvancedHD2014.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSConcentricCirclesViewAdvancedHD2014.h; sourceTree = "<group>"; };
+		5FB9FD161922E5940011BFB9 /* WSConcentricCirclesViewAdvancedHD2014.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSConcentricCirclesViewAdvancedHD2014.m; sourceTree = "<group>"; };
+		5FB9FD181923D9870011BFB9 /* search7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search7.png; sourceTree = "<group>"; };
+		5FB9FD1A1923D98D0011BFB9 /* user-add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-add.png"; sourceTree = "<group>"; };
 		5FBEAB1E18D6AC6A00356DA5 /* SQDopplerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQDopplerView.h; sourceTree = "<group>"; };
 		5FBEAB1F18D6AC6A00356DA5 /* SQDopplerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQDopplerView.m; sourceTree = "<group>"; };
 		5FBF523B190F5FAA00931180 /* SQNewThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQNewThreadViewController.h; sourceTree = "<group>"; };
@@ -394,8 +401,8 @@
 				5FE355E918E39B2700D88477 /* SQInviteFriendsViewController.m */,
 				5F93BFC718CBA5D3004AF7BC /* SQAudioFiles.h */,
 				5F93BFC818CBA5D3004AF7BC /* SQAudioFiles.m */,
-				5F93BFEA18CE5FA6004AF7BC /* SQBlurredStatusView.h */,
-				5F93BFEB18CE5FA6004AF7BC /* SQBlurredStatusView.m */,
+				5F93BFEA18CE5FA6004AF7BC /* SQStatusView.h */,
+				5F93BFEB18CE5FA6004AF7BC /* SQStatusView.m */,
 				5FBEAB1E18D6AC6A00356DA5 /* SQDopplerView.h */,
 				5FBEAB1F18D6AC6A00356DA5 /* SQDopplerView.m */,
 				5FF8BD5818D8066B00AF5BF7 /* UIFont+OverrideSystemFont.h */,
@@ -406,8 +413,6 @@
 				5FB8DD6C1912BCE800DA07FF /* TBPulsingView.m */,
 				5FB8DD711912BEC600DA07FF /* SQGalleryView.h */,
 				5FB8DD721912BEC600DA07FF /* SQGalleryView.m */,
-				5FAB62191916B4DF005C17FC /* SQAnimatedBird.h */,
-				5FAB621A1916B4DF005C17FC /* SQAnimatedBird.m */,
 				5FAB621B1916B4DF005C17FC /* parrot-body.png */,
 				5FAB621C1916B4DF005C17FC /* parrot-wing.png */,
 			);
@@ -421,8 +426,8 @@
 				5F90B42C18C3EBD0004C4FD2 /* SQMainViewController.m */,
 				5FB8DD7B1913246C00DA07FF /* SQPushEnableDialogViewController.h */,
 				5FB8DD7C1913246C00DA07FF /* SQPushEnableDialogViewController.m */,
-				5F2BE5C9190870F900D8B55A /* SQSquawkBar.h */,
-				5F2BE5CA190870F900D8B55A /* SQSquawkBar.m */,
+				5F1F0FC819228E0F004B1465 /* SQAnimatedBird.h */,
+				5F1F0FC919228E0F004B1465 /* SQAnimatedBird.m */,
 				5F2BE5CC190885DA00D8B55A /* SQSquawkBarSegment.h */,
 				5F2BE5CD190885DA00D8B55A /* SQSquawkBarSegment.m */,
 				5F2BE5CF1909B3E400D8B55A /* SQCheckmarkSegment.h */,
@@ -433,6 +438,12 @@
 				5FD47C3218ED2C31003B53BA /* SQLongPressGestureRecognizer.m */,
 				5FB8DD7819131C3B00DA07FF /* SQProgressLabel.h */,
 				5FB8DD7919131C3B00DA07FF /* SQProgressLabel.m */,
+				5F1F0FD11922C6A6004B1465 /* SQStripedIndicator.h */,
+				5F1F0FD21922C6A6004B1465 /* SQStripedIndicator.m */,
+				5FB9FD151922E5940011BFB9 /* WSConcentricCirclesViewAdvancedHD2014.h */,
+				5FB9FD161922E5940011BFB9 /* WSConcentricCirclesViewAdvancedHD2014.m */,
+				5FB9FD181923D9870011BFB9 /* search7.png */,
+				5FB9FD1A1923D98D0011BFB9 /* user-add.png */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -668,6 +679,7 @@
 				5F8985CA18C3EA9B0085B085 /* Images.xcassets in Resources */,
 				5FC27DC718F240C10080EE09 /* Localizable.strings in Resources */,
 				5FB8DD4C191174B100DA07FF /* Onboarding.storyboard in Resources */,
+				5FB9FD1B1923D98D0011BFB9 /* user-add.png in Resources */,
 				5FB8DD81191353C600DA07FF /* squawk-bird.png in Resources */,
 				5F93BFC418CAEFDF004AF7BC /* Settings.bundle in Resources */,
 				5F93BFE218CD4B7E004AF7BC /* melodic1_affirm.wav in Resources */,
@@ -686,6 +698,7 @@
 				5FAB621E1916B4DF005C17FC /* parrot-body.png in Resources */,
 				5FB8DD751912C77B00DA07FF /* circled-phone@2x.png in Resources */,
 				5FC27DCA18F24CA00080EE09 /* blip1-loud.wav in Resources */,
+				5FB9FD191923D9870011BFB9 /* search7.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -753,10 +766,11 @@
 				5F93BFC918CBA5D3004AF7BC /* SQAudioFiles.m in Sources */,
 				5F90B45218C4472D004C4FD2 /* NSDate+MonotonicTime.m in Sources */,
 				5F90B43518C3EFE0004C4FD2 /* SQAPI.m in Sources */,
-				5F93BFEC18CE5FA6004AF7BC /* SQBlurredStatusView.m in Sources */,
+				5F93BFEC18CE5FA6004AF7BC /* SQStatusView.m in Sources */,
 				5FD47C3918EDF22F003B53BA /* NSURL+QueryParser.m in Sources */,
 				5FB8DD5919118F6E00DA07FF /* SQContactsOnboardingViewController.m in Sources */,
 				5F90B45818C45148004C4FD2 /* WSToastNotificationView.m in Sources */,
+				5F1F0FD31922C6A6004B1465 /* SQStripedIndicator.m in Sources */,
 				5F90B43818C3F528004C4FD2 /* ConvenienceCategories.m in Sources */,
 				5F90B42518C3EB53004C4FD2 /* NSString+RandomString.m in Sources */,
 				5FF793B118D51AFA0045090E /* SQBackgroundTaskManager.m in Sources */,
@@ -794,7 +808,7 @@
 				5F2C4A9518C570F500E59DFA /* NSString+NormalizeForSearch.m in Sources */,
 				5FD47C3318ED2C31003B53BA /* SQLongPressGestureRecognizer.m in Sources */,
 				5F08A7DD18C5019700E3E02E /* NSData+HexDump.m in Sources */,
-				5FAB621D1916B4DF005C17FC /* SQAnimatedBird.m in Sources */,
+				5F1F0FCA19228E0F004B1465 /* SQAnimatedBird.m in Sources */,
 				5F93BFEF18CE7901004AF7BC /* UIImage+ImageEffects.m in Sources */,
 				5F90B42D18C3EBD0004C4FD2 /* SQMainViewController.m in Sources */,
 				5F90B42218C3EB49004C4FD2 /* NPAddressBook.m in Sources */,
@@ -802,9 +816,9 @@
 				5F2BE5CE190885DA00D8B55A /* SQSquawkBarSegment.m in Sources */,
 				5F8985C818C3EA9B0085B085 /* SQAppDelegate.m in Sources */,
 				5F93BFF418CE9F0F004AF7BC /* SQAudioAction.m in Sources */,
-				5F2BE5CB190870F900D8B55A /* SQSquawkBar.m in Sources */,
 				5FCCCB9018EA042C00EAEBEA /* UIViewController+SoftModal.m in Sources */,
 				5F2C4A9C18C584B000E59DFA /* RACSignal+MustStayTrue.m in Sources */,
+				5FB9FD171922E5940011BFB9 /* WSConcentricCirclesViewAdvancedHD2014.m in Sources */,
 				5F8985C418C3EA9B0085B085 /* main.m in Sources */,
 				5FE355EA18E39B2700D88477 /* SQInviteFriendsViewController.m in Sources */,
 			);
