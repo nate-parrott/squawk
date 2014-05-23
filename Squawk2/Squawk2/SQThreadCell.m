@@ -42,7 +42,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     _reloader = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(reload) userInfo:nil repeats:YES];
     
     self.gestureRec = [[SQLongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressed:)];
-    [(SQLongPressGestureRecognizer*)self.gestureRec setDurationBeforeTouchLock:0.7];
+    [(SQLongPressGestureRecognizer*)self.gestureRec setTimeUntilCancellingScrolling:0.7];
     self.gestureRec.minimumPressDuration = 0.3;
     self.gestureRec.delegate = self;
     [self addGestureRecognizer:self.gestureRec];
@@ -79,7 +79,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     int unread = (int)self.thread.unread.count;
     _unreadCount.text = unread? [NSString stringWithFormat:@"%i", unread] : @"";
     
-    UIColor* tint = unread? [SQTheme blue] : [SQTheme red];
+    UIColor* tint = unread? [SQTheme rowColorForPlayback] : [SQTheme rowColorForRecording];
     CGFloat hue, sat, brightness;
     [tint getHue:&hue saturation:&sat brightness:&brightness alpha:nil];
     sat = sat*0.7 + self.saturation*0.3;
@@ -181,6 +181,10 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
 -(void)prepareForReuse {
     [super prepareForReuse];
     self.interacting = NO;
+}
+#pragma mark Swipe menu
+-(NSArray*)swipeButtons { // array of dictionaries with "title" and "action" keys
+    
 }
 
 @end

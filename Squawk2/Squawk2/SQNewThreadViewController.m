@@ -13,6 +13,7 @@
 #import "UIViewController+SoftModal.h"
 #import "SQFriendsOnSquawk.h"
 #import "UITextField+PopulateSlowly.h"
+#import "SQTheme.h"
 
 @interface SQNewThreadViewController () <UITextFieldDelegate> {
     BOOL _addUserExpanded;
@@ -31,6 +32,8 @@
 
 -(void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.tintColor = [SQTheme controlsTint];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(prepopulateDataIfNeeded) name:SQPromptAddFriend object:nil];
     

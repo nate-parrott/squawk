@@ -11,7 +11,7 @@
 #define API_ROOT @"http://api.squawkwith.us"
 //#define API_ROOT @"http://localhost:5000"
 #define VERIFICATION_NUMBER @"646-576-7688"
-#define MAX_RECORDING_DURATION (7 * 60 * 60)
+#define MAX_RECORDING_DURATION (3 * 60)
 #define GLOBAL_PROPERTIES_REFRESH_INTERVAL 4 * 60 * 60 // 4 hrs
 
 // this is just NSLog, but doesn't print on release builds.
@@ -28,6 +28,8 @@
 //#define PRETTIFY
 
 #define BUILD_NUM ([[[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"] doubleValue])
+
+//#define INSTRUMENTS_TRACKING
 
 void JSLog(id jsonObj);
 
@@ -50,5 +52,7 @@ NSString* SQPromptAddFriend;
 -(void)trackEventWithCategory:(NSString*)category action:(NSString*)action label:(NSString*)label value:(NSNumber*)val;
 
 @property(strong)NSDictionary* globalProperties;
+
+-(void)logInstrumentsEvent:(const char*)eventName;
 
 @end

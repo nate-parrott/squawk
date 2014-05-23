@@ -102,11 +102,13 @@
 }
 #pragma mark Display
 -(void)refreshDisplay {
-    [_recorder updateMeters];
+    /*[_recorder updateMeters];
     double power = [_recorder averagePowerForChannel:0];
     power = MIN(0, MAX(-50, power));
     power = (power+50)/50.0;
     _statusView.circleScale = 1+power;
+    */
+    self.statusView.progress = _recorder.currentTime / MAX_RECORDING_DURATION;
 }
 
 @end

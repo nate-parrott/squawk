@@ -17,6 +17,7 @@
 @property(strong)UILabel* label;
 
 @property(nonatomic)CGFloat circleSpeed, circleScale;
+@property(nonatomic)CGFloat progress;
 
 @end
 

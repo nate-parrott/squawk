@@ -8,6 +8,8 @@
 
 #import "SQTheme.h"
 
+NSString * const SQThemeChangedNotification = @"SQThemeChangedNotification";
+
 @implementation SQTheme
 
 +(void)apply {
@@ -38,6 +40,22 @@
 }
 +(UIColor*)lightGray {
     return [UIColor colorWithRed:0.753 green:0.755 blue:0.759 alpha:1.000];
+}
+
++(UIColor*)rowColorForPlayback {
+    return [UIColor colorWithRed:0.961 green:0.332 blue:0.208 alpha:1.000];
+}
++(UIColor*)rowColorForRecording {
+    return [SQTheme orange];
+}
++(UIColor*)mainBackground {
+    return [UIColor blackColor];
+}
++(UIColor*)controlsTint {
+    return [SQTheme red];
+}
++(UIColor*)mainUITint {
+    return [UIColor whiteColor];
 }
 
 @end

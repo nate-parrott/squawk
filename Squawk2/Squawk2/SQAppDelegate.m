@@ -28,6 +28,10 @@
 #import "SQNewThreadViewController.h"
 #import "UIFont+OverrideSystemFont.h"
 
+#ifdef INSTRUMENTS_TRACKING
+#import <DTPerformanceSession/DTPerformanceSession.h>
+#endif
+
 NSString* SQReceivedSquawkNotification = @"SQReceivedSquawkNotification";
 NSString* SQPushSetupStatusChangedNotification = @"SQPushSetupStatusChangedNotification";
 NSString* SQDidOpenMessageNotification = @"SQDidOpenMessageNotification";
@@ -48,6 +52,8 @@ NSString* SQErrorDomain = @"SQErrorDomain";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [self logInstrumentsEvent:"DidFinishLaunching started"];
+    
     [Crashlytics startWithAPIKey:@"c00a274f2c47ad5ee89b17ccb2fdb86e8d1fece8"];
     
     [[NSUserDefaults standardUserDefaults] setDouble:BUILD_NUM forKey:@"LastLaunchedBuild"];
@@ -98,6 +104,8 @@ NSString* SQErrorDomain = @"SQErrorDomain";
     overlapView.frame = CGRectMake(0, 0, 320, 20); // you can set any size of frame you want
     //[overlapView makeKeyAndVisible];
 #endif
+    
+    [self logInstrumentsEvent:"DidFinishLaunching ended"];
     
     return YES;
 }
@@ -289,6 +297,13 @@ NSString* SQErrorDomain = @"SQErrorDomain";
         }
     }
     return NO;
+}
+#pragma mark Profiling
+-(void)logInstrumentsEvent:(const char*)eventName {
+    DBLog(@"INSTRUMENTS EVENT: %s", eventName);
+#ifdef INSTRUMENTS_TRACKING
+    
+#endif
 }
 
 @end

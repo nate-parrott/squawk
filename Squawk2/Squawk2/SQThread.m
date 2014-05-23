@@ -76,8 +76,6 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
         if (thread.contacts.count>0 && thread.phoneNumbers.count==0) {
             [thread.phoneNumbers addObject:[thread.contacts.firstObject mobileNumber]];
         }
-        // pre-generate the search string:
-        [thread stringForSearching];
     }
         
     return threads;
@@ -202,12 +200,21 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
 }
 #pragma mark Sorting
 +(NSString*)identifierForThreadWithPhoneNumbers:(NSArray*)numbers {
-    if (![numbers containsObject:[SQAPI currentPhone]] && [SQAPI currentPhone]) {
-        numbers = [numbers arrayByAddingObject:[SQAPI currentPhone]];
+    NSMutableArray* nums = numbers.mutableCopy;
+    
+    NSString* curPhone = [SQAPI currentPhone];
+    if (curPhone && ![nums containsObject:curPhone]) {
+        [nums addObject:curPhone];
     }
-    return [[[numbers.rac_sequence map:^id(id value) {
-        return [NPContact normalizePhone:value];
-    }].array sortedArrayUsingSelector:@selector(compare:)] componentsJoinedByString:@","];
+    
+    int i = 0;
+    for (NSString* num in numbers) {
+        nums[i] = [NPContact normalizePhone:num];
+        i++;
+    }
+    [nums sortUsingSelector:@selector(compare:)];
+    NSString* identifier = [nums componentsJoinedByString:@","];
+    return identifier;
 }
 +(NSArray*)phoneNumbersFromIdentifier:(NSString*)identifier {
     return [identifier componentsSeparatedByString:@","];

@@ -70,11 +70,30 @@
     return [NPContact normalizePhone:num];
 }
 +(NSString*)normalizePhone:(NSString*)phoneNum {
-    NSString* cleanedNum = [[phoneNum componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]] componentsJoinedByString:@""];
-    if (cleanedNum.length==10) {
-        cleanedNum = [@"1" stringByAppendingString:cleanedNum];
+    NSString* cleaned = nil;
+    if (phoneNum) {
+        const int maxChars = 24;
+        int charCount = 0;
+        char characters[maxChars+2];
+        
+        NSInteger len = phoneNum.length;
+        for (int i=0; i<len && charCount<maxChars; i++) {
+            unichar c = [phoneNum characterAtIndex:i];
+            if (c>='0' && c<='9') {
+                characters[charCount] = c;
+                charCount++;
+            }
+        }
+        if (charCount==10) {
+            memmove(characters+1, characters, charCount);
+            characters[0] = '1';
+            charCount++;
+        }
+        characters[charCount] = '\0';
+        cleaned = [NSString stringWithCString:characters encoding:NSASCIIStringEncoding];
     }
-    return cleanedNum;
+    
+    return cleaned;
 }
 -(UIImage*)image {
     for (id rec in self.records) {

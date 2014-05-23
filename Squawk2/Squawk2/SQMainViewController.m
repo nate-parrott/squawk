@@ -30,10 +30,12 @@
 const CGPoint SQDefaultContentOffset = {0, 0};
 
 @interface SQMainViewController () {
+    IBOutlet UIView* _searchFieldContainer;
     IBOutlet UITextField* _searchField;
+    
     IBOutlet UILabel* _titleLabel;
     
-    NSTimer* _statusDisplayUpdater;
+    CADisplayLink* _statusDisplayUpdater;
     
     NSTimer* _updater;
     
@@ -46,8 +48,6 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     UIButton* _pushNotificationAdvert;
     
     IBOutlet UILabel* _pullToRefreshLabel;
-    
-    BOOL _madeInitialAppearance;
 }
 
 @property(nonatomic)BOOL searchMode;
@@ -65,6 +65,16 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 -(void)viewDidLoad {
     [super viewDidLoad];
     
+    [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:SQThemeChangedNotification object:nil] startWith:nil] subscribeNext:^(id x) {
+        self.view.backgroundColor = [SQTheme mainBackground];
+        _raiseToSquawkHintContainer.backgroundColor = [[SQTheme mainUITint] colorWithAlphaComponent:0.75];
+    }];
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:SQThemeChangedNotification object:nil] subscribeNext:^(id x) {
+        [self.tableView reloadData];
+    }];
+    
+    _tableView.hidden = YES;
+    
     for (UIView* view in _headerView.subviews) {
         if ([view isKindOfClass:[UIButton class]]) {
             UIButton* b = (UIButton*)view;
@@ -79,7 +89,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     
     _pullToRefreshLabel.text = NSLocalizedString(@"Pull to refresh", @"").lowercaseString;
     
-    self.view.tintColor = [SQTheme red];
+    self.view.tintColor = [UIColor whiteColor];
     
     _searchField.placeholder = NSLocalizedString(@"Search", @"Search bar placeholder");
     
@@ -120,6 +130,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     [self setupErrorMessaging];
     
     [self setupStatusDisplay];
+    
+    [self setupAlertView];
     
     self.searchMode = NO;
     
@@ -235,7 +247,13 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     
     RAC(self, allThreads) = [[[[[RACSignal combineLatest:@[contactsList, latestSquawks, friendsOnSquawk, boostsUpdated]] deliverOn:[RACScheduler schedulerWithPriority:RACSchedulerPriorityBackground]] reduceEach:^id(NSArray* contacts, NSArray* squawks, NSSet* friendsOnSquawk, id boosts){
         if (contacts == nil) return nil;
-        return [SQThread makeThreadsFromRecentSquawks:squawks contacts:contacts];
+        NSTimeInterval t = [NSDate timeIntervalSinceReferenceDate];
+        [AppDelegate logInstrumentsEvent:"Starting thread generation"];
+        NSArray* threads = [SQThread makeThreadsFromRecentSquawks:squawks contacts:contacts];
+        NSTimeInterval time = [NSDate timeIntervalSinceReferenceDate] - t;
+        [AppDelegate logInstrumentsEvent:"Done with thread generation"];
+        NSLog(@"ELAPSED: %f", time);
+        return threads;
     }] publish] autoconnect];
     
     RACSignal* filteredThreadSections = [[[[RACSignal combineLatest:@[RACObserve(self, allThreads), RACObserve(self, searchQuery)]] deliverOn:[RACScheduler schedulerWithPriority:RACSchedulerPriorityBackground]] map:^id(RACTuple* value) {
@@ -257,6 +275,10 @@ const CGPoint SQDefaultContentOffset = {0, 0};
                 return [[value identifier] isEqualToString:self.selectedThread.identifier];
             }] take:1].array.firstObject;
             [self.tableView reloadData];
+            if (self.tableView.hidden && self.threadSections.count) {
+                [AppDelegate logInstrumentsEvent:"Loaded main content"];
+                [self startInitialRowRevealAnimation];
+            }
             if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
                 [[SQBackgroundTaskManager shared] completedBackgroundTaskCallback];
             }
@@ -293,6 +315,34 @@ const CGPoint SQDefaultContentOffset = {0, 0};
             _mostRecentSquawkID = mostRecentSquawkID;
         }
     }];
+    
+    if (YES) { // logging
+        [[[contactsList filter:^BOOL(id value) {
+            return [value count]>0;
+        }] take:1] subscribeNext:^(id x) {
+            [AppDelegate logInstrumentsEvent:"Contacts loaded"];
+        }];
+        
+        [[[RACObserve([SQSquawkCache shared], squawks) filter:^BOOL(id value) {
+            return [value count]>0;
+        }] take:1] subscribeNext:^(id x) {
+            [AppDelegate logInstrumentsEvent:"Contacts loaded"];
+        }];
+        
+        [[boostsUpdated take:1] subscribeNext:^(id x) {
+            [AppDelegate logInstrumentsEvent:"Boosts loaded"];
+        }];
+        
+        [[friendsOnSquawk take:1] subscribeNext:^(id x) {
+            [AppDelegate logInstrumentsEvent:"Friends on squawk loaded"];
+        }];
+        
+        [[[RACObserve(self, allThreads) filter:^BOOL(id value) {
+            return !!value;
+        }] take:1] subscribeNext:^(id x) {
+            [AppDelegate logInstrumentsEvent:"All threads"];
+        }];
+    }
 }
 -(void)setupErrorMessaging {
     //RACSignal* pushStatus = RACObserve(AppDelegate, registeredForPushNotifications);
@@ -484,33 +534,18 @@ const CGPoint SQDefaultContentOffset = {0, 0};
         return selected;
     }];
     
-    UIColor* playbackColor = [SQTheme blue];
-    UIColor* recordingColor = [SQTheme red];
-    
-    [RACObserve(self, selectedThread) subscribeNext:^(id x) {
+    RACSignal* squawkUpdateSignal = [[[NSNotificationCenter defaultCenter] rac_addObserverForName:SQThreadUpdatedNotification object:nil] startWith:nil];
+    [[RACSignal combineLatest:@[RACObserve(self, selectedThread), squawkUpdateSignal, [[NSUserDefaults standardUserDefaults] rac_valuesForKeyPath:SQCheckmarkVisibleNextToThreadIdentifier observer:nil]]] subscribeNext:^(id x) {
+        
         if (_selectedThread) {
             [self updateRaiseToSquawkHintWithThread:_selectedThread];
         }
         
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-            _raiseToSquawkHintContainer.alpha = (!!x)? 1 : 0;
+            _raiseToSquawkHintContainer.alpha = self.selectedThread? 1 : 0;
         } completion:^(BOOL finished) {
             
         }];
-    }];
-    
-    RACSignal* squawkUpdateSignal = [[[NSNotificationCenter defaultCenter] rac_addObserverForName:SQThreadUpdatedNotification object:nil] startWith:nil];
-    [[RACSignal combineLatest:@[RACObserve(self, interactingWithThread), squawkUpdateSignal, [[NSUserDefaults standardUserDefaults] rac_valuesForKeyPath:SQCheckmarkVisibleNextToThreadIdentifier observer:nil]]] subscribeNext:^(id x) {
-        
-        if (!_interactingWithThread) return;
-        
-        BOOL playback = _interactingWithThread.unread.count>0;
-        
-        BOOL showInviteLabel = !_interactingWithThread.compData->_registered;
-        NSString* identifierForCheckmark = [x third];
-        BOOL showCheckmark = !!_interactingWithThread && [identifierForCheckmark isEqualToString:[_interactingWithThread identifier]];
-        
-        self.view.tintColor = playback? playbackColor : recordingColor;
     }];
     
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil] subscribeNext:^(id x) {
@@ -568,6 +603,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     if (playOrRecord) {
         if (self.interactingWithThread) {
             UIView* viewForStatusViewPosition = [[self cellForThread:self.interactingWithThread] background];
+            _statusView.tintColor = viewForStatusViewPosition.backgroundColor;
             _statusView.frame = [_statusView.superview convertRect:viewForStatusViewPosition.bounds fromView:viewForStatusViewPosition];
             _statusView.touchPoint = [_statusView convertPoint:_touchPoint fromView:self.view];
             
@@ -621,7 +657,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
             [self.currentAudioAction start];
         }
     } else {
-        self.interactionMode = SQNoInteraction;
+        //self.interactionMode = SQNoInteraction;
         [self clearAudioActionQueue];
     }
 }
@@ -633,7 +669,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     _searchMode = searchMode;
     
     [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:(searchMode? 0.5 : 1) initialSpringVelocity:0 options:0 animations:^{
-        _searchBarTopOffset.constant = searchMode? -8 : 50;
+        _searchBarTopOffset.constant = searchMode? 0 : -74;
         [self.view layoutIfNeeded];
         _titleLabel.alpha = searchMode? 0 : 1;
     } completion:^(BOOL finished) {
@@ -677,7 +713,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     
     [[RACObserve(self, currentAudioAction) deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
         if (x && !_statusDisplayUpdater) {
-            _statusDisplayUpdater = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateStatusDisplay) userInfo:nil repeats:YES];
+            _statusDisplayUpdater = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateStatusDisplay)];
+            [_statusDisplayUpdater addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
         } else if (x==nil && _statusDisplayUpdater) {
             [_statusDisplayUpdater invalidate];
             _statusDisplayUpdater = nil;
@@ -708,6 +745,21 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     }
     return nil;
 }
+-(void)setupAlertView {
+    self.alertView = [SQFullscreenAlert new];
+    [self.view addSubview:self.alertView];
+    self.alertView.frame = self.view.bounds;
+    self.alertView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    self.alertView.blackoutColor = [UIColor colorWithWhite:0 alpha:0.9];
+    self.alertView.contentColor = [[SQTheme orange] colorWithAlphaComponent:0.3];
+    self.alertView.font = [UIFont fontWithName:@"AvenirNext-Medium" size:40];
+    self.alertView.contentSize = CGSizeMake(200, 170);
+    
+    /*dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.alertView setImage:[UIImage imageNamed:@"ok"] text:@"SENT."];
+        [self.alertView presentAndDismissAfter:2.0];
+    });*/
+}
 #pragma mark Audio actions
 -(void)audioActionFinished:(SQAudioAction *)action {
     if (action == self.audioActionQueue.firstObject) {
@@ -736,11 +788,16 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     
 }
 -(void)audioActionDidRecordSquawk:(SQAudioRecordingAction *)action {
-    SQStatusViewCard* status = [[SQStatusViewCard alloc] initWithText:NSLocalizedString(@"Sent.", @"") image:[UIImage imageNamed:@"ok-thin"]];
-    status.circleSpeed = WSConcentricCirclesViewAdvancedHD2014Hidden;
-    [_statusView flashStatusView:status duration:self.interactionMode==SQRaisedToEar? 2.5 : 1];
-    
-    [[SQSquawkCache shared] performSelector:@selector(pollIfNeeded) withObject:nil afterDelay:1.0];
+    if (self.interactionMode == SQRaisedToEar) {
+        [self.alertView setImage:[UIImage imageNamed:@"ok"] text:NSLocalizedString(@"Sent.", @"").lowercaseString];
+        [self.alertView presentQuick:YES andDismissAfter:1.25];
+    } else {
+        SQStatusViewCard* status = [[SQStatusViewCard alloc] initWithText:NSLocalizedString(@"Sent.", @"") image:[UIImage imageNamed:@"ok-thin"]];
+        status.circleSpeed = WSConcentricCirclesViewAdvancedHD2014Hidden;
+        [_statusView flashStatusView:status duration:1.5];
+        
+        [[SQSquawkCache shared] performSelector:@selector(pollIfNeeded) withObject:nil afterDelay:1.0];
+    }
 }
 #pragma mark Misc.
 -(void)enablePush:(id)sender {
@@ -759,6 +816,15 @@ const CGPoint SQDefaultContentOffset = {0, 0};
         animation.toValue = @0.8;
         [[cell background].layer addAnimation:animation forKey:@"Ripple"];
     }
+}
+-(void)startInitialRowRevealAnimation {
+    _tableView.transform = CGAffineTransformMakeTranslation(0, _tableView.frame.size.height);
+    _tableView.hidden = NO;
+    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:0 animations:^{
+        _tableView.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 #pragma mark Transition animations
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {

@@ -8,8 +8,10 @@
 
 #import "SQStatusView.h"
 #import "UIImage+ImageEffects.h"
+#import "SQTheme.h"
 
 @interface SQStatusViewCard () {
+    UIView* _progressBar;
 }
 
 @property(strong)CALayer* circleMask;
@@ -43,17 +45,27 @@
     _imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:_imageView];*/
     
+    _progressBar = [UIView new];
+    _progressBar.backgroundColor = [SQTheme mainUITint];
+    [self addSubview:_progressBar];
+    
     return self;
 }
 -(void)layoutSubviews {
     [super layoutSubviews];
     _label.frame = CGRectInset(self.bounds, 10, 0);
+    _progressBar.frame = CGRectMake(0, self.bounds.size.height-2, self.bounds.size.width*self.progress, 2);
 }
 -(void)setCircleSpeed:(CGFloat)circleSpeed {
     _circleSpeed = circleSpeed;
 }
 -(void)setCircleScale:(CGFloat)circleScale {
     _circleScale = circleScale;
+}
+-(void)setProgress:(CGFloat)progress {
+    _progress = progress;
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
 }
 
 @end

@@ -14,6 +14,7 @@
 #import "SQBlockAction.h"
 #import "SQStatusView.h"
 #import "SQAnimatedBird.h"
+#import "SQFullscreenAlert.h"
 
 typedef enum {
     SQNoInteraction,
@@ -75,5 +76,7 @@ typedef enum {
 -(IBAction)newThread:(id)sender;
 
 -(void)rippleFromCell:(UITableViewCell*)cell;
+
+@property(strong)SQFullscreenAlert* alertView;
 
 @end

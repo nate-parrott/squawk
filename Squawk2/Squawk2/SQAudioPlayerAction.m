@@ -62,7 +62,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         SQStatusViewCard* status = self.statusView;
-        status.circleSpeed = loading? 0.3 : 1;
+        status.circleSpeed = loading? 1 : 1;
         if (self.loading) {
             status.imageView.image = [[UIImage imageNamed:@"playing-thin"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             status.label.text = NSLocalizedString(@"Loading", @"").uppercaseString;
@@ -122,9 +122,7 @@ const NSString* SQSquawkSessionSquawkPlaybackTimes = @"SQSquawkSessionSquawkPlay
 }
 #pragma mark Display
 -(void)refreshDisplay {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        _statusView.circleSpeed = 1;
-    });
+    self.statusView.progress = _player.duration? _player.currentTime / _player.duration : 0;
 }
 
 @end

@@ -13,6 +13,6 @@
     CGPoint _startPoint;
 }
 
-@property NSTimeInterval durationBeforeTouchLock;
+@property NSTimeInterval timeUntilCancellingScrolling;
 
 @end

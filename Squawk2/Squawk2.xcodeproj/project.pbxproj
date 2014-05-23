@@ -90,6 +90,7 @@
 		5FB9FD171922E5940011BFB9 /* WSConcentricCirclesViewAdvancedHD2014.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB9FD161922E5940011BFB9 /* WSConcentricCirclesViewAdvancedHD2014.m */; };
 		5FB9FD191923D9870011BFB9 /* search7.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB9FD181923D9870011BFB9 /* search7.png */; };
 		5FB9FD1B1923D98D0011BFB9 /* user-add.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB9FD1A1923D98D0011BFB9 /* user-add.png */; };
+		5FB9FD1D1923DF190011BFB9 /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB9FD1C1923DF190011BFB9 /* cross.png */; };
 		5FBEAB2018D6AC6A00356DA5 /* SQDopplerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBEAB1F18D6AC6A00356DA5 /* SQDopplerView.m */; };
 		5FBF523D190F5FAA00931180 /* SQNewThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBF523C190F5FAA00931180 /* SQNewThreadViewController.m */; };
 		5FC27DC718F240C10080EE09 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FC27DC518F240C10080EE09 /* Localizable.strings */; };
@@ -98,6 +99,7 @@
 		5FD47C3318ED2C31003B53BA /* SQLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FD47C3218ED2C31003B53BA /* SQLongPressGestureRecognizer.m */; };
 		5FD47C3618EDF003003B53BA /* UITextField+PopulateSlowly.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FD47C3518EDF003003B53BA /* UITextField+PopulateSlowly.m */; };
 		5FD47C3918EDF22F003B53BA /* NSURL+QueryParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FD47C3818EDF22F003B53BA /* NSURL+QueryParser.m */; };
+		5FDF32E4192C1F460044514A /* SQFullscreenAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDF32E3192C1F460044514A /* SQFullscreenAlert.m */; };
 		5FE355EA18E39B2700D88477 /* SQInviteFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE355E918E39B2700D88477 /* SQInviteFriendsViewController.m */; };
 		5FF793B118D51AFA0045090E /* SQBackgroundTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF793B018D51AFA0045090E /* SQBackgroundTaskManager.m */; };
 		5FF8BD5A18D8066B00AF5BF7 /* UIFont+OverrideSystemFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF8BD5918D8066B00AF5BF7 /* UIFont+OverrideSystemFont.m */; };
@@ -256,6 +258,7 @@
 		5FB9FD161922E5940011BFB9 /* WSConcentricCirclesViewAdvancedHD2014.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSConcentricCirclesViewAdvancedHD2014.m; sourceTree = "<group>"; };
 		5FB9FD181923D9870011BFB9 /* search7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search7.png; sourceTree = "<group>"; };
 		5FB9FD1A1923D98D0011BFB9 /* user-add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-add.png"; sourceTree = "<group>"; };
+		5FB9FD1C1923DF190011BFB9 /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
 		5FBEAB1E18D6AC6A00356DA5 /* SQDopplerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQDopplerView.h; sourceTree = "<group>"; };
 		5FBEAB1F18D6AC6A00356DA5 /* SQDopplerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQDopplerView.m; sourceTree = "<group>"; };
 		5FBF523B190F5FAA00931180 /* SQNewThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQNewThreadViewController.h; sourceTree = "<group>"; };
@@ -271,6 +274,9 @@
 		5FD47C3518EDF003003B53BA /* UITextField+PopulateSlowly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+PopulateSlowly.m"; sourceTree = "<group>"; };
 		5FD47C3718EDF22F003B53BA /* NSURL+QueryParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+QueryParser.h"; sourceTree = "<group>"; };
 		5FD47C3818EDF22F003B53BA /* NSURL+QueryParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+QueryParser.m"; sourceTree = "<group>"; };
+		5FDF32E2192C1F460044514A /* SQFullscreenAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQFullscreenAlert.h; sourceTree = "<group>"; };
+		5FDF32E3192C1F460044514A /* SQFullscreenAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQFullscreenAlert.m; sourceTree = "<group>"; };
+		5FDF32E5192C353C0044514A /* DTPerformanceSession.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTPerformanceSession.framework; path = Library/Frameworks/DTPerformanceSession.framework; sourceTree = DEVELOPER_DIR; };
 		5FE355E818E39B2700D88477 /* SQInviteFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQInviteFriendsViewController.h; sourceTree = "<group>"; };
 		5FE355E918E39B2700D88477 /* SQInviteFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQInviteFriendsViewController.m; sourceTree = "<group>"; };
 		5FF793AF18D51AFA0045090E /* SQBackgroundTaskManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQBackgroundTaskManager.h; sourceTree = "<group>"; };
@@ -415,6 +421,8 @@
 				5FB8DD721912BEC600DA07FF /* SQGalleryView.m */,
 				5FAB621B1916B4DF005C17FC /* parrot-body.png */,
 				5FAB621C1916B4DF005C17FC /* parrot-wing.png */,
+				5FDF32E2192C1F460044514A /* SQFullscreenAlert.h */,
+				5FDF32E3192C1F460044514A /* SQFullscreenAlert.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -424,6 +432,7 @@
 			children = (
 				5F90B42B18C3EBD0004C4FD2 /* SQMainViewController.h */,
 				5F90B42C18C3EBD0004C4FD2 /* SQMainViewController.m */,
+				5FB9FD1C1923DF190011BFB9 /* cross.png */,
 				5FB8DD7B1913246C00DA07FF /* SQPushEnableDialogViewController.h */,
 				5FB8DD7C1913246C00DA07FF /* SQPushEnableDialogViewController.m */,
 				5F1F0FC819228E0F004B1465 /* SQAnimatedBird.h */,
@@ -488,6 +497,7 @@
 		5F8985B618C3EA9B0085B085 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5FDF32E5192C353C0044514A /* DTPerformanceSession.framework */,
 				5F93BFF018CE8216004AF7BC /* Accelerate.framework */,
 				5F93BFC118CAEDD3004AF7BC /* Crashlytics.framework */,
 				5F2C4AB118C70B9100E59DFA /* QuartzCore.framework */,
@@ -690,6 +700,7 @@
 				5F90B45918C45148004C4FD2 /* WSToastNotificationView.xib in Resources */,
 				5F2B9ED0190842B600416E0A /* squawk.caf in Resources */,
 				5FFAA0D118D3AF1E000BEA9C /* slow_beep.wav in Resources */,
+				5FB9FD1D1923DF190011BFB9 /* cross.png in Resources */,
 				5F936C4618CF800200A006EF /* longblips2.wav in Resources */,
 				5F85901419156CAD00969D98 /* Squawk2-Info.plist in Resources */,
 				5FAB621F1916B4DF005C17FC /* parrot-wing.png in Resources */,
@@ -771,6 +782,7 @@
 				5FB8DD5919118F6E00DA07FF /* SQContactsOnboardingViewController.m in Sources */,
 				5F90B45818C45148004C4FD2 /* WSToastNotificationView.m in Sources */,
 				5F1F0FD31922C6A6004B1465 /* SQStripedIndicator.m in Sources */,
+				5FDF32E4192C1F460044514A /* SQFullscreenAlert.m in Sources */,
 				5F90B43818C3F528004C4FD2 /* ConvenienceCategories.m in Sources */,
 				5F90B42518C3EB53004C4FD2 /* NSString+RandomString.m in Sources */,
 				5FF793B118D51AFA0045090E /* SQBackgroundTaskManager.m in Sources */,
@@ -955,6 +967,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Squawk2/Squawk2-Prefix.pch";
@@ -975,6 +988,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Squawk2/Squawk2-Prefix.pch";

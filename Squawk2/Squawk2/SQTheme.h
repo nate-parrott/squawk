@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NSString * const SQThemeChangedNotification;
+
 @interface SQTheme : NSObject
 
 +(void)apply;
@@ -20,5 +22,11 @@
 +(UIColor*)orange;
 +(UIColor*)lightBlue;
 +(UIColor*)lightGray;
+
++(UIColor*)rowColorForPlayback;
++(UIColor*)rowColorForRecording;
++(UIColor*)mainBackground;
++(UIColor*)controlsTint;
++(UIColor*)mainUITint;
 
 @end
