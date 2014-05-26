@@ -29,7 +29,7 @@
 
 const CGPoint SQDefaultContentOffset = {0, 0};
 
-@interface SQMainViewController () {
+@interface SQMainViewController () <MFMessageComposeViewControllerDelegate, UINavigationControllerDelegate, ABNewPersonViewControllerDelegate> {
     IBOutlet UIView* _searchFieldContainer;
     IBOutlet UITextField* _searchField;
     
@@ -48,6 +48,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     UIButton* _pushNotificationAdvert;
     
     IBOutlet UILabel* _pullToRefreshLabel;
+    
+    MFMessageComposeViewController* _messageComposer;
 }
 
 @property(nonatomic)BOOL searchMode;
@@ -478,27 +480,6 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     _headerTopOffset.constant = MIN(0, -scrollView.contentOffset.y);
 #endif
 }
--(NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NSLocalizedString(@"delete squawks", @"");
-}
--(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    SQThreadCell* cell = (id)[tableView cellForRowAtIndexPath:indexPath];
-    SQThread* thread = cell.thread;
-    return thread.unread.count>0;
-}
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        self.view.userInteractionEnabled = NO;
-        SQThreadCell* cell = (id)[tableView cellForRowAtIndexPath:indexPath];
-        SQThread* thread = cell.thread;
-        NSTimeInterval totalTime = thread.unread.count==1? 0.1 : 1.0;
-        [SQThread deleteSquawks:thread.unread intervalBetweenEach:totalTime/thread.unread.count];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((totalTime+0.1) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.tableView setEditing:NO animated:YES];
-            self.view.userInteractionEnabled = YES;
-        });
-    }
-}
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     CGFloat height = 30;
     if (section==1) return height;
@@ -668,12 +649,16 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     }
     _searchMode = searchMode;
     
+    if (searchMode) _searchFieldContainer.hidden = NO;
+    
     [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:(searchMode? 0.5 : 1) initialSpringVelocity:0 options:0 animations:^{
         _searchBarTopOffset.constant = searchMode? 0 : -74;
         [self.view layoutIfNeeded];
         _titleLabel.alpha = searchMode? 0 : 1;
     } completion:^(BOOL finished) {
-        
+        if (!searchMode) {
+            _searchFieldContainer.hidden = YES;
+        }
     }];
     _searchField.text = @"";
     self.searchQuery = @"";
@@ -838,6 +823,37 @@ const CGPoint SQDefaultContentOffset = {0, 0};
         return (id)dismissed;
     }
     return nil;
+}
+#pragma mark Messaging
+-(void)sendMessageToPhones:(NSArray*)phones {
+    _messageComposer = [[MFMessageComposeViewController alloc] init];
+    _messageComposer.messageComposeDelegate = self;
+    _messageComposer.recipients = phones;
+    [self presentViewController:_messageComposer animated:YES completion:nil];
+}
+-(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+    [controller dismissViewControllerAnimated:YES completion:nil];
+    _messageComposer = nil;
+}
+#pragma mark Contact creation
+-(void)promptToAddContactWithPhone:(NSString*)phone {
+    ABRecordRef person = ABPersonCreate();
+    
+    ABMutableMultiValueRef phones = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+    ABMultiValueAddValueAndLabel(phones, (__bridge CFTypeRef)(phone), kABPersonPhoneMainLabel, NULL);
+    ABRecordSetValue(person, kABPersonPhoneProperty, phones, NULL);
+    
+    ABNewPersonViewController* newPersonVC = [[ABNewPersonViewController alloc] init];
+    newPersonVC.displayedPerson = person;
+    
+    [self presentNewPersonVC:newPersonVC];
+}
+-(void)presentNewPersonVC:(ABNewPersonViewController*)newPersonVC {
+    newPersonVC.newPersonViewDelegate = self;
+    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:newPersonVC] animated:YES completion:nil];
+}
+-(void)newPersonViewController:(ABNewPersonViewController *)newPersonView didCompleteWithNewPerson:(ABRecordRef)person {
+    [newPersonView.parentViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

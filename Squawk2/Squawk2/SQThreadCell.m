@@ -15,8 +15,21 @@
 #import "SQFriendsOnSquawk.h"
 #import "SQLongPressGestureRecognizer.h"
 #import "SQDateFormatter.h"
+#import <MessageUI/MessageUI.h>
+#import <AddressBookUI/AddressBookUI.h>
+#import "SQThreadListViewController.h"
+#import "UIViewController+SoftModal.h"
+
+const CGFloat SQThreadCellSwipeButtonWidth = 120;
 
 NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleNextToThreadIdentifier";
+
+@interface SQThreadCell () <UIScrollViewDelegate> {
+    NSArray* _swipeButtonDefs;
+    NSMutableArray* _swipeButtons;
+}
+
+@end
 
 @implementation SQThreadCell
 
@@ -64,6 +77,19 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     
     //self.layer.rasterizationScale = [UIScreen mainScreen].scale;
     //self.layer.shouldRasterize = YES;
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_background attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_background attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+    
+    UITapGestureRecognizer* tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+    [self.background addGestureRecognizer:tapRec];
+}
+-(void)tapped:(UITapGestureRecognizer*)gestureRec {
+    if (gestureRec.state == UIGestureRecognizerStateRecognized) {
+        NSIndexPath* indexPath = [self.controller.tableView indexPathForCell:self];
+        [self.controller.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+        [self.controller tableView:self.controller.tableView didSelectRowAtIndexPath:indexPath];
+    }
 }
 -(void)setThread:(SQThread *)thread {
     _thread = thread;
@@ -93,6 +119,9 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     } else {
         _date.text = nil;
     }
+    
+    [self resetSwipeButtons];
+    
 }
 -(NSAttributedString*)attributedTitle {
     NSArray* unread = self.thread.unread;
@@ -152,6 +181,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
 -(void)scrolled {
     [self.gestureRec setEnabled:NO];
     [self.gestureRec setEnabled:YES];
+    [self closeSwipeMenu];
 }
 -(void)setSqSelected:(BOOL)sqSelected {
     _sqSelected = sqSelected;
@@ -182,9 +212,141 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     [super prepareForReuse];
     self.interacting = NO;
 }
+#pragma mark Layout
+-(void)layoutSubviews {
+    [super layoutSubviews];
+    _scrollView.contentSize = CGSizeMake(self.bounds.size.width + SQThreadCellSwipeButtonWidth*[self swipeButtonDefs].count, self.bounds.size.height);
+    if (_swipeButtons) {
+        CGFloat x = self.bounds.size.width;
+        for (UIButton* button in _swipeButtons) {
+            button.frame = CGRectMake(x, 0, SQThreadCellSwipeButtonWidth, self.bounds.size.height);
+            x += SQThreadCellSwipeButtonWidth;
+        }
+    }
+}
+
 #pragma mark Swipe menu
--(NSArray*)swipeButtons { // array of dictionaries with "title" and "action" keys
+-(void)resetSwipeButtons {
+    _swipeButtonDefs = nil;
+    for (UIButton* button in _swipeButtons) [button removeFromSuperview];
+    _swipeButtons = nil;
+    [self setNeedsLayout];
+}
+-(NSArray*)swipeButtonDefs { // array of dictionaries with "title" and "action" keys
+    if (!_swipeButtonDefs) {
+        NSMutableArray* buttonDefs = [NSMutableArray new];
+        int otherThreadMembers = self.thread.phoneNumbers.count-1;
+        if (self.thread.unread.count > 0) {
+            [buttonDefs addObject:@{
+                                    @"title": NSLocalizedString(@"Delete squawks", @""),
+                                    @"action": @"deleteUnread"
+                                    }];
+        }
+        if (otherThreadMembers > 1) { // group squawk
+            [buttonDefs addObject:@{
+                                    @"title": NSLocalizedString(@"People", @""),
+                                    @"action": @"showPeopleDetail"
+                                    }];
+        }
+        if (otherThreadMembers == 1) {
+            NSString* phone = self.thread.phoneNumbers.anyObject;
+            if (phone && [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel:17185551234"]]) {
+                [buttonDefs addObject:@{
+                                        @"title": NSLocalizedString(@"Call", @""),
+                                        @"action": @"call"
+                                        }];
+            }
+            if (self.thread.contacts.count==0) {
+                [buttonDefs addObject:@{
+                                        @"title": NSLocalizedString(@"Add contact", @""),
+                                        @"action": @"addContact"
+                                        }];
+            }
+        }
+        if ([MFMessageComposeViewController canSendText]) {
+            [buttonDefs addObject:@{
+                                    @"title": NSLocalizedString(@"Message", @""),
+                                    @"action": @"message"
+                                    }];
+        }
+        _swipeButtonDefs = buttonDefs;
+    }
+    return _swipeButtonDefs;
+}
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (!_swipeButtons) {
+        [self generateSwipeButtons];
+    }
+}
+-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    CGFloat endPoint = 0;
+    for (int i=0; i<_swipeButtons.count; i++) {
+        CGFloat x = SQThreadCellSwipeButtonWidth*(i+1);
+        if (fabsf(x-targetContentOffset->x) < fabsf(endPoint-targetContentOffset->x)) {
+            endPoint = x;
+        }
+    }
+    targetContentOffset->x = endPoint;
+}
+-(void)generateSwipeButtons {
     
+    _swipeButtons = [NSMutableArray new];
+    CGFloat alpha = 1;
+    for (NSDictionary* def in [self swipeButtonDefs].reverseObjectEnumerator) {
+        UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitle:[def[@"title"] lowercaseString] forState:UIControlStateNormal];
+        [button addTarget:self action:NSSelectorFromString(def[@"action"]) forControlEvents:UIControlEventTouchUpInside];
+        [_scrollView addSubview:button];
+        alpha -= 0.2;
+        button.backgroundColor = [self.background.backgroundColor colorWithAlphaComponent:alpha];
+        button.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:14];
+        [_swipeButtons addObject:button];
+    }
+    
+    [self setNeedsLayout];
+}
+-(void)closeSwipeMenu {
+    if (_scrollView.contentOffset.x > 0) {
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+            _scrollView.contentOffset = CGPointZero;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+}
+#pragma mark Swipe menu actions
+-(void)showPeopleDetail {
+    SQThreadListViewController* detail = [self.controller.storyboard instantiateViewControllerWithIdentifier:@"ThreadList"];
+    NSMutableArray* phones = self.thread.phoneNumbers.allObjects.mutableCopy;
+    [phones removeObject:[SQAPI currentPhone]];
+    detail.threadMembers = phones;
+    [detail presentSoftModalInViewController:self.controller];
+}
+-(void)deleteUnread {
+    NSTimeInterval totalTime = self.thread.unread.count==1? 0.1 : 1.0;
+    [SQThread deleteSquawks:self.thread.unread intervalBetweenEach:totalTime/self.thread.unread.count];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((totalTime+0.1) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.scrollView setContentOffset:CGPointZero animated:YES];
+    });
+}
+-(void)call {
+    NSString* phone = self.thread.phoneNumbers.anyObject;
+    if (phone) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", phone]]];
+    }
+}
+-(void)message {
+    NSMutableArray* phones = self.thread.phoneNumbers.allObjects.mutableCopy;
+    [phones removeObject:phones];
+    if (phones.count) {
+        [self.controller sendMessageToPhones:phones];
+    }
+}
+-(void)addContact {
+    NSString* phone = self.thread.phoneNumbers.anyObject;
+    if (!phone) return;
+    
+    [self.controller promptToAddContactWithPhone:phone];
 }
 
 @end

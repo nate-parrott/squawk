@@ -37,7 +37,7 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
         [thread.contacts addObject:contact];
         for (NSString* num in contact.phoneNumbers) {
             if ([num isEqualToString:myNumber]) continue;
-            threadsForIdentifiers[[self identifierForThreadWithPhoneNumbers:@[num, myNumber]]] = thread;
+            threadsForIdentifiers[[self identifierForThreadWithPhoneNumbers:@[num]]] = thread;
         }
     }
     
@@ -73,7 +73,7 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
     
     for (SQThread* thread in threads) {
         // now if we've still got threads that exist only because the user has a contact, we'll want to manually populate the -phoneNumbers field:
-        if (thread.contacts.count>0 && thread.phoneNumbers.count==0) {
+        if (thread.contacts.count>0 && thread.phoneNumbers.count < 2) {
             [thread.phoneNumbers addObject:[thread.contacts.firstObject mobileNumber]];
         }
     }
@@ -148,6 +148,7 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
 -(id)init {
     self = [super init];
     self.phoneNumbers = [NSMutableSet new];
+    [self.phoneNumbers addObject:[SQAPI currentPhone]];
     self.contacts = [NSMutableArray new];
     self.squawks = [NSMutableArray new];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updated:) name:SQSquawkListenedStatusChangedNotification object:nil];
@@ -267,6 +268,7 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
     }
     NSSet* set = [[[SQFriendsOnSquawk shared] setOfPhoneNumbersOfFriendsOnSquawk] first];
     for (NSString* num in self.phoneNumbers) {
+        if ([num isEqualToString:[SQAPI currentPhone]]) continue;
         if ([set containsObject:num]) {
             return YES;
         }

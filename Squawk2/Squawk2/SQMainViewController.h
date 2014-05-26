@@ -15,6 +15,7 @@
 #import "SQStatusView.h"
 #import "SQAnimatedBird.h"
 #import "SQFullscreenAlert.h"
+#import <AddressBookUI/AddressBookUI.h>
 
 typedef enum {
     SQNoInteraction,
@@ -46,6 +47,7 @@ typedef enum {
     
     IBOutlet UIView* _raiseToSquawkHintContainer;
     IBOutlet UILabel* _raiseToSquawkHint;
+    
 }
 
 @property(strong)IBOutlet UITableView* tableView;
@@ -78,5 +80,10 @@ typedef enum {
 -(void)rippleFromCell:(UITableViewCell*)cell;
 
 @property(strong)SQFullscreenAlert* alertView;
+
+-(void)sendMessageToPhones:(NSArray*)phones;
+
+-(void)promptToAddContactWithPhone:(NSString*)phone;
+-(void)presentNewPersonVC:(ABNewPersonViewController*)newPersonVC;
 
 @end

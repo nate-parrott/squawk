@@ -40,4 +40,6 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier;
 
 @property CGFloat saturation, brightness;
 
+@property(weak)IBOutlet UIScrollView* scrollView;
+
 @end

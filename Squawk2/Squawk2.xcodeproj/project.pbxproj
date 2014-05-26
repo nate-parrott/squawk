@@ -100,6 +100,8 @@
 		5FD47C3618EDF003003B53BA /* UITextField+PopulateSlowly.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FD47C3518EDF003003B53BA /* UITextField+PopulateSlowly.m */; };
 		5FD47C3918EDF22F003B53BA /* NSURL+QueryParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FD47C3818EDF22F003B53BA /* NSURL+QueryParser.m */; };
 		5FDF32E4192C1F460044514A /* SQFullscreenAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDF32E3192C1F460044514A /* SQFullscreenAlert.m */; };
+		5FDF32EE19310B0C0044514A /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDF32ED19310B0C0044514A /* AddressBookUI.framework */; };
+		5FDF32F11931E6D90044514A /* SQThreadListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDF32F01931E6D90044514A /* SQThreadListViewController.m */; };
 		5FE355EA18E39B2700D88477 /* SQInviteFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE355E918E39B2700D88477 /* SQInviteFriendsViewController.m */; };
 		5FF793B118D51AFA0045090E /* SQBackgroundTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF793B018D51AFA0045090E /* SQBackgroundTaskManager.m */; };
 		5FF8BD5A18D8066B00AF5BF7 /* UIFont+OverrideSystemFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF8BD5918D8066B00AF5BF7 /* UIFont+OverrideSystemFont.m */; };
@@ -277,6 +279,9 @@
 		5FDF32E2192C1F460044514A /* SQFullscreenAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQFullscreenAlert.h; sourceTree = "<group>"; };
 		5FDF32E3192C1F460044514A /* SQFullscreenAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQFullscreenAlert.m; sourceTree = "<group>"; };
 		5FDF32E5192C353C0044514A /* DTPerformanceSession.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTPerformanceSession.framework; path = Library/Frameworks/DTPerformanceSession.framework; sourceTree = DEVELOPER_DIR; };
+		5FDF32ED19310B0C0044514A /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		5FDF32EF1931E6D90044514A /* SQThreadListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQThreadListViewController.h; sourceTree = "<group>"; };
+		5FDF32F01931E6D90044514A /* SQThreadListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQThreadListViewController.m; sourceTree = "<group>"; };
 		5FE355E818E39B2700D88477 /* SQInviteFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQInviteFriendsViewController.h; sourceTree = "<group>"; };
 		5FE355E918E39B2700D88477 /* SQInviteFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQInviteFriendsViewController.m; sourceTree = "<group>"; };
 		5FF793AF18D51AFA0045090E /* SQBackgroundTaskManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQBackgroundTaskManager.h; sourceTree = "<group>"; };
@@ -292,6 +297,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FDF32EE19310B0C0044514A /* AddressBookUI.framework in Frameworks */,
 				5F90B43218C3EE4E004C4FD2 /* MessageUI.framework in Frameworks */,
 				5F2C4AB218C70B9100E59DFA /* QuartzCore.framework in Frameworks */,
 				5F93BFC218CAEDD3004AF7BC /* Crashlytics.framework in Frameworks */,
@@ -403,6 +409,8 @@
 				5F3238E418E2B84200B9BB0C /* SQMessageViewController.m */,
 				5FBF523B190F5FAA00931180 /* SQNewThreadViewController.h */,
 				5FBF523C190F5FAA00931180 /* SQNewThreadViewController.m */,
+				5FDF32EF1931E6D90044514A /* SQThreadListViewController.h */,
+				5FDF32F01931E6D90044514A /* SQThreadListViewController.m */,
 				5FE355E818E39B2700D88477 /* SQInviteFriendsViewController.h */,
 				5FE355E918E39B2700D88477 /* SQInviteFriendsViewController.m */,
 				5F93BFC718CBA5D3004AF7BC /* SQAudioFiles.h */,
@@ -497,6 +505,7 @@
 		5F8985B618C3EA9B0085B085 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5FDF32ED19310B0C0044514A /* AddressBookUI.framework */,
 				5FDF32E5192C353C0044514A /* DTPerformanceSession.framework */,
 				5F93BFF018CE8216004AF7BC /* Accelerate.framework */,
 				5F93BFC118CAEDD3004AF7BC /* Crashlytics.framework */,
@@ -780,6 +789,7 @@
 				5F93BFEC18CE5FA6004AF7BC /* SQStatusView.m in Sources */,
 				5FD47C3918EDF22F003B53BA /* NSURL+QueryParser.m in Sources */,
 				5FB8DD5919118F6E00DA07FF /* SQContactsOnboardingViewController.m in Sources */,
+				5FDF32F11931E6D90044514A /* SQThreadListViewController.m in Sources */,
 				5F90B45818C45148004C4FD2 /* WSToastNotificationView.m in Sources */,
 				5F1F0FD31922C6A6004B1465 /* SQStripedIndicator.m in Sources */,
 				5FDF32E4192C1F460044514A /* SQFullscreenAlert.m in Sources */,
