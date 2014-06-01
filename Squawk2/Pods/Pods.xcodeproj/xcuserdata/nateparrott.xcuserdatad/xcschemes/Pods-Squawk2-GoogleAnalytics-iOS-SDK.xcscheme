@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DA290479B8774AC4B77DDA0E"
+               BlueprintIdentifier = "C920F05286EC4EB7B8F7C458"
                BuildableName = "libPods-Squawk2-GoogleAnalytics-iOS-SDK.a"
                BlueprintName = "Pods-Squawk2-GoogleAnalytics-iOS-SDK"
                ReferencedContainer = "container:Pods.xcodeproj">

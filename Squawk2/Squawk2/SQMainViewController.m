@@ -70,8 +70,20 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     [super viewDidLoad];
     
     [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:SQThemeChangedNotification object:nil] startWith:nil] subscribeNext:^(id x) {
-        self.view.backgroundColor = [SQTheme mainBackground];
+        BOOL animateBackground = x==nil;
+        if (animateBackground) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [UIView animateWithDuration:0.7 animations:^{
+                    self.view.backgroundColor = [SQTheme mainBackground];
+                }];
+            });
+        } else {
+            self.view.backgroundColor = [SQTheme mainBackground];
+        }
         _raiseToSquawkHintContainer.backgroundColor = [[SQTheme mainUITint] colorWithAlphaComponent:0.75];
+        _raiseToSquawkHint.textColor = [SQTheme mainBackground];
+        self.view.tintColor = [SQTheme mainUITint];
+        [_pushNotificationAdvert setTitleColor:[SQTheme mainUITint] forState:UIControlStateNormal];
     }];
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:SQThemeChangedNotification object:nil] subscribeNext:^(id x) {
         [self.tableView reloadData];
@@ -93,8 +105,6 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     
     _pullToRefreshLabel.text = NSLocalizedString(@"Pull to refresh", @"").lowercaseString;
     
-    self.view.tintColor = [UIColor whiteColor];
-    
     _searchField.placeholder = NSLocalizedString(@"Search", @"Search bar placeholder");
     
     self.inviteFriendsPromptVisible = NO;
@@ -103,7 +113,6 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     
     _pushNotificationAdvert = [UIButton buttonWithType:UIButtonTypeCustom];
     [_pushNotificationAdvert setTitle:NSLocalizedString(@"Tap to enable push notifications", @"") forState:UIControlStateNormal];
-    [_pushNotificationAdvert setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_pushNotificationAdvert.titleLabel setFont:[UIFont fontWithName:@"AvenirNext-Medium" size:13]];
     RAC(_pushNotificationAdvert, hidden) = RACObserve(AppDelegate, pushNotificationsEnabled);
     [_pushNotificationAdvert addTarget:self action:@selector(enablePush:) forControlEvents:UIControlEventTouchUpInside];
@@ -118,7 +127,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
         return NSLocalizedString(@"this is Squawk", @"Default main screen title");
     }];
     
-    _errorContainer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"strips"]];
+    _errorContainer.backgroundColor = [SQTheme red];
     
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:SQDidOpenMessageNotification object:nil] subscribeNext:^(id x) {
         [self.tableView setContentOffset:CGPointZero];
@@ -401,7 +410,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SQThreadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Thread" forIndexPath:indexPath];
     
-    int totalIndex = indexPath.row;
+    NSInteger totalIndex = indexPath.row;
     for (int i=0; i<indexPath.section; i++) {
         totalIndex += [_threadSections[i] count];
     }
@@ -565,6 +574,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
         [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Squawk %@ by tapping and holding their name", @""), firstName] attributes:mainAttributes]];
     }
     _raiseToSquawkHint.attributedText = playback? playbackTitle : recordTitle;
+    _raiseToSquawkHint.textColor = [SQTheme mainBackground];
 }
 -(void)setPlayOrRecord:(BOOL)playOrRecord {
     if (_playOrRecord == playOrRecord) return;

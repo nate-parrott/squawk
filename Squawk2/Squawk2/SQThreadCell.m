@@ -56,9 +56,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
 -(void)setup {
     if (_setup) return;
     _setup = YES;
-    
-    _background.layer.borderColor = [UIColor whiteColor].CGColor;
-    
+        
     _reloader = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(reload) userInfo:nil repeats:YES];
     
     self.gestureRec = [[SQLongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressed:)];
@@ -145,6 +143,8 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     brightness = brightness*0.7 + self.brightness*0.3;
     tint = [UIColor colorWithHue:hue saturation:sat brightness:brightness alpha:1];
     _background.backgroundColor = self.tintColor = tint;
+    
+    _background.layer.borderColor = [SQTheme mainUITint].CGColor;
     
     if (self.thread.squawks.count) {
         NSDate* date = [NSDate dateWithTimeIntervalSince1970:[self.thread.squawks.firstObject[@"date"] doubleValue]];

@@ -68,7 +68,7 @@ NSString* SQErrorDomain = @"SQErrorDomain";
     
     [SQFriendsOnSquawk shared]; // initialize it
     [self setupAudio];
-    [SQTheme apply];
+    [SQTheme setup];
     
     [self.window makeKeyAndVisible];
     
@@ -282,7 +282,8 @@ NSString* SQErrorDomain = @"SQErrorDomain";
 }
 #pragma mark URL scheme
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    if ([url.scheme.lowercaseString isEqualToString:@"squawk"]) {
+    NSString* scheme = url.scheme.lowercaseString;
+    if ([scheme isEqualToString:@"squawk"]) {
         NSString* command = url.host;
         if ([command isEqualToString:@"add"]) {
             NSDictionary* query = url.queryDictionary;
@@ -294,6 +295,8 @@ NSString* SQErrorDomain = @"SQErrorDomain";
                 [[NSNotificationCenter defaultCenter] postNotificationName:SQPromptAddFriend object:nil userInfo:nil];
                 return YES;
             }
+        } else if ([command isEqualToString:@"theme"]) {
+            [SQTheme updateThemeFromURL:url];
         }
     }
     return NO;

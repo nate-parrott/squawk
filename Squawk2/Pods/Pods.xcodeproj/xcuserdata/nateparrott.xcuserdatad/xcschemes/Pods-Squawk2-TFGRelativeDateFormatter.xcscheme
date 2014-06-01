@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DA965D1CD0F04719A32903C4"
+               BlueprintIdentifier = "F44C26AE6A3F42FC9526E292"
                BuildableName = "libPods-Squawk2-TFGRelativeDateFormatter.a"
                BlueprintName = "Pods-Squawk2-TFGRelativeDateFormatter"
                ReferencedContainer = "container:Pods.xcodeproj">

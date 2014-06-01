@@ -1,6 +1,6 @@
 #include "Pods-Squawk2-Helpshift.xcconfig"
 GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/Helpshift" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/GoogleAnalytics-iOS-SDK" "${PODS_ROOT}/Headers/Helpshift" "${PODS_ROOT}/Headers/NPReachability" "${PODS_ROOT}/Headers/ReactiveCocoa" "${PODS_ROOT}/Headers/ReactiveCocoa/ReactiveCocoa" "${PODS_ROOT}/Headers/TFGRelativeDateFormatter"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/Helpshift" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/GoogleAnalytics-iOS-SDK" "${PODS_ROOT}/Headers/Helpshift" "${PODS_ROOT}/Headers/NPReachability" "${PODS_ROOT}/Headers/ReactiveCocoa" "${PODS_ROOT}/Headers/ReactiveCocoa/ReactiveCocoa" "${PODS_ROOT}/Headers/TFGRelativeDateFormatter" "${PODS_ROOT}/Headers/UIColor-HexString"
 LIBRARY_SEARCH_PATHS = ${PODS_SQUAWK__HELPSHIFT_LIBRARY_SEARCH_PATHS}
 OTHER_LDFLAGS = -ObjC ${PODS_SQUAWK__HELPSHIFT_OTHER_LDFLAGS}
 PODS_ROOT = ${SRCROOT}

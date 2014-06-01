@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F646AE0D9FBF4EBAADE1F3D2"
+               BlueprintIdentifier = "C2CEEAB7127B496A8FA3C9EC"
                BuildableName = "libPods-Squawk2-Helpshift.a"
                BlueprintName = "Pods-Squawk2-Helpshift"
                ReferencedContainer = "container:Pods.xcodeproj">

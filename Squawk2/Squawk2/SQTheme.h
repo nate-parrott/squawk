@@ -12,7 +12,7 @@ NSString * const SQThemeChangedNotification;
 
 @interface SQTheme : NSObject
 
-+(void)apply;
++(void)setup;
 
 +(UIColor*)black;
 +(UIColor*)yellow;
@@ -28,5 +28,7 @@ NSString * const SQThemeChangedNotification;
 +(UIColor*)mainBackground;
 +(UIColor*)controlsTint;
 +(UIColor*)mainUITint;
+
++(void)updateThemeFromURL:(NSURL*)url;
 
 @end

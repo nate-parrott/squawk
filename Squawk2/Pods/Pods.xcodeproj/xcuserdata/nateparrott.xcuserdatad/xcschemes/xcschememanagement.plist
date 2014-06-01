@@ -29,6 +29,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-Squawk2-UIColor-HexString.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Squawk2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,32 +42,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>9C12DADD7C594C6E953702A6</key>
+		<key>6E097804E7314F5F90962698</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D23996998C5A4788B53C6940</key>
+		<key>A790E90DBAC74558B22CE53C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DA290479B8774AC4B77DDA0E</key>
+		<key>AF3EDBD2F4094C02BE740366</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DA965D1CD0F04719A32903C4</key>
+		<key>C2CEEAB7127B496A8FA3C9EC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E3B45A918B2948C48D27AFBA</key>
+		<key>C920F05286EC4EB7B8F7C458</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F646AE0D9FBF4EBAADE1F3D2</key>
+		<key>F44C26AE6A3F42FC9526E292</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F6CBB4D3BD1D4E0E90207D9B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

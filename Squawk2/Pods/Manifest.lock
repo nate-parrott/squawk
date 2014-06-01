@@ -9,6 +9,7 @@ PODS:
     - ReactiveCocoa/no-arc
   - ReactiveCocoa/no-arc (2.2.4)
   - TFGRelativeDateFormatter (1.0.0)
+  - UIColor-HexString (1.1.0)
 
 DEPENDENCIES:
   - GoogleAnalytics-iOS-SDK (~> 3.0.7)
@@ -16,12 +17,14 @@ DEPENDENCIES:
   - NPReachability (~> 0.2.0)
   - ReactiveCocoa (~> 2.2.3)
   - TFGRelativeDateFormatter (~> 1.0.0)
+  - UIColor-HexString
 
 SPEC CHECKSUMS:
-  GoogleAnalytics-iOS-SDK: 594702aaf93e6ee497140fd31e758c2e2fa44315
-  Helpshift: 208662eaeaca0c7811470bacc9f4ba79ccc0827d
-  NPReachability: 5ba6a5532c1eb1fe9fcb6e24712b379180ec9453
-  ReactiveCocoa: 953a45dda30674fe704d1d9c77cc874141742f47
-  TFGRelativeDateFormatter: bc2394be64228831fb69c907201797c79eed2a9f
+  GoogleAnalytics-iOS-SDK: bb285d8eef15a682f1b82971becd0d22edd0e53b
+  Helpshift: 6f38905bc2532c3764a9398b6077f49774e90ad3
+  NPReachability: 8cc49b29538ef6815a3b7bcc5ab3c8ffbadc0b8a
+  ReactiveCocoa: 2af0e10b1cb17a060898992474eaf51d12f34ae9
+  TFGRelativeDateFormatter: 89f9327d09ac00e114984e43d1e483f6200ef9e5
+  UIColor-HexString: a9eabf02c1a2f9036ed6ac9cb2a3ea086f3b39e4
 
 COCOAPODS: 0.32.1

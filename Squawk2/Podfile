@@ -7,5 +7,6 @@ pod 'GoogleAnalytics-iOS-SDK', '~> 3.0.7'
 pod 'Helpshift', '~> 4.3.0'
 pod 'NPReachability', '~> 0.2.0'
 pod 'TFGRelativeDateFormatter', '~> 1.0.0'
+pod 'UIColor-HexString'
 
 end

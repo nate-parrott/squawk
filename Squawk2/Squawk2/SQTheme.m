@@ -7,13 +7,23 @@
 //
 
 #import "SQTheme.h"
+#import "NSURL+QueryParser.h"
+#import <UIColor+HexString.h>
 
 NSString * const SQThemeChangedNotification = @"SQThemeChangedNotification";
 
+NSDictionary* SQThemeDict = nil;
+
 @implementation SQTheme
 
-+(void)apply {
++(void)setup {
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Medium" size:16]} forState:UIControlStateNormal];
+    
+    NSString* theme = [[NSUserDefaults standardUserDefaults] valueForKey:@"SQThemeURL"];
+    if (!theme) {
+        theme = @"squawk://theme?p=fa5235&r=fa8136&b=000000&c=ff3057&u=ffffff";
+    }
+    [self updateThemeFromURL:[NSURL URLWithString:theme]];
 }
 
 +(UIColor*)black {
@@ -42,20 +52,39 @@ NSString * const SQThemeChangedNotification = @"SQThemeChangedNotification";
     return [UIColor colorWithRed:0.753 green:0.755 blue:0.759 alpha:1.000];
 }
 
-+(UIColor*)rowColorForPlayback {
-    return [UIColor colorWithRed:0.961 green:0.332 blue:0.208 alpha:1.000];
-}
 +(UIColor*)rowColorForRecording {
+    return SQThemeDict[@"r"];
     return [SQTheme orange];
 }
++(UIColor*)rowColorForPlayback {
+    return SQThemeDict[@"p"];
+    return [UIColor colorWithRed:0.980 green:0.322 blue:0.208 alpha:1.000];
+}
 +(UIColor*)mainBackground {
+    return SQThemeDict[@"b"];
     return [UIColor blackColor];
 }
 +(UIColor*)controlsTint {
+    return SQThemeDict[@"c"];
     return [SQTheme red];
 }
 +(UIColor*)mainUITint {
+    return SQThemeDict[@"u"];
     return [UIColor whiteColor];
+}
++(void)updateThemeFromURL:(NSURL*)url {
+    [[NSUserDefaults standardUserDefaults] setObject:url.absoluteString forKey:@"SQThemeURL"];
+    
+    NSDictionary* queryDict = url.queryDictionary;
+    NSMutableDictionary* themeDict = [NSMutableDictionary new];
+    for (NSString* key in queryDict) {
+        themeDict[key] = [UIColor colorWithHexString:queryDict[key]];
+    }
+    BOOL isInitialSetup = SQThemeDict==nil;
+    SQThemeDict = themeDict;
+    if (!isInitialSetup) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:SQThemeChangedNotification object:nil];
+    }
 }
 
 @end
