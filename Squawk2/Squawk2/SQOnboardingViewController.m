@@ -17,6 +17,10 @@
 
 @implementation SQOnboardingViewController
 
+-(BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 #pragma mark Paging
 -(NSArray*)pageIdentifiers {
     // storyboard identifiers for each page:

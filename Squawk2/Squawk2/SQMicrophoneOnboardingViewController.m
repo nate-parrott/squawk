@@ -28,9 +28,9 @@
 -(void)viewDidLoad {
     [super viewDidLoad];
     
-    _raiseToSquawkDescription.text = NSLocalizedString(@"Or, instead of pressing the button, just hold the phone to your ear.\n\nTry it.", @"");
-    _listenDescription.text = NSLocalizedString(@"When you've got a squawk, the button turns blue. Hold it down to play.", @"");
-    _recordDescription.text = NSLocalizedString(@"Send a squawk by holding down the red button.", @"");
+    _recordDescription.text = NSLocalizedString(@"Send a squawk by holding your finger down on a person's name.", @"");
+    _listenDescription.text = NSLocalizedString(@"When you've got a squawk from someone, do the same thing to play it.", @"");
+    _raiseToSquawkDescription.text = NSLocalizedString(@"Or just pick a person and hold the phone to your ear.\n\nTry it.", @"");
     
     [self.nextButton setTitle:NSLocalizedString(@"Allow access to microphone", @"") forState:UIControlStateNormal];
     

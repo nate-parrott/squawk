@@ -23,6 +23,8 @@
 #import "UIViewController+SoftModal.h"
 #import "SQOnboardingViewController.h"
 
+NSString * const SQHasUsedRaiseToSquawk = @"SQHasUsedRaiseToSquawk";
+
 //#define TOP_BAR_SCROLLS
 
 #define PULL_TO_REFRESH_THRESHOLD 70
@@ -523,7 +525,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
         }
         
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-            _raiseToSquawkHintContainer.alpha = self.selectedThread? 1 : 0;
+            BOOL showHint = self.selectedThread!=nil && ![[NSUserDefaults standardUserDefaults] boolForKey:SQHasUsedRaiseToSquawk];
+            _raiseToSquawkHintContainer.alpha = showHint? 1 : 0;
         } completion:^(BOOL finished) {
             
         }];
@@ -563,20 +566,6 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     }
     _raiseToSquawkHint.attributedText = playback? playbackTitle : recordTitle;
 }
--(void)sendCheckmark:(id)sender {
-    NSString* threadIdentifier = self.interactingWithThread.squawks.firstObject[@"thread_identifier"]? : @"";
-    NSMutableArray* sendCheckmarksToPhones = self.interactingWithThread.phoneNumbers.allObjects.mutableCopy;
-    [sendCheckmarksToPhones removeObject:[SQAPI currentPhone]];
-    [SQAPI post:@"/send_checkmark" args:@{@"recipients": sendCheckmarksToPhones, @"thread_identifier": threadIdentifier} data:nil callback:^(NSDictionary *result, NSError *error) {
-        if (![result[@"success"] boolValue]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [AppDelegate toast:NSLocalizedString(@"Couldn't send checkmark.", @"")];
-            });
-        }
-    }];
-    [AppDelegate trackEventWithCategory:@"action" action:@"sent_checkmark" label:nil value:nil];
-    
-}
 -(void)setPlayOrRecord:(BOOL)playOrRecord {
     if (_playOrRecord == playOrRecord) return;
     _playOrRecord = playOrRecord;
@@ -594,6 +583,15 @@ const CGPoint SQDefaultContentOffset = {0, 0};
                 self.interactionMode = SQPressedRow;
             } else {
                 self.interactionMode = SQPressedButton;
+            }
+            
+            // set a boolean after the first time raise-to-squawk is used
+            if ([WSEarSensor shared].isRaisedToEar && ![[NSUserDefaults standardUserDefaults] boolForKey:SQHasUsedRaiseToSquawk]) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    if ([WSEarSensor shared].isRaisedToEar) {
+                        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SQHasUsedRaiseToSquawk];
+                    }
+                });
             }
             
             // log stuff:

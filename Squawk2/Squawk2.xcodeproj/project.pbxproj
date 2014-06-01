@@ -34,7 +34,6 @@
 		5F8985C218C3EA9B0085B085 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5F8985C018C3EA9B0085B085 /* InfoPlist.strings */; };
 		5F8985C418C3EA9B0085B085 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8985C318C3EA9B0085B085 /* main.m */; };
 		5F8985C818C3EA9B0085B085 /* SQAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8985C718C3EA9B0085B085 /* SQAppDelegate.m */; };
-		5F8985CA18C3EA9B0085B085 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F8985C918C3EA9B0085B085 /* Images.xcassets */; };
 		5F8985D118C3EA9B0085B085 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F8985D018C3EA9B0085B085 /* XCTest.framework */; };
 		5F8985D218C3EA9B0085B085 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F8985B718C3EA9B0085B085 /* Foundation.framework */; };
 		5F8985D318C3EA9B0085B085 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F8985BB18C3EA9B0085B085 /* UIKit.framework */; };
@@ -78,8 +77,6 @@
 		5FB8DD5F19118F8C00DA07FF /* SQPushOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8DD5E19118F8C00DA07FF /* SQPushOnboardingViewController.m */; };
 		5FB8DD6219118FCC00DA07FF /* SQOnboardingPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8DD6119118FCC00DA07FF /* SQOnboardingPage.m */; };
 		5FB8DD641911FA8800DA07FF /* contacts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB8DD631911FA8800DA07FF /* contacts@2x.png */; };
-		5FB8DD681912060A00DA07FF /* button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB8DD671912060A00DA07FF /* button@2x.png */; };
-		5FB8DD6A191206E700DA07FF /* button-play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB8DD69191206E700DA07FF /* button-play@2x.png */; };
 		5FB8DD6D1912BCE800DA07FF /* TBPulsingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8DD6C1912BCE800DA07FF /* TBPulsingView.m */; };
 		5FB8DD731912BEC600DA07FF /* SQGalleryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8DD721912BEC600DA07FF /* SQGalleryView.m */; };
 		5FB8DD751912C77B00DA07FF /* circled-phone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB8DD741912C77B00DA07FF /* circled-phone@2x.png */; };
@@ -102,7 +99,10 @@
 		5FDF32E4192C1F460044514A /* SQFullscreenAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDF32E3192C1F460044514A /* SQFullscreenAlert.m */; };
 		5FDF32EE19310B0C0044514A /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDF32ED19310B0C0044514A /* AddressBookUI.framework */; };
 		5FDF32F11931E6D90044514A /* SQThreadListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDF32F01931E6D90044514A /* SQThreadListViewController.m */; };
+		5FDF32F31933BE240044514A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FDF32F21933BE240044514A /* Images.xcassets */; };
 		5FE355EA18E39B2700D88477 /* SQInviteFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE355E918E39B2700D88477 /* SQInviteFriendsViewController.m */; };
+		5FF1621C193AAF830074EF27 /* record-orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FF1621A193AAF830074EF27 /* record-orange.png */; };
+		5FF1621D193AAF830074EF27 /* playback-orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FF1621B193AAF830074EF27 /* playback-orange.png */; };
 		5FF793B118D51AFA0045090E /* SQBackgroundTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF793B018D51AFA0045090E /* SQBackgroundTaskManager.m */; };
 		5FF8BD5A18D8066B00AF5BF7 /* UIFont+OverrideSystemFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF8BD5918D8066B00AF5BF7 /* UIFont+OverrideSystemFont.m */; };
 		5FFAA0D118D3AF1E000BEA9C /* slow_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5FFAA0D018D3AF1E000BEA9C /* slow_beep.wav */; };
@@ -173,7 +173,6 @@
 		5F8985C518C3EA9B0085B085 /* Squawk2-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Squawk2-Prefix.pch"; sourceTree = "<group>"; };
 		5F8985C618C3EA9B0085B085 /* SQAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQAppDelegate.h; sourceTree = "<group>"; };
 		5F8985C718C3EA9B0085B085 /* SQAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQAppDelegate.m; sourceTree = "<group>"; };
-		5F8985C918C3EA9B0085B085 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5F8985CF18C3EA9B0085B085 /* Squawk2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Squawk2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F8985D018C3EA9B0085B085 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		5F8985D818C3EA9B0085B085 /* Squawk2Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Squawk2Tests-Info.plist"; sourceTree = "<group>"; };
@@ -243,8 +242,6 @@
 		5FB8DD6019118FCC00DA07FF /* SQOnboardingPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQOnboardingPage.h; sourceTree = "<group>"; };
 		5FB8DD6119118FCC00DA07FF /* SQOnboardingPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQOnboardingPage.m; sourceTree = "<group>"; };
 		5FB8DD631911FA8800DA07FF /* contacts@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "contacts@2x.png"; sourceTree = "<group>"; };
-		5FB8DD671912060A00DA07FF /* button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button@2x.png"; sourceTree = "<group>"; };
-		5FB8DD69191206E700DA07FF /* button-play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play@2x.png"; sourceTree = "<group>"; };
 		5FB8DD6B1912BCE800DA07FF /* TBPulsingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBPulsingView.h; sourceTree = "<group>"; };
 		5FB8DD6C1912BCE800DA07FF /* TBPulsingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBPulsingView.m; sourceTree = "<group>"; };
 		5FB8DD711912BEC600DA07FF /* SQGalleryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQGalleryView.h; sourceTree = "<group>"; };
@@ -282,8 +279,11 @@
 		5FDF32ED19310B0C0044514A /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		5FDF32EF1931E6D90044514A /* SQThreadListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQThreadListViewController.h; sourceTree = "<group>"; };
 		5FDF32F01931E6D90044514A /* SQThreadListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQThreadListViewController.m; sourceTree = "<group>"; };
+		5FDF32F21933BE240044514A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5FE355E818E39B2700D88477 /* SQInviteFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQInviteFriendsViewController.h; sourceTree = "<group>"; };
 		5FE355E918E39B2700D88477 /* SQInviteFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQInviteFriendsViewController.m; sourceTree = "<group>"; };
+		5FF1621A193AAF830074EF27 /* record-orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record-orange.png"; sourceTree = "<group>"; };
+		5FF1621B193AAF830074EF27 /* playback-orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "playback-orange.png"; sourceTree = "<group>"; };
 		5FF793AF18D51AFA0045090E /* SQBackgroundTaskManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQBackgroundTaskManager.h; sourceTree = "<group>"; };
 		5FF793B018D51AFA0045090E /* SQBackgroundTaskManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQBackgroundTaskManager.m; sourceTree = "<group>"; };
 		5FF8BD5818D8066B00AF5BF7 /* UIFont+OverrideSystemFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+OverrideSystemFont.h"; sourceTree = "<group>"; };
@@ -537,7 +537,6 @@
 				5F2C4A8C18C5688800E59DFA /* Contacts */,
 				5F2C4A8D18C5689700E59DFA /* Utilities */,
 				5F2C4A8F18C568C000E59DFA /* Recording and playback */,
-				5F8985C918C3EA9B0085B085 /* Images.xcassets */,
 				5F8985BE18C3EA9B0085B085 /* Supporting Files */,
 			);
 			path = Squawk2;
@@ -546,6 +545,7 @@
 		5F8985BE18C3EA9B0085B085 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5FDF32F21933BE240044514A /* Images.xcassets */,
 				5F85901319156CAD00969D98 /* Squawk2-Info.plist */,
 				5FC27DC518F240C10080EE09 /* Localizable.strings */,
 				5FFAA0D018D3AF1E000BEA9C /* slow_beep.wav */,
@@ -595,8 +595,8 @@
 				5FB8DD631911FA8800DA07FF /* contacts@2x.png */,
 				5FB8DD5A19118F8100DA07FF /* SQMicrophoneOnboardingViewController.h */,
 				5FB8DD5B19118F8100DA07FF /* SQMicrophoneOnboardingViewController.m */,
-				5FB8DD671912060A00DA07FF /* button@2x.png */,
-				5FB8DD69191206E700DA07FF /* button-play@2x.png */,
+				5FF1621A193AAF830074EF27 /* record-orange.png */,
+				5FF1621B193AAF830074EF27 /* playback-orange.png */,
 				5FB8DD5D19118F8C00DA07FF /* SQPushOnboardingViewController.h */,
 				5FB8DD5E19118F8C00DA07FF /* SQPushOnboardingViewController.m */,
 				5FB8DD741912C77B00DA07FF /* circled-phone@2x.png */,
@@ -695,9 +695,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F8985C218C3EA9B0085B085 /* InfoPlist.strings in Resources */,
-				5F8985CA18C3EA9B0085B085 /* Images.xcassets in Resources */,
+				5FDF32F31933BE240044514A /* Images.xcassets in Resources */,
 				5FC27DC718F240C10080EE09 /* Localizable.strings in Resources */,
 				5FB8DD4C191174B100DA07FF /* Onboarding.storyboard in Resources */,
+				5FF1621D193AAF830074EF27 /* playback-orange.png in Resources */,
+				5FF1621C193AAF830074EF27 /* record-orange.png in Resources */,
 				5FB9FD1B1923D98D0011BFB9 /* user-add.png in Resources */,
 				5FB8DD81191353C600DA07FF /* squawk-bird.png in Resources */,
 				5F93BFC418CAEFDF004AF7BC /* Settings.bundle in Resources */,
@@ -705,7 +707,6 @@
 				5F6BDE6D19172AE200368E2E /* fake-status-bar@2x.png in Resources */,
 				5FB8DD771912EE0800DA07FF /* notification_on_lock_screen@2x.png in Resources */,
 				5F90B42A18C3EB8E004C4FD2 /* Storyboard.storyboard in Resources */,
-				5FB8DD6A191206E700DA07FF /* button-play@2x.png in Resources */,
 				5F90B45918C45148004C4FD2 /* WSToastNotificationView.xib in Resources */,
 				5F2B9ED0190842B600416E0A /* squawk.caf in Resources */,
 				5FFAA0D118D3AF1E000BEA9C /* slow_beep.wav in Resources */,
@@ -714,7 +715,6 @@
 				5F85901419156CAD00969D98 /* Squawk2-Info.plist in Resources */,
 				5FAB621F1916B4DF005C17FC /* parrot-wing.png in Resources */,
 				5FB8DD641911FA8800DA07FF /* contacts@2x.png in Resources */,
-				5FB8DD681912060A00DA07FF /* button@2x.png in Resources */,
 				5FAB621E1916B4DF005C17FC /* parrot-body.png in Resources */,
 				5FB8DD751912C77B00DA07FF /* circled-phone@2x.png in Resources */,
 				5FC27DCA18F24CA00080EE09 /* blip1-loud.wav in Resources */,

@@ -17,6 +17,8 @@
 #import "SQFullscreenAlert.h"
 #import <AddressBookUI/AddressBookUI.h>
 
+NSString * const SQHasUsedRaiseToSquawk;
+
 typedef enum {
     SQNoInteraction,
     SQPressedRow,

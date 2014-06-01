@@ -62,4 +62,6 @@ typedef struct {
 
 +(NSDictionary*)specialNames;
 
+-(NSString*)singlePhone;
+
 @end

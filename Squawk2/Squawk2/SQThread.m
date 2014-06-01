@@ -337,5 +337,14 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
     }
     return _stringForSearching;
 }
+#pragma makr Misc.
+-(NSString*)singlePhone {
+    if (self.phoneNumbers.count == 2) {
+        NSMutableArray* phones = self.phoneNumbers.allObjects.mutableCopy;
+        [phones removeObject:[SQAPI currentPhone]];
+        return phones.firstObject;
+    }
+    return nil;
+}
 
 @end

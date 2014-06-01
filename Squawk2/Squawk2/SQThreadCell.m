@@ -21,13 +21,20 @@
 #import "UIViewController+SoftModal.h"
 
 const CGFloat SQThreadCellSwipeButtonWidth = 120;
+const CGFloat SQCheckmarkPullThreshold = 60;
 
 NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleNextToThreadIdentifier";
 
 @interface SQThreadCell () <UIScrollViewDelegate> {
     NSArray* _swipeButtonDefs;
     NSMutableArray* _swipeButtons;
+    
+    UIView* _checkmarkIcon;
 }
+
+@property(nonatomic)BOOL checkmarkEnabled;
+@property(nonatomic)BOOL checkmarkAnimationInProgress;
+@property(nonatomic)CGFloat checkmarkPullProgress;
 
 @end
 
@@ -62,12 +69,10 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     
     static UIImage *recordImage = nil;
     static UIImage *recordImageHighlighted = nil;
-    static UIImage *checkmarkImage = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         recordImage = [[UIImage imageNamed:@"bird"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         recordImageHighlighted = [[UIImage imageNamed:@"bird-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        checkmarkImage = [[UIImage imageNamed:@"check-button"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     });
     
     self.backgroundColor = [UIColor clearColor];
@@ -83,6 +88,34 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     
     UITapGestureRecognizer* tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
     [self.background addGestureRecognizer:tapRec];
+    
+    RAC(self, checkmarkPullProgress) = [RACObserve(self.scrollView, contentOffset) map:^id(id value) {
+        CGFloat x = -[value CGPointValue].x;
+        return @(MAX(0, MIN(1, x/SQCheckmarkPullThreshold)));
+    }];
+    RAC(self, checkmarkEnabled) = [[RACSignal combineLatest:@[RACObserve(self, thread), [[NSUserDefaults standardUserDefaults] rac_valuesForKeyPath:SQCheckmarkVisibleNextToThreadIdentifier observer:self]]] reduceEach:^id(SQThread* thread, NSString* identifierForCheckmark){
+        return @([identifierForCheckmark isEqualToString:[thread identifier]]);
+    }];
+    
+    UIImage* checkmarkImage = [UIImage imageNamed:@"circled-check-light"];
+    _checkmarkIcon = [[UIImageView alloc] initWithImage:checkmarkImage];
+    _checkmarkIcon.bounds = CGRectMake(0, 0, 30, 30);
+    [self.scrollView addSubview:_checkmarkIcon];
+    
+    RAC(_checkmarkIcon, hidden) = [RACObserve(self, checkmarkEnabled) not];
+    
+    [RACObserve(self, checkmarkPullProgress) subscribeNext:^(id x) {
+        if (!self.checkmarkAnimationInProgress && [x floatValue]==1 && self.checkmarkEnabled) {
+            [self startCheckmarkAnimation];
+            [self postCheckmark];
+        }
+    }];
+    RAC(_checkmarkIcon, center) = [RACObserve(self, checkmarkPullProgress) map:^id(id value) {
+        CGFloat progress = [value floatValue];
+        return [NSValue valueWithCGPoint:CGPointMake(-SQCheckmarkPullThreshold/2, self.bounds.size.height/2-progress*20)];
+    }];
+    
+    self.scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
 }
 -(void)tapped:(UITapGestureRecognizer*)gestureRec {
     if (gestureRec.state == UIGestureRecognizerStateRecognized) {
@@ -121,7 +154,6 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     }
     
     [self resetSwipeButtons];
-    
 }
 -(NSAttributedString*)attributedTitle {
     NSArray* unread = self.thread.unread;
@@ -224,12 +256,29 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
         }
     }
 }
-
 #pragma mark Swipe menu
 -(void)resetSwipeButtons {
     _swipeButtonDefs = nil;
+    /*if (self.scrollView.contentOffset.x > 0) {
+        NSArray* buttons = _swipeButtons;
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+            for (UIButton* b in buttons) {
+                b.alpha = 0;
+            }
+        } completion:^(BOOL finished) {
+            for (UIButton* b in buttons) {
+                [b removeFromSuperview];
+            }
+        }];
+    } else {
+        for (UIButton* button in _swipeButtons) [button removeFromSuperview];
+    }*/
     for (UIButton* button in _swipeButtons) [button removeFromSuperview];
+    
     _swipeButtons = nil;
+    if (self.scrollView.contentOffset.x > 0) {
+        [self generateSwipeButtons];
+    }
     [self setNeedsLayout];
 }
 -(NSArray*)swipeButtonDefs { // array of dictionaries with "title" and "action" keys
@@ -323,30 +372,76 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     [detail presentSoftModalInViewController:self.controller];
 }
 -(void)deleteUnread {
-    NSTimeInterval totalTime = self.thread.unread.count==1? 0.1 : 1.0;
-    [SQThread deleteSquawks:self.thread.unread intervalBetweenEach:totalTime/self.thread.unread.count];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((totalTime+0.1) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.scrollView setContentOffset:CGPointZero animated:YES];
-    });
+    [UIView animateWithDuration:0.3 animations:^{
+        self.scrollView.contentOffset = CGPointZero;
+    } completion:^(BOOL finished) {
+        NSTimeInterval totalTime = self.thread.unread.count==1? 0.1 : 1.0;
+        [SQThread deleteSquawks:self.thread.unread intervalBetweenEach:totalTime/self.thread.unread.count];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((totalTime+0.1) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.scrollView setContentOffset:CGPointZero animated:YES];
+        });
+    }];
 }
 -(void)call {
-    NSString* phone = self.thread.phoneNumbers.anyObject;
+    NSString* phone = self.thread.singlePhone;
     if (phone) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", phone]]];
     }
 }
 -(void)message {
     NSMutableArray* phones = self.thread.phoneNumbers.allObjects.mutableCopy;
-    [phones removeObject:phones];
+    [phones removeObject:[SQAPI currentPhone]];
     if (phones.count) {
         [self.controller sendMessageToPhones:phones];
     }
 }
 -(void)addContact {
-    NSString* phone = self.thread.phoneNumbers.anyObject;
-    if (!phone) return;
+    NSString* phone = self.thread.singlePhone;
+    if (phone) {
+        [self.controller promptToAddContactWithPhone:phone];
+    }
+}
+#pragma mark Checkmark
+-(void)startCheckmarkAnimation {
+    self.checkmarkAnimationInProgress = YES;
     
-    [self.controller promptToAddContactWithPhone:phone];
+    UIView* snapshot = [_checkmarkIcon snapshotViewAfterScreenUpdates:NO];
+    UIView* rootView = AppDelegate.window.rootViewController.view;
+    [rootView addSubview:snapshot];
+    NSTimeInterval duration = 0.6;
+    UIBezierPath* path = [UIBezierPath bezierPath];
+    CGPoint fromPt = [rootView convertPoint:_checkmarkIcon.center fromView:_checkmarkIcon.superview];
+    CGPoint toPt = [rootView convertPoint:CGPointMake(self.window.rootViewController.view.frame.size.width+_checkmarkIcon.frame.size.width, -_checkmarkIcon.frame.size.height) fromView:self.window.rootViewController.view];
+    CGPoint controlPt = CGPointMake(fromPt.x, toPt.y-30);
+    [path moveToPoint:fromPt];
+    [path addCurveToPoint:toPt controlPoint1:controlPt controlPoint2:controlPt];
+    CAKeyframeAnimation* anim = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    anim.duration = duration;
+    anim.removedOnCompletion = NO;
+    anim.path = path.CGPath;
+    anim.fillMode = kCAFillModeForwards;
+    anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    [snapshot.layer addAnimation:anim forKey:@"move"];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [snapshot.layer removeAnimationForKey:@"move"];
+        [snapshot removeFromSuperview];
+        self.checkmarkAnimationInProgress = NO;
+    });
+}
+-(void)postCheckmark {
+    NSString* threadIdentifier = self.thread.identifier;
+    NSMutableArray* sendCheckmarksToPhones = self.thread.phoneNumbers.allObjects.mutableCopy;
+    [sendCheckmarksToPhones removeObject:[SQAPI currentPhone]];
+    [SQAPI post:@"/send_checkmark" args:@{@"recipients": sendCheckmarksToPhones, @"thread_identifier": threadIdentifier} data:nil callback:^(NSDictionary *result, NSError *error) {
+        if (![result[@"success"] boolValue]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [AppDelegate toast:NSLocalizedString(@"Couldn't send checkmark.", @"")];
+            });
+        }
+    }];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SQCheckmarkVisibleNextToThreadIdentifier];
+    [AppDelegate trackEventWithCategory:@"action" action:@"sent_checkmark" label:nil value:nil];
 }
 
 @end
