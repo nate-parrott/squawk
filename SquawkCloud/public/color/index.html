@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'/>
+    <title>Squawk Color Schemer</title>
+    <meta name="viewport" content="width=device-width"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src='farbtastic.js'></script>
+    <link rel='stylesheet' href='farbtastic.css'/>
+    <script>
+    
+    // theme?p=fa5235&r=fa8136&b=000000&c=ff3057&u=ffffff
+    var colorDict = {p: '#fa5235', r: '#fa8136', b: '#000000', c: '#ff3057', u: '#ffffff'};
+    var colorPicker;
+    var editingColor;
+    
+    $(document).ready(function() {
+        $("#color").hide();
+        
+        $('#controls > div').attr("x-theme", "u");
+        $("#list > div").attr('x-theme', 'r').each(function(i, el) {
+            var text = $(el).html();
+            var alpha = 0.3 + 0.7 * (Math.cos(i/2)+1)/2;
+            //$("<div></div>").addClass('bg').appendTo(el).css({opacity: alpha}).attr('x-theme', 'r');
+            var bgColor = "rgba(0,0,0,"+(1-alpha)+")";
+            $("<div></div>").addClass('txt').html(text).appendTo(el).css('background-color', bgColor);
+        });
+        $("#list .playback").attr("x-theme", "p");
+        
+        colorPicker = $.farbtastic("#picker", function(color) {
+            if (editingColor) {
+                colorDict[editingColor] = color;
+                updateTheme();
+            }
+        });
+        
+        updateTheme();
+        
+        $("[x-theme]").each(function(i, self) {
+            var theme = $(self).attr('x-theme');
+            $(self).click(function(e) {
+                editColor(theme);
+                e.stopPropagation();
+            })
+        })
+        
+        $("#done").click(function() {
+            $("#color").hide();
+        })
+        
+        $("#color > div, #picker").each(function(i, self) {
+            $(self).click(function(e) {
+                if (e.target==self) {
+                    $('#color').hide();
+                }
+            })
+        })
+    })
+    
+    function updateTheme() {
+        $("[x-theme]").each(function(i, el) {
+            $(el).css({"background-color": colorDict[$(el).attr("x-theme")]});
+        })
+        $('#url').attr('href',getURL());
+    }
+    
+    function getURL() {
+        return "squawk://theme?"+Object.keys(colorDict).map(function(key) {return key+"="+colorDict[key].substring(1)}).join("&");
+    }
+    
+    function editColor(color) {
+        editingColor = color;
+        colorPicker.setColor(colorDict[color]);
+        $('#color').show();
+    }
+    
+    
+    </script>
+    
+    <style>
+    body {
+        font-family: "Avenir Next";
+    }
+    * {
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+    html, body, #mockup {
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+    }
+    #controls {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        height: 60px;
+        text-align: center;
+        z-index: 1;
+    }
+    #controls > div {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-top: 8px;
+    }
+    #controls .circle {
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        position: relative;
+        top: 5px;
+        margin-left: 60px;
+        margin-right: 60px;
+    }
+    #list {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+        padding-top: 60px;
+        -webkit-overflow-scrolling: touch;
+        overflow-y: scroll;
+        color: white;
+    }
+    #list > div {
+        font-size: large;
+        padding: 20px 12px;
+        position: relative;
+    }
+    #list > div > div.txt {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        font-size: large;
+        padding: 20px 12px;
+    }
+    #dialog {
+        overflow: hidden;
+        position: absolute;
+        bottom: 0px;
+        width: 200px;
+        margin-left: -100px;
+        left: 50%;
+        border-radius: 10px 10px 0px 0px;
+        box-shadow: 0px 0px 4px black;
+        background-color: white;
+        text-align: center;
+    }
+    #dialog > div {
+        padding: 8px;
+        font-weight: bold;
+        color: white;
+    }
+    #dialog a {
+        display: inline-block;
+        margin: 1em;
+        color: black;
+    }
+    #color {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        display: table;
+        background-color: rgba(0,0,0,0.6);
+    }
+    #color > div {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+    }
+    #color #done {
+        color: white;
+        font-weight: bold;
+        margin: auto;
+        display: inline-block;
+        padding: 0.5em 1.1em;
+        border: 2px solid white;
+        border-radius: 7px;
+        margin-top: 10px;
+    }
+    .farbtastic {
+        display: inline-block;
+    }
+    </style>
+</head>
+
+<body>
+    <div id='mockup' x-theme="b">
+        <div id='controls'>
+            <div class='box'></div>
+            <div class='circle'></div>
+            <div class='box'></div>
+        </div>
+        <div id='list'>
+            <div>Squawker</div>
+            <div class='playback'>Unread squawk</div>
+            <div>Squawker</div>
+            <div>(Tap elements to change their color)</div>
+            <div>Squawker</div>
+            <div>Squawker</div>
+            <div>Squawker</div>
+            <div>Squawker</div>
+            <div>Squawker</div>
+            <div>Squawker</div>
+            <div>Squawker</div>
+            <div>Squawker</div>
+            <div>Squawker</div>
+            <div>Squawker</div>
+            <div>Squawker</div>
+        </div>
+        <div id='dialog'>
+            <div x-theme="c">Example dialog</div>
+            <a id='url'>Open in Squawk</a>
+        </div>
+    </div>
+    
+    <div id='color'>
+        <div>
+            <div id='picker'></div>
+            <!--<div id='done'>Done</div>-->
+        </div>
+    </div>
+</body>
+</html>

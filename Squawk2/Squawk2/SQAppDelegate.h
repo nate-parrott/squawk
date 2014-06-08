@@ -23,7 +23,7 @@
 
 #define AppDelegate ((SQAppDelegate*)[[UIApplication sharedApplication] delegate])
 
-//#define TAKING_DEFAULT_IMAGE
+#define TAKING_DEFAULT_IMAGE
 
 //#define PRETTIFY
 
