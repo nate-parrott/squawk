@@ -20,7 +20,7 @@
 #import "SQThreadListViewController.h"
 #import "UIViewController+SoftModal.h"
 
-const CGFloat SQThreadCellSwipeButtonWidth = 120;
+const CGFloat SQThreadCellSwipeButtonWidth = 100;
 const CGFloat SQCheckmarkPullThreshold = 60;
 
 NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleNextToThreadIdentifier";
@@ -139,7 +139,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
     UIColor* tint = unread? [SQTheme rowColorForPlayback] : [SQTheme rowColorForRecording];
     CGFloat hue, sat, brightness;
     [tint getHue:&hue saturation:&sat brightness:&brightness alpha:nil];
-    sat = sat*0.7 + self.saturation*0.3;
+    //sat = sat*0.7 + self.saturation*0.3;
     brightness = brightness*0.7 + self.brightness*0.3;
     tint = [UIColor colorWithHue:hue saturation:sat brightness:brightness alpha:1];
     _background.backgroundColor = self.tintColor = tint;
@@ -287,7 +287,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
         int otherThreadMembers = self.thread.phoneNumbers.count-1;
         if (self.thread.unread.count > 0) {
             [buttonDefs addObject:@{
-                                    @"title": NSLocalizedString(@"Delete squawks", @""),
+                                    @"title": NSLocalizedString(@"Delete", @""),
                                     @"action": @"deleteUnread"
                                     }];
         }
@@ -329,7 +329,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
 }
 -(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     CGFloat endPoint = 0;
-    for (int i=0; i<_swipeButtons.count; i++) {
+    for (int i=MAX(0, _swipeButtons.count-1); i<_swipeButtons.count; i++) {
         CGFloat x = SQThreadCellSwipeButtonWidth*(i+1);
         if (fabsf(x-targetContentOffset->x) < fabsf(endPoint-targetContentOffset->x)) {
             endPoint = x;

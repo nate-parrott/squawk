@@ -62,4 +62,7 @@ assert_okay(requests.post(url('/send_checkmark', {"recipients": [phone]})))
 prefs = {"test_pref": [1,2,3]}
 assert_okay(requests.post(url('/update_prefs', {}), data=json.dumps(prefs), headers={"Content-Type": "application/json"}))
 
+resp = requests.post(url('/squawks/send', {"recipients": ["01010101010"]}), data="NULL")
+assert_success(resp)
+
 print 'Done.'

@@ -529,13 +529,8 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     RACSignal* squawkUpdateSignal = [[[NSNotificationCenter defaultCenter] rac_addObserverForName:SQThreadUpdatedNotification object:nil] startWith:nil];
     [[RACSignal combineLatest:@[RACObserve(self, selectedThread), squawkUpdateSignal, [[NSUserDefaults standardUserDefaults] rac_valuesForKeyPath:SQCheckmarkVisibleNextToThreadIdentifier observer:nil]]] subscribeNext:^(id x) {
         
-        if (_selectedThread) {
-            [self updateRaiseToSquawkHintWithThread:_selectedThread];
-        }
-        
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-            BOOL showHint = self.selectedThread!=nil && ![[NSUserDefaults standardUserDefaults] boolForKey:SQHasUsedRaiseToSquawk];
-            _raiseToSquawkHintContainer.alpha = showHint? 1 : 0;
+            [self updateRaiseToSquawkHintWithThread:_selectedThread];
         } completion:^(BOOL finished) {
             
         }];
@@ -550,30 +545,44 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 -(void)updateRaiseToSquawkHintWithThread:(SQThread*)thread {
-    BOOL playback = thread.unread.count>0;
-    BOOL raiseToSquawkAvailable = [WSEarSensor shared].isAvailable;
+    if (thread) {
+        BOOL playback = thread.unread.count>0;
+        BOOL raiseToSquawkAvailable = [WSEarSensor shared].isAvailable;
 #ifdef PRETTIFY
-    raiseToSquawkAvailable = YES;
+        raiseToSquawkAvailable = YES;
 #endif
-    NSDictionary* mainAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Demibold" size:13], NSForegroundColorAttributeName: [UIColor blackColor]};
-    NSDictionary* subtitleAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Regular" size:11], NSForegroundColorAttributeName: [UIColor blackColor]};
-    
-    NSString* firstName = thread.veryShortName;
-    
-    NSMutableAttributedString* playbackTitle = [NSMutableAttributedString new];
-    NSMutableAttributedString* recordTitle = [NSMutableAttributedString new];
-    if (raiseToSquawkAvailable) {
-        [playbackTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Raise to ear to listen to %@", @""), firstName] attributes:mainAttributes]];
-        [playbackTitle appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"\nor tap and hold their name", @"") attributes:subtitleAttributes]];
+        NSDictionary* mainAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Demibold" size:13], NSForegroundColorAttributeName: [UIColor blackColor]};
+        NSDictionary* subtitleAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Regular" size:11], NSForegroundColorAttributeName: [UIColor blackColor]};
         
-        [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Raise to ear to squawk %@", @""), firstName] attributes:mainAttributes]];
-        [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"\nor tap and hold their name", @"") attributes:subtitleAttributes]];
+        NSString* firstName = thread.veryShortName;
+        
+        NSString* specialEDU = thread.specialEDU;
+        if (specialEDU) {
+            _raiseToSquawkHint.attributedText = [[NSAttributedString alloc] initWithString:specialEDU attributes:mainAttributes];
+        } else {
+            if ([[NSUserDefaults standardUserDefaults] valueForKey:SQHasUsedRaiseToSquawk]) {
+                _raiseToSquawkHint.attributedText = nil;
+            } else {
+                NSMutableAttributedString* playbackTitle = [NSMutableAttributedString new];
+                NSMutableAttributedString* recordTitle = [NSMutableAttributedString new];
+                if (raiseToSquawkAvailable) {
+                    [playbackTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Raise to ear to listen to %@", @""), firstName] attributes:mainAttributes]];
+                    [playbackTitle appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"\nor tap and hold their name", @"") attributes:subtitleAttributes]];
+                    
+                    [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Raise to ear to squawk %@", @""), firstName] attributes:mainAttributes]];
+                    [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"\nor tap and hold their name", @"") attributes:subtitleAttributes]];
+                } else {
+                    [playbackTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Listen to %@ by tapping and holding their name", @""), firstName] attributes:mainAttributes]];
+                    
+                    [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Squawk %@ by tapping and holding their name", @""), firstName] attributes:mainAttributes]];
+                }
+                _raiseToSquawkHint.attributedText = playback? playbackTitle : recordTitle;
+            }
+        }
     } else {
-        [playbackTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Listen to %@ by tapping and holding their name", @""), firstName] attributes:mainAttributes]];
-        
-        [recordTitle appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Squawk %@ by tapping and holding their name", @""), firstName] attributes:mainAttributes]];
+        _raiseToSquawkHint.attributedText = nil;
     }
-    _raiseToSquawkHint.attributedText = playback? playbackTitle : recordTitle;
+    _raiseToSquawkHintContainer.alpha = _raiseToSquawkHint.attributedText? 1 : 0;
     _raiseToSquawkHint.textColor = [SQTheme mainBackground];
 }
 -(void)setPlayOrRecord:(BOOL)playOrRecord {

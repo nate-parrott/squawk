@@ -19,6 +19,7 @@
 
 NSString *const SQThreadUpdatedNotification = @"SQThreadUpdatedNotification";
 NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedStatusChangedNotification";
+NSString *const kEveryonePhoneNumber = @"01010101010";
 
 @implementation SQThread
 
@@ -66,6 +67,13 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
             [thread.phoneNumbers addObjectsFromArray:[self phoneNumbersFromIdentifier:identifier]];
             threadsForIdentifiers[identifier] = thread;
         }
+    }
+    
+    // if the user has a # of friends on Squawk, enable 'Squawk everyone':
+    if ([[[[SQFriendsOnSquawk shared] setOfPhoneNumbersOfFriendsOnSquawk] first] count] > 2) {
+        SQThread* everyone = [SQThread new];
+        [everyone.phoneNumbers addObject:kEveryonePhoneNumber];
+        threadsForIdentifiers[everyone.identifier] = everyone;
     }
     
     // unique the threads:
@@ -199,6 +207,12 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
     }
     return firstName;
 }
+-(NSString*)specialEDU {
+    if ([self.identifier isEqualToString:[SQThread identifierForThreadWithPhoneNumbers:@[kEveryonePhoneNumber]]]) {
+        return NSLocalizedString(@"Tap and hold to send a squawk to anyone who has you in their contacts.", @"");
+    }
+    return nil;
+}
 #pragma mark Sorting
 +(NSString*)identifierForThreadWithPhoneNumbers:(NSArray*)numbers {
     NSMutableArray* nums = numbers.mutableCopy;
@@ -266,7 +280,8 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
     if (self.squawks.count > 0) {
         return YES;
     }
-    NSSet* set = [[[SQFriendsOnSquawk shared] setOfPhoneNumbersOfFriendsOnSquawk] first];
+    NSMutableSet* set = [[[[SQFriendsOnSquawk shared] setOfPhoneNumbersOfFriendsOnSquawk] first] mutableCopy];
+    [set addObjectsFromArray:[SQThread specialNames].allKeys];
     for (NSString* num in self.phoneNumbers) {
         if ([num isEqualToString:[SQAPI currentPhone]]) continue;
         if ([set containsObject:num]) {
@@ -328,7 +343,7 @@ NSString *const SQSquawkListenedStatusChangedNotification = @"SQSquawkListenedSt
     }
 }
 +(NSDictionary*)specialNames {
-    return @{@"00000000000": NSLocalizedString(@"Squawk Robot", @""), @"00000000001": NSLocalizedString(@"Squawk Feedback", @"")};
+    return @{@"00000000000": NSLocalizedString(@"Squawk Robot", @""), @"00000000001": NSLocalizedString(@"Squawk Feedback", @""), kEveryonePhoneNumber: NSLocalizedString(@"Everyone", @"")};
 }
 #pragma mark Search
 -(NSString*)stringForSearching {

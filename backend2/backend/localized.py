@@ -2,6 +2,7 @@
 sent_you_a_squawk = {"en": "%s sent you a squawk."}
 sent_you_and_one_other_a_squawk = {"en": "%s sent a squawk to you and 1 other person."}
 sent_you_and_n_others_a_squawk = {"en": "%s sent a squawk to you and %i others."}
+sent_everyone_a_squawk = {"en": "%s sent everyone a squawk."}
 contact_joined_squawk = {"en": "Your contact %s just got Squawk. Why not say hi?"}
 
 def localized_message(message_dict, user):

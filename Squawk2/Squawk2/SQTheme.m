@@ -21,7 +21,8 @@ NSDictionary* SQThemeDict = nil;
     
     NSString* theme = [[NSUserDefaults standardUserDefaults] valueForKey:@"SQThemeURL"];
     if (!theme) {
-        theme = @"squawk://theme?p=fa5235&r=fa8136&b=000000&c=ff3057&u=ffffff";
+        //theme = @"squawk://theme?p=fa5235&r=fa8136&b=000000&c=ff3057&u=ffffff";
+        theme = @"squawk://theme?p=ff330f&r=11a1a7&b=ffffff&c=000000&u=555555";
     }
     [self updateThemeFromURL:[NSURL URLWithString:theme]];
 }

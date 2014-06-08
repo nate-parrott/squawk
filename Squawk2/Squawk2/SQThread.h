@@ -43,6 +43,8 @@ typedef struct {
 +(void)listenedToSquawk:(NSMutableDictionary *)squawk;
 +(BOOL)isSquawkListened:(NSMutableDictionary*)squawk;
 
+-(NSString*)specialEDU;
+
 // this cross-references a list of squawks coming from the server and the local cache of listened squawks, and re-sends the 'listened' call to any squawks are marked as 'listened' on the client but not the server
 +(void)makeSureListenedSquawksAreKnownOnServer:(NSArray*)squawksFromServer;
 

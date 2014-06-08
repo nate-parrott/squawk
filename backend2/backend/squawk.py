@@ -17,25 +17,33 @@ import util
 import s3
 import robot
 import localized
+import broadcast
 
-def name_for_user(user, receiver):
-    if user==robot.ROBOT_PHONE:
+def name_in_contacts(sender, receiver):
+    # returns the name of the sender in the receiver's contacts, or null
+    if sender==robot.ROBOT_PHONE:
         return 'Squawk Robot'
     listing = db.contact_listings.find_one({"phone": receiver})
-    if listing and user in listing['contact_phones']:
-        return listing['contact_names'][listing['contact_phones'].index(user)]
+    if listing and sender in listing['contact_phones']:
+        return listing['contact_names'][listing['contact_phones'].index(sender)]
     else:
-        return user
+        return None
 
-def push_notifs_for_message(sender, recipient, squawk_id, thread_identifier, thread_member_count=2):
+def name_for_user(user, receiver):
+    name = name_in_contacts(user, receiver)
+    return name if name else user
+
+def push_notifs_for_message(sender, recipient, squawk_id, thread_identifier, thread_member_count=2, broadcast=False):
     name = name_for_user(sender, recipient)
     recipient_user = db.users.find_one({"phone": recipient})
     sound = alert = None
     if push.should_send_push_to_user_for_thread(recipient, thread_identifier):
-        sound = "squawk.caf"
+        sound = "squawk.caf" if sound else None
         n_other_recipients = thread_member_count-2
         if sender==recipient:
             alert = None
+        elif broadcast:
+            alert = localized.localized_message(localized.sent_everyone_a_squawk, recipient_user)%(name)
         elif n_other_recipients<=0:
             alert = localized.localized_message(localized.sent_you_a_squawk, recipient_user)%(name)
         elif n_other_recipients==1:
@@ -49,6 +57,11 @@ def push_notifs_for_message(sender, recipient, squawk_id, thread_identifier, thr
 
 def deliver_squawk(recipients, sender, audio_url, duration=-1):
     pushes = []
+    
+    is_broadcast = recipients==[broadcast.EVERYONE_NUMBER]
+    if is_broadcast:
+        recipients = broadcast.recipients_for_broadcasts_from(sender)
+        util.log("%s is sending a squawk to everyone: %s"%(sender, recipients))
 
     thread_members = list(set(map(normalize_phone, recipients) + [sender]))
     thread_identifier = ','.join(sorted(thread_members))
@@ -64,7 +77,7 @@ def deliver_squawk(recipients, sender, audio_url, duration=-1):
             "audio_url": audio_url, 
             "duration": duration,
             "thread_identifier": thread_identifier})
-        pushes += list(push_notifs_for_message(sender, phone, squawk_id, thread_identifier, len(thread_members)))
+        pushes += list(push_notifs_for_message(sender, phone, squawk_id, thread_identifier, len(thread_members), broadcast=is_broadcast))
     
     push.send_pushes(pushes)
     
