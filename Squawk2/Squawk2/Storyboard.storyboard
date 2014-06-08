@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="zIu-VT-oPk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="zIu-VT-oPk">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -353,8 +353,8 @@ or tap and hold their name</string>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="deviceRGB"/>
                         <constraints>
                             <constraint firstItem="5Oo-WH-BpO" firstAttribute="top" secondItem="3ys-n2-gNM" secondAttribute="top" id="T8y-Mt-qTE"/>
                             <constraint firstItem="Qh8-N8-kXD" firstAttribute="top" secondItem="5Oo-WH-BpO" secondAttribute="bottom" id="dDd-NO-8tg"/>

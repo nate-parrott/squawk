@@ -11,8 +11,9 @@
 #import <UIColor+HexString.h>
 
 NSString * const SQThemeChangedNotification = @"SQThemeChangedNotification";
+NSString * const SQDefaultThemeURL = @"squawk://theme?p=ff330f&r=11a1a7&b=ffffff&c=000000&u=555555";
 
-NSDictionary* SQThemeDict = nil;
+static NSDictionary* SQThemeDict = nil;
 
 @implementation SQTheme
 
@@ -22,7 +23,7 @@ NSDictionary* SQThemeDict = nil;
     NSString* theme = [[NSUserDefaults standardUserDefaults] valueForKey:@"SQThemeURL"];
     if (!theme) {
         //theme = @"squawk://theme?p=fa5235&r=fa8136&b=000000&c=ff3057&u=ffffff";
-        theme = @"squawk://theme?p=ff330f&r=11a1a7&b=ffffff&c=000000&u=555555";
+        theme = SQDefaultThemeURL;
     }
     [self updateThemeFromURL:[NSURL URLWithString:theme]];
 }
@@ -79,7 +80,12 @@ NSDictionary* SQThemeDict = nil;
     NSDictionary* queryDict = url.queryDictionary;
     NSMutableDictionary* themeDict = [NSMutableDictionary new];
     for (NSString* key in queryDict) {
-        themeDict[key] = [UIColor colorWithHexString:queryDict[key]];
+        UIColor* color = [UIColor colorWithHexString:queryDict[key]];
+        if (!color) {
+            [self updateThemeFromURL:[NSURL URLWithString:SQDefaultThemeURL]];
+            return;
+        }
+        themeDict[key] = color;
     }
     BOOL isInitialSetup = SQThemeDict==nil;
     SQThemeDict = themeDict;
