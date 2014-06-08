@@ -20,7 +20,7 @@
 #import "SQThreadListViewController.h"
 #import "UIViewController+SoftModal.h"
 
-const CGFloat SQThreadCellSwipeButtonWidth = 100;
+const CGFloat SQThreadCellSwipeButtonWidth = 80;
 const CGFloat SQCheckmarkPullThreshold = 60;
 
 NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleNextToThreadIdentifier";
@@ -349,6 +349,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
         alpha -= 0.2;
         button.backgroundColor = [self.background.backgroundColor colorWithAlphaComponent:alpha];
         button.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:14];
+        button.titleLabel.numberOfLines = 2;
         [_swipeButtons addObject:button];
     }
     
