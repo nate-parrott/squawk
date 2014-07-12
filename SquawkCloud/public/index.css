@@ -1,0 +1,143 @@
+html, body {
+    font-family: "Avenir Next", "Helvetica", "Arial", sans-serif;
+    margin: 0px;
+    background-color: #111;
+    width: 100%;
+    height: 100%;
+}
+#tiles {
+    line-height: 0;
+    margin: 2px;
+}
+@media screen and (max-width: 500px) {
+    #tiles {
+        margin: 0px;
+    }
+}
+#tiles > div {
+    line-height: 1.4;
+    width: 300px;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin: 2px -2px 2px 2px;
+}
+#tiles > div h2 {
+    font-weight: 500;
+    text-align: center;
+    font-size: 1.2em;
+    padding: 1em;
+}
+#tiles > div > div {
+    margin: 0px;
+}
+#tiles > div > img {
+    position: absolute;
+    bottom: -100px;
+    width: 40%;
+    left: 50%;
+    margin-left: -20%;
+    height: auto;
+}
+
+#container {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+#container2 {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#tiles {
+    max-width: 950px;
+    display: inline-block;
+}
+
+form.invite {
+    line-height: 1.7;
+}
+
+form.invite > input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	appearance: none;
+	font-size: 1em;
+	font-family: "Avenir Next", "Avenir", "Muli", sans-serif;
+	border: 2px solid rgba(255,255,255,0.5);
+	background: none;
+	color: white;
+	font-weight: 500;
+	outline: none;
+	padding: 2px 4px;
+}
+form.invite > input[type=submit] {
+	border-left: none;
+	margin-left: -6px;
+}
+form.invite > input[type=submit]:hover {
+	background-color: white;
+	color: #F8184B;
+}
+
+@media screen and (max-width: 350px) {
+    #tiles > div {
+        width: 100%;
+        margin: 0px;
+    }
+}
+
+#links {
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    text-align: center;
+}
+#links a {
+    color: white;
+    display: inline-block;
+    padding: 5px;
+}
+
+#download {
+    display: inline-block;
+    padding: 7px;
+    border-radius: 5px;
+    color: #FC3573;
+    background-color: white;
+    text-decoration: none;
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+#platforms {
+    text-align: right;
+}
+#platforms span {
+    display: inline-block;
+    padding: 4px;
+    padding-top: 9px;
+    cursor: pointer;
+}
+#platforms span.selected, #platforms span:hover {
+    text-decoration: underline;
+}
+#android h2 {
+    margin-bottom: 0px;
+}
+
+#dl-now a {
+    color: black;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    margin-top: 131px;
+    text-decoration: none;
+    font-style: italic;
+}

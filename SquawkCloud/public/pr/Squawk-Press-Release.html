@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>This is Squawk: voice messaging done better</title>
+    <meta charset='utf-8'/>
+    <meta name="viewport" content="width=device-width"/>
+    <style>
+    body {
+        margin: 1em;
+        line-height: 1.5;
+        color: #111;
+        font-family: "Avenir", "Lucida Grande", "Helvetica", sans-serif;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10px;
+    }
+    a {
+        color: #b44;
+    }
+    #media {
+        text-align: center;
+    }
+    #media img {
+        max-width: 300px;
+        margin: auto;
+        display: block;
+        box-shadow: 0px 0px 10px gray;
+        margin-bottom: 40px;
+    }
+    #logo {
+        max-width: 200px;
+        margin: 30px auto;
+        display: block;
+    }
+    </style>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    
+    <script>
+    $(document).ready(function() {
+        $('#media img').each(function(i, img) {
+            $(img).replaceWith($("<a></a>").attr("href", $(img).attr('src')).append($("<img/>").attr('src', $(img).attr('src'))));
+        })
+    })
+    </script>
+</head>
+
+<body>
+
+<img src='http://squawkwith.us/pr/logo.png' id='logo'/>
+
+<h1>This is Squawk: voice messaging done better</h1>
+
+<p>July 10th, 2014</p>
+
+<p>There’s a time for texting. There’s a time for Snapchat. There’s a time for phone calls, and hell, maybe there’s even a time for Yo. But sometimes, you don’t want typing to get in the way of what you’ve got to say—you just want to fire off a quick voice message.</p>
+
+<p>But ever since voicemail, sending voice messages from a mobile phone has been a clunky experience—hidden behind anachronistic touch-tone menus or buried deep inside Whatsapp and Facebook Messenger. </p>
+
+<p>So we built <a href='http://squawkwith.us'>Squawk</a>, an iPhone app to liberate voice messaging. Tap a contact, raise iPhone to your ear, speak your message and put the phone down to send it. It’s that simple. </p>
+
+<p>Like a conversation, all your messages are ephemeral, and multiple contacts can join in.</p>
+
+<p> <strong>We're officially launching Squawk today</strong> (July 10, 2014),
+    After a brief trial period featuring a couple hundred friends and family members, our team is proud to unveil a sleek, intuitive app, drawing minimalist inspiration from apps like Clear and Facebook Paper. It’s available on the iOS App Store—free, of course—and no account is needed.</p>
+
+<p>“It’s voice messaging for the 21st century,” exclaimed Nate Parrott, one of Squawk’s co-founders. “Smartphones are the pinnacle of high technology — why are we still making phone calls and voicemails like we did in 1980?” <em>[Ed.: none of the Squawk cofounders were around in 1980.]</em></p>
+<p>“It’s simple,” said Joe Engelman, another of Squawk’s co-founders. “There are group chats and intuitive gestures. There are no bloated threads to dig through, and no poorly made autocorrections.”
+
+<p>Learn more at <a href='http://squawkwith.us'>squawkwith.us.</a></p>
+
+<h3>About us</h3>
+<p>
+We’re a shadowy consortium of undergraduates from Brown University. We think tapping letters on glass isn’t a natural way to communicate. We started working together on building a better way to communicate on smartphones in Januaray 2014. A quiet pilot program was launched in the Spring, and on July 10th, 2014, the refined Squawk app for iOS was officially launched. An Android app is expected later this summer.
+</p>
+<p> Contact us at team@squawkwith.us, or individually at {nate, chen, justin, joe, will}@squawkwith.us. Or Squawk us at 718-594-7958 (calling is okay too, if you insist).
+</p>
+
+
+<h3 style='text-align: center'>Media</h3>
+<p id='media'>
+   <img src='http://squawkwith.us/pr/SquawkIcon.png'/> 
+   <img src='http://squawkwith.us/pr/Playback.png'/> 
+   <img src='http://squawkwith.us/pr/Recording.png'/> 
+   <img src='http://squawkwith.us/pr/Onboarding.png'/> 
+   <img src='http://squawkwith.us/pr/logo.png'/> 
+</p>
+
+</body>
+
+</html>
+
