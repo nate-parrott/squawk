@@ -9,6 +9,11 @@
 #import "WSEarSensor.h"
 #import "NSDate+MonotonicTime.h"
 #import "RACSignal+MustStayTrue.h"
+
+@interface WSEarSensor ()
+
+@end
+
 @implementation WSEarSensor
 
 +(WSEarSensor*)shared {
@@ -22,6 +27,9 @@
 -(id)init {
     self = [super init];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopListening) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startListening) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
     [UIDevice currentDevice].proximityMonitoringEnabled = YES;
     _isAvailable = [UIDevice currentDevice].proximityMonitoringEnabled;
     [UIDevice currentDevice].proximityMonitoringEnabled = NO;
@@ -29,10 +37,18 @@
     if (!_isAvailable) return self;
     
     _queue = [NSOperationQueue new];
+    [self startListening];
+    
+    return self;
+}
+
+- (void)startListening {
+    if (_motionManager) return;
+    
     _motionManager = [CMMotionManager new];
     _motionManager.deviceMotionUpdateInterval = 0.1;
     [_motionManager startDeviceMotionUpdatesToQueue:_queue withHandler:^(CMDeviceMotion *motion, NSError *error) {
-                
+        
         long double now = [NSDate monotonicTime];
         
         CMAcceleration accel = motion.userAcceleration;
@@ -57,8 +73,13 @@
         if (raisedToEar != _isRaisedToEar) self.isRaisedToEar = raisedToEar;
         
     }];
-    
-    return self;
+}
+
+- (void)stopListening {
+    if (_motionManager) {
+        [_motionManager stopDeviceMotionUpdates];
+        _motionManager = nil;
+    }
 }
 
 @end

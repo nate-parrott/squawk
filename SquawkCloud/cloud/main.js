@@ -6,19 +6,29 @@ var app = express();
 
 app.use(express.bodyParser());
 app.post('/sendInvitation', function(req, res) {
-	var phone = req.body.phoneNumber;
-	twilioClient.sendSms({
-		to: phone,
-		from: "+16465767688",
-		body: "Download Squawk here: http://come.squawkwith.us",
-	}, function(err, response) {
-		if (err) {
-			console.log(err);
-			res.end("error");
-		} else {
-			res.end("okay");
-		}
-	});
+    if (req.body.updates) {
+        var MailingList = Parse.Object.extend("MailingList");
+        var entry = new MailingList();
+        entry.set("updatesOn", req.body.updates);
+        entry.set("contact", req.body.phoneNumber); // it's called phoneNumber, but could also be an email
+        entry.save();
+        res.end("okay");
+    } else {
+        // send a text immediately:
+    	var phone = req.body.phoneNumber;
+    	twilioClient.sendSms({
+    		to: phone,
+    		from: "+16465767688",
+    		body: "Download Squawk here: http://come.squawkwith.us",
+    	}, function(err, response) {
+    		if (err) {
+    			console.log(err);
+    			res.end("error");
+    		} else {
+    			res.end("okay");
+    		}
+    	});
+    }
 });
 
 app.listen();

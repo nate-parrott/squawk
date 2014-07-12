@@ -30,6 +30,8 @@ const CGFloat WSConcentricCirclesViewAdvancedHD2014Hidden ;
 
 -(void)update;
 
+-(void)advance:(NSTimeInterval)byTime;
+
 @property(weak)id<WSConcentricCirclesViewAdvancedHD2014Delegate> delegate;
 
 @end

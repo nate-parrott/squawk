@@ -284,6 +284,8 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
 -(NSArray*)swipeButtonDefs { // array of dictionaries with "title" and "action" keys
     if (!_swipeButtonDefs) {
         NSMutableArray* buttonDefs = [NSMutableArray new];
+        BOOL isSpecialService = !![SQThread specialNames][self.thread.singlePhone];
+        
         int otherThreadMembers = self.thread.phoneNumbers.count-1;
         if (self.thread.unread.count > 0) {
             [buttonDefs addObject:@{
@@ -297,7 +299,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
                                     @"action": @"showPeopleDetail"
                                     }];
         }
-        if (otherThreadMembers == 1) {
+        if (otherThreadMembers == 1 && !isSpecialService) {
             NSString* phone = self.thread.phoneNumbers.anyObject;
             if (phone && [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel:17185551234"]]) {
                 [buttonDefs addObject:@{
@@ -312,7 +314,7 @@ NSString *const SQCheckmarkVisibleNextToThreadIdentifier = @"SQCheckmarkVisibleN
                                         }];
             }
         }
-        if ([MFMessageComposeViewController canSendText]) {
+        if ([MFMessageComposeViewController canSendText] && !isSpecialService) {
             [buttonDefs addObject:@{
                                     @"title": NSLocalizedString(@"Message", @""),
                                     @"action": @"message"

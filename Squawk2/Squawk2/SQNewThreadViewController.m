@@ -168,6 +168,13 @@
         NSString* num = [NPContact normalizePhone:self.phone.text];
         NSString* name = self.name.text;
         if ([name isEqualToString:@""]) name = nil;
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            // clear text fields:
+            self.phone.text = @"";
+            self.name.text = @"";
+        });
+        
         [NPAddressBook createContactWithName:name phone:num info:@{} callback:^(NPContact* contact){
             dispatch_async(dispatch_get_main_queue(), ^{
                 _addUserExpanded = NO;

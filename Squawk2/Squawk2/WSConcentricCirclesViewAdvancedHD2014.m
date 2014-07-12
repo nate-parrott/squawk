@@ -104,6 +104,9 @@ const int WSConcentricCirclesViewAdvancedHD2014NumColors = 19;
         view.transform = CGAffineTransformMakeScale(scale*maxScale, scale*maxScale);
     }
 }
+-(void)advance:(NSTimeInterval)byTime {
+    _elapsed += byTime;
+}
 
 
 @end

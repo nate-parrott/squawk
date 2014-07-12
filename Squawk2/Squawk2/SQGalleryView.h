@@ -12,4 +12,6 @@
 
 -(void)removeViewAtIndex:(int)index;
 
+@property (nonatomic,weak) IBOutlet UIView *nextHintChevron;
+
 @end

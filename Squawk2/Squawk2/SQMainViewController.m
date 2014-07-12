@@ -27,7 +27,7 @@ NSString * const SQHasUsedRaiseToSquawk = @"SQHasUsedRaiseToSquawk";
 
 //#define TOP_BAR_SCROLLS
 
-#define PULL_TO_REFRESH_THRESHOLD 70
+#define PULL_TO_REFRESH_THRESHOLD 90
 
 const CGPoint SQDefaultContentOffset = {0, 0};
 
@@ -363,16 +363,13 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     RACSignal* fetchError = RACObserve([SQSquawkCache shared], error);
     RACSignal* contactsStatus = RACObserve(self, contactsAuthorization);
     RACSignal* volume = RACObserve(((AVAudioSession*)[AVAudioSession sharedInstance]), outputVolume);
-    RACSignal* lateEnough = RACObserve(self, lateEnoughToShowError);
-    RAC(_errorLabel, text) = [[[RACSignal combineLatest:@[microphoneAuth, fetchError, contactsStatus, volume, lateEnough]] map:^id(id value) {
-        //if (!self.lateEnoughToShowError) return @"";
+    RACSignal* loginStatus = [SQAPI loginStatus];
+    RAC(_errorLabel, text) = [[[RACSignal combineLatest:@[microphoneAuth, fetchError, contactsStatus, volume, loginStatus]] map:^id(id value) {
+        
+        if ([SQAPI currentPhone].length == 0) return @"";
         
         NSMutableArray* messages = [NSMutableArray new];
-/*#ifndef TARGET_IPHONE_SIMULATOR
-        if (![AppDelegate registeredForPushNotifications]) {
-            [messages addObject:NSLocalizedString(@"Push notifications are off. To receive Squawks, turn them on in Settings, under Notifications.", @"")];
-        }
-#endif*/
+        
         if ([SQSquawkCache shared].error) {
             [messages addObject:NSLocalizedString(@"Couldn't connect to the Internet.", @"")];
         }

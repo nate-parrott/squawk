@@ -35,6 +35,9 @@ resp = requests.get(url('/which_users_not_signed_up', {"phones": ["19999990000",
 assert_okay(resp)
 assert tuple(resp.json()['users_not_signed_up']) == ('19999990000',)
 
+resp = requests.get(url('/register_push_token', {"type": "android", "push_token": "APA91bHqaHBIM0hbVirfSpIJZ1ar5mNXIwrqXo6MGDxtD2xFH0VsEPD3vtXx-B6YhXx9fCVJBPjfq-LOLlYutEqq2wppjrvkp0kHg7tQqr7nmkmu--c6f5r7Z07gHOeN8aJEiD9LFNe1mNAEIqqR9KudS_wdXDsJ6w"}))
+assert_okay(resp)
+
 resp = requests.post(url('/register_contacts', {}), data=json.dumps({'contact_phones': ['17185947958'], 'contact_names': ['Nate']}))
 assert_okay(resp)
 
@@ -43,6 +46,9 @@ assert_okay(resp)
 assert '17185947958' in resp.json()['phones']
 
 resp = requests.post(url('/squawks/send', {"recipients": [phone]}), data="NULL")
+assert_success(resp)
+
+resp = requests.post(url('/squawks/send', {"recipients": [phone]}), data="NULL") # has the effect of testing android push notifs
 assert_success(resp)
 
 resp = requests.get(url('/squawks/recent', {}))

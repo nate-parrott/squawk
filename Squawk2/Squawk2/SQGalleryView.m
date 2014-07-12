@@ -59,6 +59,15 @@
     }
     self.scrollView.contentSize = CGSizeMake(x, self.bounds.size.height);
 }
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (_nextHintChevron.alpha > 0) {
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+            _nextHintChevron.alpha = 0;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+}
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     self.pageControl.currentPage = MIN(self.pageControl.numberOfPages-1, MAX(0, roundf(scrollView.contentOffset.x/scrollView.bounds.size.width)));
 }
