@@ -9,6 +9,7 @@ import datetime
 
 @app.route('/verify', methods=['GET', 'POST'])
 def verify():
+    print "REQUEST ARGS:", request.args
 	# called by twilio (trusted) when a verification text comes in 
 	# TODO: make sure this is actually coming from Twilio
 	phone = normalize_phone(request.args.get('From'))
