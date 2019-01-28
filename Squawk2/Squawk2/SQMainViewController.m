@@ -268,7 +268,7 @@ const CGPoint SQDefaultContentOffset = {0, 0};
     }];
     
     [_tableViewReloaded subscribeNext:^(id x) {
-        NSString* mostRecentThreadIdentifier = [[self.threadSections.firstObject firstObject] identifier];
+        NSString* mostRecentThreadIdentifier = [(SQThread *)[self.threadSections.firstObject firstObject] identifier];
         if (![mostRecentThreadIdentifier isEqualToString:_mostRecentThreadIdentifier]) {
             if (!CGPointEqualToPoint(self.tableView.contentOffset, SQDefaultContentOffset)) {
                 [self.tableView setContentOffset:SQDefaultContentOffset animated:!!_mostRecentThreadIdentifier];

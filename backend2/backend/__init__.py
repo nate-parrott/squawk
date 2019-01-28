@@ -10,9 +10,9 @@ newrelic.agent.initialize('newrelic.ini')
 
 app = Flask(__name__)
 debug = True
-if 'MONGOHQ_URL' in os.environ:
-	debug = False
-	db = pymongo.MongoClient(os.environ['MONGOHQ_URL']).app22686072
+if 'MONGODB_URI' in os.environ:
+	# debug = False
+	db = pymongo.MongoClient(os.environ['MONGODB_URI']).heroku_dv1vj622
 else:
 	db = pymongo.MongoClient().squawk
 
