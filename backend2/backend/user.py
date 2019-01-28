@@ -11,9 +11,9 @@ import datetime
 def verify():
 	# called by twilio (trusted) when a verification text comes in 
 	# TODO: make sure this is actually coming from Twilio
-	log("REQUEST ARGS: {}".format(request.args))
-	phone = normalize_phone(request.args.get('From'))
-	secret = request.args.get('Body').split(' ')[-1].lower()
+	log("REQUEST VALUES: {}".format(request.values))
+	phone = normalize_phone(request.values.get('From'))
+	secret = request.values.get('Body').split(' ')[-1].lower()
 	user = db.users.find_one({'phone': phone})
 	if not user: user = {"date": datetime.datetime.now()}
 	user['phone'] = phone
