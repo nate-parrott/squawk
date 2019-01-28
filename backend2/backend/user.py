@@ -1,5 +1,5 @@
 from backend import app, db
-from util import normalize_phone, args
+from util import normalize_phone, args, log
 import flask
 from flask import request
 from os import urandom
@@ -9,9 +9,9 @@ import datetime
 
 @app.route('/verify', methods=['GET', 'POST'])
 def verify():
-	print "REQUEST ARGS:", request.args
 	# called by twilio (trusted) when a verification text comes in 
 	# TODO: make sure this is actually coming from Twilio
+	log("REQUEST ARGS: {}".format(request.args))
 	phone = normalize_phone(request.args.get('From'))
 	secret = request.args.get('Body').split(' ')[-1].lower()
 	user = db.users.find_one({'phone': phone})
