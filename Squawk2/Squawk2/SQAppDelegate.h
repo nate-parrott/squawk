@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define API_ROOT @"http://api.squawkwith.us"
+#define API_ROOT @"http://squawkapp.herokuapp.com"
 //#define API_ROOT @"http://localhost:5000"
 #define VERIFICATION_NUMBER @"646-576-7688"
 #define MAX_RECORDING_DURATION (7 * 60 * 60)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3505ED2C21FE921E00D1924B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3505ED2B21FE921E00D1924B /* LaunchScreen.storyboard */; };
 		5F08A7DA18C46A9400E3E02E /* SQFriendsOnSquawk.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F08A7D918C46A9400E3E02E /* SQFriendsOnSquawk.m */; };
 		5F08A7DD18C5019700E3E02E /* NSData+HexDump.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F08A7DC18C5019700E3E02E /* NSData+HexDump.m */; };
 		5F08A7E018C5124800E3E02E /* NSString+PercentEscaping.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F08A7DF18C5124800E3E02E /* NSString+PercentEscaping.m */; };
@@ -114,6 +115,7 @@
 
 /* Begin PBXFileReference section */
 		132F9600D42F448BA1A2E6B1 /* Pods-Squawk2.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Squawk2.xcconfig"; path = "Pods/Pods-Squawk2.xcconfig"; sourceTree = "<group>"; };
+		3505ED2B21FE921E00D1924B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5F08A7D818C46A9400E3E02E /* SQFriendsOnSquawk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQFriendsOnSquawk.h; sourceTree = "<group>"; };
 		5F08A7D918C46A9400E3E02E /* SQFriendsOnSquawk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQFriendsOnSquawk.m; sourceTree = "<group>"; };
 		5F08A7DB18C5019700E3E02E /* NSData+HexDump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexDump.h"; sourceTree = "<group>"; };
@@ -501,6 +503,7 @@
 				5F2C4AAE18C6FFAE00E59DFA /* SQTheme.h */,
 				5F2C4AAF18C6FFAE00E59DFA /* SQTheme.m */,
 				5F6BDE6C19172AE200368E2E /* fake-status-bar@2x.png */,
+				3505ED2B21FE921E00D1924B /* LaunchScreen.storyboard */,
 				5FB8DD5619118F4700DA07FF /* Onboarding */,
 				5F2C4A9218C568EB00E59DFA /* Data */,
 				5F2C4A9018C568C700E59DFA /* UI */,
@@ -674,6 +677,7 @@
 				5F93BFE218CD4B7E004AF7BC /* melodic1_affirm.wav in Resources */,
 				5F6BDE6D19172AE200368E2E /* fake-status-bar@2x.png in Resources */,
 				5FB8DD771912EE0800DA07FF /* notification_on_lock_screen@2x.png in Resources */,
+				3505ED2C21FE921E00D1924B /* LaunchScreen.storyboard in Resources */,
 				5F90B42A18C3EB8E004C4FD2 /* Storyboard.storyboard in Resources */,
 				5FB8DD6A191206E700DA07FF /* button-play@2x.png in Resources */,
 				5F90B45918C45148004C4FD2 /* WSToastNotificationView.xib in Resources */,
@@ -925,7 +929,6 @@
 			baseConfigurationReference = 132F9600D42F448BA1A2E6B1 /* Pods-Squawk2.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VPN8ZW6EAC;
@@ -948,7 +951,6 @@
 			baseConfigurationReference = 132F9600D42F448BA1A2E6B1 /* Pods-Squawk2.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VPN8ZW6EAC;
